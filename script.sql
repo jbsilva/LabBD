@@ -813,6 +813,18 @@ CREATE TABLE IF NOT EXISTS tbl_proposta_int (
         REFERENCES tbl_calendario (ano , semestre)
 );
 
+DROP view IF EXISTS v_proposta_semestre_1;
+CREATE VIEW v_proposta_semestre_1 AS
+SELECT *
+FROM tbl_proposta_int
+WHERE semestre = 1;
+
+DROP view IF EXISTS v_proposta_semestre_2;
+CREATE VIEW v_proposta_semestre_2 AS
+SELECT *
+FROM tbl_proposta_int
+WHERE semestre = 2;
+
 INSERT INTO tbl_proposta_int(ano, semestre, data_submissao) VALUES
 (2016, 1, '2016-07-30'),
 (2016, 2, '2016-12-15'),
