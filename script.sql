@@ -344,6 +344,16 @@ INSERT INTO tbl_Disciplina (codigo, nome, ementa, creditosTeoricos, creditosPrat
 ('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
 ('08.910-9', 'Calculo 1', '', 4, 0, "DM");
 
+-- ------------------------------------------------------------------
+-- View que exibe quantos créditos há em cada perfil de cada curso
+-- Criado por: Vitor Rocha e Pedro Barbosa
+
+create view vCreditosPorPerfil as
+select tbl_curso.nome, perfil sum(creditosteoricos + creditospraticos) as creditos
+from tbl_curso, tbl_grade, tbl_disciplina
+where tbl_curso.sigla = tbl_grade.sigla
+  and tbl_grade.codigo = tbl_disciplina.codigo
+group by nome_curso, perfil;
 
 -- ----------------------------------------------------------------------------
 -- Técnico Administrativo
@@ -657,13 +667,26 @@ CREATE TABLE tbl_Grade (
     PRIMARY KEY (sigla , codigo)
 );
 
-INSERT INTO tbl_Grade (perfil, tipo, sigla, codigo)	VALUES
-(1, "Obrigatória", "ENC", "02.507-0"),
-(6, "Obrigatória", "ENC", "02.521-6"),
-(7, "Obrigatória", "ENC", "02.522-4"),
-(1, "Obrigatória", "BCC", "02.507-0"),
-(6, "Obrigatória", "BCC", "02.521-6"),
-(7, "Obrigatória", "BCC", "02.522-4");
+INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
+('02.522-4', 'ENC', 7, 'obrigatoria'),
+('02.521-6', 'ENC', 6, 'obrigatoria'),
+('02.507-0', 'ENC', 1, 'obrigatoria'), 
+('02.502-0', 'ENC', 2, 'obrigatoria'), 
+('08.910-9', 'ENC', 1, 'obrigatoria'),
+('02.034-6', 'ENC', 4, 'optativa');
+
+INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
+('02.522-4', 'BCC', 7, 'obrigatoria'),
+('02.521-6', 'BCC', 6, 'obrigatoria'),
+('02.507-0', 'BCC', 1, 'obrigatoria'), 
+('02.502-0', 'BCC', 2, 'obrigatoria'), 
+('08.910-9', 'BCC', 1, 'obrigatoria'),
+('02.034-6', 'BCC', 4, 'obrigatoria');
+
+INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
+('08.910-9', 'EP', 1, 'obrigatoria'),
+('08.910-9', 'EC', 1, 'obrigatoria'),
+('08.910-9', 'EQ', 1, 'obrigatoria');
 
 
 -- ----------------------------------------------------------------------------
