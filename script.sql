@@ -342,7 +342,8 @@ INSERT INTO tbl_Disciplina (codigo, nome, ementa, creditosTeoricos, creditosPrat
 ('02.521-6', 'Banco de Dados', '', 4, 0, 'DC'),
 ('02.507-0', 'Construcao de Algoritmos e Programacao', '', 4, 4, 'DComp'),
 ('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
-('08.910-9', 'Calculo 1', '', 4, 0, "DM");
+('08.910-9', 'Calculo 1', '', 4, 0, "DM"),
+('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC");
 
 -- ----------------------------------------------------------------------------
 -- Técnico Administrativo
