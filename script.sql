@@ -344,17 +344,6 @@ INSERT INTO tbl_Disciplina (codigo, nome, ementa, creditosTeoricos, creditosPrat
 ('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
 ('08.910-9', 'Calculo 1', '', 4, 0, "DM");
 
--- ------------------------------------------------------------------
--- View que exibe quantos créditos há em cada perfil de cada curso
--- Criado por: Vitor Rocha e Pedro Barbosa
-
-create view vCreditosPorPerfil as
-select tbl_curso.nome, perfil sum(creditosteoricos + creditospraticos) as creditos
-from tbl_curso, tbl_grade, tbl_disciplina
-where tbl_curso.sigla = tbl_grade.sigla
-  and tbl_grade.codigo = tbl_disciplina.codigo
-group by nome_curso, perfil;
-
 -- ----------------------------------------------------------------------------
 -- Técnico Administrativo
 -- Criado por: Guilherme Lemos (4A)
@@ -688,6 +677,16 @@ INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
 ('08.910-9', 'EC', 1, 'obrigatoria'),
 ('08.910-9', 'EQ', 1, 'obrigatoria');
 
+-- ------------------------------------------------------------------
+-- View que exibe quantos créditos há em cada perfil de cada curso
+-- Criado por: Vitor Rocha e Pedro Barbosa
+
+create view vCreditosPorPerfil as
+select tbl_curso.nome, perfil sum(creditosteoricos + creditospraticos) as creditos
+from tbl_curso, tbl_grade, tbl_disciplina
+where tbl_curso.sigla = tbl_grade.sigla
+  and tbl_grade.codigo = tbl_disciplina.codigo
+group by nome_curso, perfil;
 
 -- ----------------------------------------------------------------------------
 -- Prédio
