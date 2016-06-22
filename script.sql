@@ -467,7 +467,7 @@ CREATE TABLE IF NOT EXISTS tbl_estagio
      data_inicio        DATE NOT NULL,
      estudante_ra       INT(6) NOT NULL,
      supervisor_id      VARCHAR(15) NOT NULL,
-     CONSTRAINT pk_estagio PRIMARY KEY (data_inicio, estudante_ra, supervisor_id),
+     CONSTRAINT pk_estagio PRIMARY KEY (data_inicio, estudante_ra),
      CONSTRAINT estagio_fk_estudante FOREIGN KEY (estudante_ra) REFERENCES tbl_estudante (ra),
      CONSTRAINT estagio_fk_supervisor FOREIGN KEY (supervisor_id) REFERENCES tbl_docente (pessoa)
   );
