@@ -43,32 +43,7 @@ Pelo que eu entendi, o nome das coisas são:
 Modelo Conceitual == Diagrama Bolado
 Modelo Físico == os scripts que estão no github
 
-### Nacional & Estrangeiro
-
-- FALTANDO: Inexistentes no modelo físico.
-- Acredito que seja responsabilidade do responsável pela tabela Pessoa.
-
-### Endereço
-
-- No modelo físico, o discriminador está como CEP. Porém, de acordo com o modelo conceitual, o discriminador deveria ser Tipo (Local ou Origem).
-- Acredito que está faltando o atributo "número" (número da casa).
-
-### Curso
-
-- Acredito que não deveria haver um atributo chamado "créditos necessários". Tem no diagrama conceitual como atributo composto, mas isso acaba sendo ignorado a trazer para o esquema físico.
-
-### Docente
-
-- Alívio integral/parcial: básicamente, rever que porra é essa. Quem for encarregado desta tabela, por favor _verifique o requisito_ do seu grupo e verifique o que diabos é saporra aqui. Caso seja "tipo de alívio: integral ou parcial", seria só um atributo chamado "alívio" e conteria ou o valor "integral" ou "parcial".
-
-### Carga Horária
-
-- Acho que os discriminadores deveriam ser ano inicial + semestre inicial, e não só semestre inicial. Acredito que o atributo semestre (inicial) só se refere se é 1º ou 2º semestre do ano.
-- Também notei que não há população alguma dessa tabela.
-
-### Estágio
-
-- De acordo com o esquema conceitual, supervisor de estágio não é PK (e acredito que não deveria ser).
+## Grupo 4A
 
 ### Conselho
 
@@ -81,11 +56,6 @@ Modelo Físico == os scripts que estão no github
 - Provavelmente deveria também ser inserido dentro da PK, a data de início de vigência.
 - Acredito que também é de responsabilidade do responsável da tabela Membro de ajustar a tabela Participa para que esta segunda esteja condizentes com as alterações da tabela Membro.
 
-### Licença
-
-- FALTANDO: Atualmente, não existe a tabela Licença no nosso modelo físico.
-- Acredito que seja responsabilidade do responsável pela tabela Docente.
-
 ### Ata
 
 - Será que VARCHAR(256) é o suficiente para os atributos "decisoes", "pautas", "topicos" e "resumos"? Acho que existem atributos para textos maiores, mas desconheço. Se possível, dê uma olhada nisso :)
@@ -94,6 +64,55 @@ Modelo Físico == os scripts que estão no github
 
 - FALTANDO: Atualmente, esta tabela não exista no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Ata e do responsável pela tabela Membro.
+
+### Plano de Ensino
+
+- REVISAR: A tabela está na forma de comentário. O responsável precisa rever ela, descomentar ela e verificar se ela está funcionando corretamente.
+
+### Revisa
+
+- FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
+- Acredito que esta tabela seja responsabilidade do responsável pela tabela Plano de Ensino.
+
+## Grupo 5A
+
+### Estágio
+
+- De acordo com o esquema conceitual, supervisor de estágio não é PK (e acredito que não deveria ser).
+
+### Atividade Complementar
+
+- O atributo "ra" (FK para aluno) deveria também fazer parte da PK, de acordo com o esquema conceitual.
+
+### Curso
+
+- Acredito que não deveria haver um atributo chamado "créditos necessários". Tem no diagrama conceitual como atributo composto, mas isso acaba sendo ignorado a trazer para o esquema físico.
+
+## Grupo 6A
+
+### Nacional & Estrangeiro
+
+- FALTANDO: Inexistentes no modelo físico.
+- Acredito que seja responsabilidade do responsável pela tabela Pessoa.
+
+### Endereço
+
+- No modelo físico, o discriminador está como CEP. Porém, de acordo com o modelo conceitual, o discriminador deveria ser Tipo (Local ou Origem).
+- Acredito que está faltando o atributo "número" (número da casa).
+
+### Docente
+
+- Alívio integral/parcial: básicamente, rever que porra é essa. Quem for encarregado desta tabela, por favor _verifique o requisito_ do seu grupo e verifique o que diabos é saporra aqui. Caso seja "tipo de alívio: integral ou parcial", seria só um atributo chamado "alívio" e conteria ou o valor "integral" ou "parcial".
+
+### Carga Horária
+
+- Acho que os discriminadores deveriam ser ano inicial + semestre inicial, e não só semestre inicial. Acredito que o atributo semestre (inicial) só se refere se é 1º ou 2º semestre do ano.
+- Também notei que não há população alguma dessa tabela.
+
+### Licença
+
+- FALTANDO: Atualmente, não existe a tabela Licença no nosso modelo físico.
+- Acredito que seja responsabilidade do responsável pela tabela Docente.
 
 ### Sala
 
@@ -112,16 +131,3 @@ Modelo Físico == os scripts que estão no github
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Atividade.
-
-### Plano de Ensino
-
-- REVISAR: A tabela está na forma de comentário. O responsável precisa rever ela, descomentar ela e verificar se ela está funcionando corretamente.
-
-### Revisa
-
-- FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
-- Acredito que esta tabela seja responsabilidade do responsável pela tabela Plano de Ensino.
-
-### Atividade Complementar
-
-- O atributo "ra" (FK para aluno) deveria também fazer parte da PK, de acordo com o esquema conceitual.
