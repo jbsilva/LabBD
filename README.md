@@ -43,6 +43,8 @@ Pelo que eu entendi, o nome das coisas são:
 Modelo Conceitual == Diagrama Bolado
 Modelo Físico == os scripts que estão no github
 
+Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões sejam resolvidas, podem ir tirando elas daqui (e daí saberemos o que ainda está faltando arrumar).
+
 ## Grupo 4A
 
 ### Conselho
