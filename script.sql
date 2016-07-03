@@ -564,6 +564,31 @@ end$$
 delimiter ;
 
 
+-- Function que retorna o nome de um aluno, dado seu RA
+-- Criado por: Julio
+-- Exemplo:
+--     SELECT fn_prenome_from_ra(e.estudante_ra),
+--            e.empresa
+--     FROM   tbl_estagio AS e;
+DROP function IF EXISTS fn_prenome_from_ra;
+delimiter $$
+CREATE function fn_prenome_from_ra(p_ra INT)
+returns VARCHAR(50)
+begin
+  DECLARE nome VARCHAR(50);
+
+  SELECT p.prenome
+  INTO   nome
+  FROM   tbl_pessoa AS p
+         JOIN tbl_estudante AS a
+           ON p.pessoa_id = a.pessoa_id
+  WHERE  a.ra = p_ra;
+
+  RETURN nome;
+end$$
+delimiter ;
+
+
 INSERT INTO tbl_estagio (pais_atuacao, termo_compromisso, carta_avaliacao, supervisor_empresa, empresa, obrigatorio, data_termino, data_inicio, estudante_ra, supervisor_id) VALUES
 ('BRA', 'Texto do termo de compromisso do Facebook', 'Carta de avaliação do 112358', 'Mike Schroepfer', 'Facebook', '1', '2015-12-31', '2015-07-01', '112358', '11104385910'),
 ('USA', 'Texto do termo de compromisso da Google', 'Carta de avaliação do 112358', 'Larry Page', 'Google',          '0', '2016-06-30', '2016-01-01', '112358', '40078919665'),
