@@ -550,6 +550,20 @@ AS
                      WHERE  e.estudante_ra = a.ra);
 
 
+-- Procedure que modifica o nome de uma empresa.
+-- Exemplo: call pr_rename_empresa('Embraer', 'Embraer S.A.');
+DROP PROCEDURE IF EXISTS pr_rename_empresa;
+delimiter $$
+CREATE PROCEDURE pr_rename_empresa(IN p_nome_antigo VARCHAR(128),
+                                   IN p_nome_novo   VARCHAR(128))
+begin
+  UPDATE tbl_estagio
+  SET    empresa = p_nome_novo
+  WHERE  empresa = p_nome_antigo;
+end$$
+delimiter ;
+
+
 INSERT INTO tbl_estagio (pais_atuacao, termo_compromisso, carta_avaliacao, supervisor_empresa, empresa, obrigatorio, data_termino, data_inicio, estudante_ra, supervisor_id) VALUES
 ('BRA', 'Texto do termo de compromisso do Facebook', 'Carta de avaliação do 112358', 'Mike Schroepfer', 'Facebook', '1', '2015-12-31', '2015-07-01', '112358', '11104385910'),
 ('USA', 'Texto do termo de compromisso da Google', 'Carta de avaliação do 112358', 'Larry Page', 'Google',          '0', '2016-06-30', '2016-01-01', '112358', '40078919665'),
