@@ -564,7 +564,7 @@ end$$
 delimiter ;
 
 
--- Function que retorna o nome de um aluno, dado seu RA
+-- Função que retorna o nome de um aluno, dado seu RA
 -- Criado por: Julio
 -- Exemplo:
 --     SELECT fn_prenome_from_ra(e.estudante_ra),
@@ -585,6 +585,27 @@ begin
   WHERE  a.ra = p_ra;
 
   RETURN nome;
+end$$
+delimiter ;
+
+
+-- Função que retorna o CPF de um aluno, dado seu RA
+-- Exemplo: select fn_id_from_ra(654321);
+DROP function IF EXISTS fn_id_from_ra;
+delimiter $$
+CREATE function fn_id_from_ra(p_ra INT)
+returns VARCHAR(15)
+begin
+  DECLARE id VARCHAR(15);
+
+  SELECT p.pessoa_id
+  INTO   id
+  FROM   tbl_pessoa AS p
+         JOIN tbl_estudante AS a
+           ON p.pessoa_id = a.pessoa_id
+  WHERE  a.ra = p_ra;
+
+  RETURN id;
 end$$
 delimiter ;
 
