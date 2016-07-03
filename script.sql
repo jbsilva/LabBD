@@ -610,6 +610,22 @@ end$$
 delimiter ;
 
 
+-- Trigger que evita que um aluno seja seu próprio orientador
+-- Poderia acontecer no raro caso de um estudante também ser docente.
+-- Exemplo: INSERT INTO tbl_estagio VALUES ('BRA', 'compromisso', 'carta', 'Mike', 'Facebook', '1', '2015-12-31', '2015-07-01', '654321', '91994871601');
+DROP TRIGGER IF EXISTS tri_se_orienta_bi; 
+delimiter $$
+CREATE TRIGGER tri_se_orienta_bi
+  BEFORE INSERT ON tbl_estagio
+FOR EACH row
+begin
+  IF new.supervisor_id = Fn_id_from_ra(new.estudante_ra) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Estudante não pode ser o seu próprio orientador.';
+  end IF;
+end$$ 
+delimiter ;
+
+
 INSERT INTO tbl_estagio (pais_atuacao, termo_compromisso, carta_avaliacao, supervisor_empresa, empresa, obrigatorio, data_termino, data_inicio, estudante_ra, supervisor_id) VALUES
 ('BRA', 'Texto do termo de compromisso do Facebook', 'Carta de avaliação do 112358', 'Mike Schroepfer', 'Facebook', '1', '2015-12-31', '2015-07-01', '112358', '11104385910'),
 ('USA', 'Texto do termo de compromisso da Google', 'Carta de avaliação do 112358', 'Larry Page', 'Google',          '0', '2016-06-30', '2016-01-01', '112358', '40078919665'),
