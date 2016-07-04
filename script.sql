@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS tbl_estudante
   (
      ano_conclusao INT(4),
      ensino_medio  VARCHAR(80),
-     ra INT(6) NOT NULL,
+     ra            INT(6),
      pessoa_id     VARCHAR(15) NOT NULL,
      CONSTRAINT fk_pessoa_id FOREIGN KEY (pessoa_id) REFERENCES tbl_pessoa (pessoa_id),
      CONSTRAINT estudante_pk PRIMARY KEY (ra)
@@ -237,8 +237,7 @@ INSERT INTO tbl_estudante (ra, ensino_medio, ano_conclusao, pessoa_id) VALUES
 -- Atividade Complementar
 -- Criado por: Rodrigo Teixeira Garcia (5A)
 
-DROP TABLE IF EXISTS  tbl_atividade_complementar;
-DROP TABLE IF EXISTS tbl_Atividade_Complementar;
+DROP TABLE IF EXISTS tbl_atividade_complementar;
 CREATE TABLE IF NOT EXISTS tbl_atividade_complementar (
     tipo VARCHAR(50) NOT NULL,
     descricao VARCHAR(100) NOT NULL,
