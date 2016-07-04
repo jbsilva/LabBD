@@ -937,13 +937,25 @@ INSERT INTO tbl_proposta_int(ano, semestre, data_submissao) VALUES
 (2017, 1, '2017-07-30'),
 (2017, 2, '2017-12-15'),
 (2018, 1, '2018-07-30');
+-- ----------------------------------------------------------------------------
+-- [REVISAR] Código Turma
+-- Criado por: André Rocha (4A)
 
+DROP TABLE IF EXISTS tbl_codigo_turma;
+CREATE TABLE tbl_codigo_turma (
+    id CHAR(5) NOT NULL,
+    codigoturma VARCHAR(1) NOT NULL,
+    codigodisciplina VARCHAR(20) NOT NULL,
+    semestre INT(11) NOT NULL,
+    ano INT(11) NOT NULL,
+    CONSTRAINT codigoTurma_fk_1 FOREIGN KEY (codigodisciplina , codigoturma , semestre , ano) REFERENCES tbl_turma (codigodisciplina , codigoturma , semestre , ano),
+    CONSTRAINT codigoTurma_pk PRIMARY KEY (id)
+);
 
 -- ----------------------------------------------------------------------------
 -- [REVISAR] Plano de Ensino
 -- Criado por: André Rocha (4A)
 
-/*
 DROP TABLE IF EXISTS  tbl_plano_de_ensino;
 CREATE TABLE tbl_plano_de_ensino (
     procedimento_avaliacao VARCHAR(200) NOT NULL,
@@ -965,33 +977,12 @@ CREATE TABLE tbl_plano_de_ensino (
     professor VARCHAR(100) NOT NULL,
     ementa VARCHAR(200),
     requisitos VARCHAR(100),
-    idDocente CHAR(11) NOT NULL,
+    idDocente VARCHAR(15) NOT NULL,
     codigoTurma CHAR(5) NOT NULL,
-    CONSTRAINT idDocente_fk FOREIGN KEY (idDocente)
-        REFERENCES tbl_docente (pessoa),
-    CONSTRAINT codigoTurma_fk FOREIGN KEY (codigoTurma)
-        REFERENCES tbl_codigo_turma (id),
+    CONSTRAINT idDocente_fk FOREIGN KEY (idDocente) REFERENCES tbl_docente (pessoa),
+    CONSTRAINT codigoTurma_fk_2 FOREIGN KEY (codigoTurma) REFERENCES tbl_codigo_turma (id),
     CONSTRAINT planoEnsino_pk PRIMARY KEY (idDocente , codigoTurma)
 );
-*/
-
--- ----------------------------------------------------------------------------
--- [REVISAR] Código Turma
--- Criado por: André Rocha (4A)
-
-/*
-DROP TABLE IF EXISTS tbl_codigo_turma;
-CREATE TABLE tbl_codigo_turma (
-    id CHAR(5) NOT NULL,
-    codigoTurma VARCHAR(1) NOT NULL,
-    codigoDisciplina VARCHAR(20) NOT NULL,
-    semestre INT(11) NOT NULL,
-    ano INT(11) NOT NULL,
-    CONSTRAINT codigoTurma_fk FOREIGN KEY (codigoTurma , codigoDisciplina , semestre , ano)
-        REFERENCES tbl_turma (codigoTurma , codigoDisciplina , semestre , ano),
-    CONSTRAINT codigoTurma_pk PRIMARY KEY (id)
-);
-*/
 
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
