@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS tbl_estudante
   (
      ano_conclusao INT(4),
      ensino_medio  VARCHAR(80),
-     ra            INT(6) NOT NULL,
+     ra INT(6) NOT NULL,
      pessoa_id     VARCHAR(15) NOT NULL,
      CONSTRAINT fk_pessoa_id FOREIGN KEY (pessoa_id) REFERENCES tbl_pessoa (pessoa_id),
      CONSTRAINT estudante_pk PRIMARY KEY (ra)
@@ -238,14 +238,15 @@ INSERT INTO tbl_estudante (ra, ensino_medio, ano_conclusao, pessoa_id) VALUES
 -- Criado por: Rodrigo Teixeira Garcia (5A)
 
 DROP TABLE IF EXISTS  tbl_atividade_complementar;
-CREATE TABLE IF NOT EXISTS tbl_Atividade_Complementar (
+DROP TABLE IF EXISTS tbl_Atividade_Complementar;
+CREATE TABLE IF NOT EXISTS tbl_atividade_complementar (
     tipo VARCHAR(50) NOT NULL,
     descricao VARCHAR(100) NOT NULL,
     carga_horaria INT NOT NULL,
     id INT NOT NULL,
     ra_ativ INT NOT NULL,
     FOREIGN KEY (ra_ativ)
-        REFERENCES tbl_Estudante (ra),
+        REFERENCES tbl_estudante (ra),
     PRIMARY KEY (id)
 );
 
@@ -337,7 +338,7 @@ CREATE TABLE IF NOT EXISTS tbl_disciplina
      CONSTRAINT pk_disc PRIMARY KEY (codigo)
   );
 
-INSERT INTO tbl_Disciplina (codigo, nome, ementa, creditosTeoricos, creditosPraticos, departamento) VALUES
+INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPraticos, departamento) VALUES
 ('02.522-4', 'Laboratorio de Banco de Dados', '', 0, 2, 'DC'),
 ('02.521-6', 'Banco de Dados', '', 4, 0, 'DC'),
 ('02.507-0', 'Construcao de Algoritmos e Programacao', '', 4, 4, 'DComp'),
@@ -362,7 +363,7 @@ CREATE TABLE tbl_tecnico_administrativo
   );
 
 
-INSERT INTO tbl_Tecnico_Administrativo(id) VALUES
+INSERT INTO tbl_tecnico_administrativo(id) VALUES
 ('24174616256');
 
 -- ----------------------------------------------------------------------------
@@ -444,7 +445,7 @@ CREATE TABLE tbl_conselho
      CONSTRAINT conselho_pk PRIMARY KEY (datainiciovigencia, datafimvigencia)
   );
 
-INSERT INTO tbl_Conselho (sigla, tipo, dataInicioVigencia, dataFimVigencia) VALUES
+INSERT INTO tbl_conselho (sigla, tipo, dataInicioVigencia, dataFimVigencia) VALUES
 ('CoG', 'Graduação', '1998-01-31', '2016-12-31'),
 ('CoPG', 'Pós-Graduação', '2008-01-01', '2016-12-31'),
 ('CoP', 'Pesquisa', '2012-07-01', '2016-12-31');
@@ -613,7 +614,7 @@ delimiter ;
 -- Trigger que evita que um aluno seja seu próprio orientador
 -- Poderia acontecer no raro caso de um estudante também ser docente.
 -- Exemplo: INSERT INTO tbl_estagio VALUES ('BRA', 'compromisso', 'carta', 'Mike', 'Facebook', '1', '2015-12-31', '2015-07-01', '654321', '91994871601');
-DROP TRIGGER IF EXISTS tri_se_orienta_bi; 
+DROP TRIGGER IF EXISTS tri_se_orienta_bi;
 delimiter $$
 CREATE TRIGGER tri_se_orienta_bi
   BEFORE INSERT ON tbl_estagio
@@ -622,7 +623,7 @@ begin
   IF new.supervisor_id = Fn_id_from_ra(new.estudante_ra) THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Estudante não pode ser o seu próprio orientador.';
   end IF;
-end$$ 
+end$$
 delimiter ;
 
 
@@ -644,7 +645,7 @@ INSERT INTO tbl_estagio (pais_atuacao, termo_compromisso, carta_avaliacao, super
 -- Criado por: Eduardo Marinho (5A)
 
 DROP TABLE IF EXISTS  tbl_curso;
-CREATE TABLE IF NOT EXISTS tbl_Curso (
+CREATE TABLE IF NOT EXISTS tbl_curso (
     sigla VARCHAR(10) NOT NULL,
     nome VARCHAR(30) NOT NULL,
     duracaomedia INT NOT NULL,
@@ -659,7 +660,7 @@ CREATE TABLE IF NOT EXISTS tbl_Curso (
 );
 
 
-INSERT INTO tbl_Curso (sigla, nome, duracaomedia, duracaomaxima, PPPaprovado, centro, creditosNecessarios, creditosComplementares, creditosObrigatorios, creditosOptativos) VALUES
+INSERT INTO tbl_curso (sigla, nome, duracaomedia, duracaomaxima, PPPaprovado, centro, creditosNecessarios, creditosComplementares, creditosObrigatorios, creditosOptativos) VALUES
 ("ENC", "Engenharia de Computação", 5, 9, "Texto do PPP", "CCET", 272, 0, 260, 12),
 ("BCC", "Ciência da Computação", 5, 9, "Texto do PPP", "CCET", 212, 4, 154, 54),
 ("EP", "Engenharia de Produção", 5, 9, "Texto do PPP", "CCET", 262, 0, 250, 12),
@@ -682,13 +683,13 @@ CREATE TABLE IF NOT EXISTS tbl_matricula (
     ra INT(6) NOT NULL,
     sigla VARCHAR(10) NOT NULL,
     FOREIGN KEY (ra)
-        REFERENCES tbl_Estudante (ra),
+        REFERENCES tbl_estudante (ra),
     FOREIGN KEY (sigla)
         REFERENCES tbl_curso (sigla),
     PRIMARY KEY (ra , sigla)
 );
 
-INSERT INTO tbl_Matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optativos, creditos_complementares, perfil, ano_ingresso) VALUES
+INSERT INTO tbl_matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optativos, creditos_complementares, perfil, ano_ingresso) VALUES
 ("BCC", 524896, 12854, 100, 20, 4, 7, 2013),
 ("EnC", 425169, 9856, 140, 20, 4, 11, 2011),
 ("EnC", 334578, 7569, 155, 16, 4, 13, 2010),
@@ -701,17 +702,17 @@ INSERT INTO tbl_Matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optat
 -- Criado por: Vitor Rocha (5A)
 
 DROP TABLE IF EXISTS tbl_pre_requisito;
-CREATE TABLE IF NOT EXISTS tbl_Pre_Requisito (
+CREATE TABLE IF NOT EXISTS tbl_pre_requisito (
     disciplina VARCHAR(20) NOT NULL,
     preRequisito VARCHAR(20) NOT NULL,
     CONSTRAINT fk_prereq1 FOREIGN KEY (disciplina)
-        REFERENCES tbl_Disciplina (codigo),
+        REFERENCES tbl_disciplina (codigo),
     CONSTRAINT fk_prereq2 FOREIGN KEY (preRequisito)
-        REFERENCES tbl_Disciplina (codigo),
+        REFERENCES tbl_disciplina (codigo),
     CONSTRAINT pk_prereq PRIMARY KEY (disciplina , preRequisito)
 );
 
-INSERT INTO tbl_Pre_Requisito (disciplina, preRequisito) VALUES
+INSERT INTO tbl_pre_requisito (disciplina, preRequisito) VALUES
 ('02.522-4', '02.521-6'),
 ('02.502-0', '02.507-0');
 
@@ -721,31 +722,31 @@ INSERT INTO tbl_Pre_Requisito (disciplina, preRequisito) VALUES
 -- Criado por: Eduardo Marinho (5A)
 
 DROP TABLE IF EXISTS tbl_grade;
-CREATE TABLE tbl_Grade (
+CREATE TABLE tbl_grade (
     perfil INT NOT NULL,
     tipo VARCHAR(50) NOT NULL,
     sigla VARCHAR(10) NOT NULL,
     codigo VARCHAR(20) NOT NULL,
     FOREIGN KEY (sigla)
-        REFERENCES tbl_Curso (sigla),
+        REFERENCES tbl_curso (sigla),
     FOREIGN KEY (codigo)
-        REFERENCES tbl_Disciplina (codigo),
+        REFERENCES tbl_disciplina (codigo),
     PRIMARY KEY (sigla , codigo)
 );
 
 INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
 ('02.522-4', 'ENC', 7, 'obrigatoria'),
 ('02.521-6', 'ENC', 6, 'obrigatoria'),
-('02.507-0', 'ENC', 1, 'obrigatoria'), 
-('02.502-0', 'ENC', 2, 'obrigatoria'), 
+('02.507-0', 'ENC', 1, 'obrigatoria'),
+('02.502-0', 'ENC', 2, 'obrigatoria'),
 ('08.910-9', 'ENC', 1, 'obrigatoria'),
 ('02.034-6', 'ENC', 4, 'optativa');
 
 INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
 ('02.522-4', 'BCC', 7, 'obrigatoria'),
 ('02.521-6', 'BCC', 6, 'obrigatoria'),
-('02.507-0', 'BCC', 1, 'obrigatoria'), 
-('02.502-0', 'BCC', 2, 'obrigatoria'), 
+('02.507-0', 'BCC', 1, 'obrigatoria'),
+('02.502-0', 'BCC', 2, 'obrigatoria'),
 ('08.910-9', 'BCC', 1, 'obrigatoria'),
 ('02.034-6', 'BCC', 4, 'obrigatoria');
 
@@ -769,7 +770,7 @@ AS
   WHERE  tbl_curso.sigla = tbl_grade.sigla
          AND tbl_grade.codigo = tbl_disciplina.codigo
   GROUP  BY nome_curso,
-            perfil; 
+            perfil;
 
 -- ----------------------------------------------------------------------------
 -- Prédio
@@ -843,7 +844,7 @@ INSERT INTO tbl_sala (numero,predio,tipo,recursos,caracteristicas,capacidade_de_
 -- Criado por: Grupo 5A
 
 DROP TABLE IF EXISTS tbl_alocacao;
-CREATE TABLE IF NOT EXISTS tbl_Alocacao (
+CREATE TABLE IF NOT EXISTS tbl_alocacao (
     semestre INT(11) NOT NULL,
     ano INT(11) NOT NULL,
     codigoTurma VARCHAR(1) NOT NULL,
@@ -851,7 +852,7 @@ CREATE TABLE IF NOT EXISTS tbl_Alocacao (
     numeroSala INT NOT NULL,
     siglaPredio VARCHAR(5) NOT NULL,
     CONSTRAINT alocacao_fk_turma FOREIGN KEY (codigoDisciplina , codigoTurma , semestre , ano)
-        REFERENCES tbl_Turma (codigoDisciplina , codigoTurma , semestre , ano),
+        REFERENCES tbl_turma (codigoDisciplina , codigoTurma , semestre , ano),
     CONSTRAINT alocacao_fk_sala FOREIGN KEY (numeroSala , siglaPredio)
         REFERENCES tbl_sala (numero , predio),
     PRIMARY KEY (semestre , ano , codigoTurma , codigoDisciplina , numeroSala , siglaPredio)
@@ -875,9 +876,9 @@ CREATE TABLE IF NOT EXISTS tbl_Inscricao (
     prioridadeDeInscricao INT,
     statusDeSolicitacao VARCHAR(20),
     CONSTRAINT inscricao_fk_estudante FOREIGN KEY (ra)
-        REFERENCES tbl_Estudante (ra),
+        REFERENCES tbl_estudante (ra),
     CONSTRAINT inscricao_fk_turma FOREIGN KEY (codigoDisciplina , codigoTurma , semestreTurma , anoTurma)
-        REFERENCES tbl_Turma (codigoDisciplina , codigoTurma , semestre , ano),
+        REFERENCES tbl_turma (codigoDisciplina , codigoTurma , semestre , ano),
     CONSTRAINT inscricao_pk PRIMARY KEY (ra , semestreTurma , anoTurma , codigoTurma , codigoDisciplina)
 );
 
@@ -987,7 +988,7 @@ CREATE TABLE tbl_codigo_turma (
     semestre INT(11) NOT NULL,
     ano INT(11) NOT NULL,
     CONSTRAINT codigoTurma_fk FOREIGN KEY (codigoTurma , codigoDisciplina , semestre , ano)
-        REFERENCES tbl_Turma (codigoTurma , codigoDisciplina , semestre , ano),
+        REFERENCES tbl_turma (codigoTurma , codigoDisciplina , semestre , ano),
     CONSTRAINT codigoTurma_pk PRIMARY KEY (id)
 );
 */
