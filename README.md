@@ -67,10 +67,6 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 - FALTANDO: Atualmente, esta tabela não exista no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Ata e do responsável pela tabela Membro.
 
-### Plano de Ensino
-
-- REVISAR: A tabela está na forma de comentário. O responsável precisa rever ela, descomentar ela e verificar se ela está funcionando corretamente.
-
 ### Revisa
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
