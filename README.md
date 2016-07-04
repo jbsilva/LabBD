@@ -74,10 +74,6 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 ## Grupo 5A
 
-### Estágio
-
-- De acordo com o esquema conceitual, supervisor de estágio não é PK (e acredito que não deveria ser).
-
 ### Atividade Complementar
 
 - O atributo "ra" (FK para aluno) deveria também fazer parte da PK, de acordo com o esquema conceitual.
