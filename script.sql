@@ -245,7 +245,7 @@ CREATE TABLE IF NOT EXISTS tbl_atividade_complementar (
     id INT NOT NULL,
     ra_ativ INT NOT NULL,
     FOREIGN KEY (ra_ativ)
-        REFERENCES tbl_estudante (ra_ativ),
+        REFERENCES tbl_estudante (ra),
     PRIMARY KEY (id, ra_ativ)
 );
 
