@@ -331,9 +331,10 @@ CREATE TABLE IF NOT EXISTS tbl_disciplina
      creditospraticos        INT,
      creditosteoricos        INT,
      departamento            VARCHAR(10) NOT NULL,
-     idatividadecomplementar INT,
+     ativ_comp_id            INT,
+     ativ_comp_ra            INT,
      CONSTRAINT fk_depto_disc FOREIGN KEY (departamento) REFERENCES tbl_departamento (sigla),
-     CONSTRAINT fk_atcomp_disc FOREIGN KEY (idatividadecomplementar) REFERENCES tbl_atividade_complementar (id, ra_ativ),
+     CONSTRAINT fk_atcomp_disc FOREIGN KEY (ativ_comp_id, ativ_comp_ra) REFERENCES tbl_atividade_complementar (id, ra_ativ),
      CONSTRAINT pk_disc PRIMARY KEY (codigo)
   );
 
