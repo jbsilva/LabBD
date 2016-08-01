@@ -245,8 +245,8 @@ CREATE TABLE IF NOT EXISTS tbl_atividade_complementar (
     id INT NOT NULL,
     ra_ativ INT NOT NULL,
     FOREIGN KEY (ra_ativ)
-        REFERENCES tbl_estudante (ra),
-    PRIMARY KEY (id, ra)
+        REFERENCES tbl_estudante (ra_ativ),
+    PRIMARY KEY (id, ra_ativ)
 );
 
 -- View para contagem das atividades complementares
@@ -333,7 +333,7 @@ CREATE TABLE IF NOT EXISTS tbl_disciplina
      departamento            VARCHAR(10) NOT NULL,
      idatividadecomplementar INT,
      CONSTRAINT fk_depto_disc FOREIGN KEY (departamento) REFERENCES tbl_departamento (sigla),
-     CONSTRAINT fk_atcomp_disc FOREIGN KEY (idatividadecomplementar) REFERENCES tbl_atividade_complementar (id, ra),
+     CONSTRAINT fk_atcomp_disc FOREIGN KEY (idatividadecomplementar) REFERENCES tbl_atividade_complementar (id, ra_ativ),
      CONSTRAINT pk_disc PRIMARY KEY (codigo)
   );
 
