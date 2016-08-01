@@ -74,13 +74,9 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 ## Grupo 5A
 
-### Atividade Complementar
-
-- O atributo "ra" (FK para aluno) deveria também fazer parte da PK, de acordo com o esquema conceitual.
-
 ### Curso
 
-- Acredito que não deveria haver um atributo chamado "créditos necessários". Tem no diagrama conceitual como atributo composto, mas isso acaba sendo ignorado a trazer para o esquema físico.
+- Talvez não deveria haver um atributo chamado "créditos necessários". Tem no diagrama conceitual como atributo composto, mas isso acaba sendo ignorado a trazer para o esquema físico (revisar, mas não necessáriamente alterar).
 
 ## Grupo 6A
 
