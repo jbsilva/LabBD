@@ -244,6 +244,8 @@ CREATE TABLE IF NOT EXISTS tbl_atividade_complementar (
     carga_horaria INT NOT NULL,
     id INT NOT NULL,
     ra_ativ INT NOT NULL,
+    codigo_disciplina VARCHAR(20),
+    CONSTRAINT fk_disciplina FOREIGN KEY (codigo_disciplina) REFERENCES tbl_disciplina (codigo),
     FOREIGN KEY (ra_ativ)
         REFERENCES tbl_estudante (ra),
     PRIMARY KEY (id, ra_ativ)
@@ -270,12 +272,12 @@ AS
   WHERE  a.ra_ativ = e.ra;
 
 INSERT INTO tbl_atividade_complementar(tipo, descricao, carga_horaria, id, ra_ativ) VALUES
-("Empresa Júnior", "Empresa ambientada no contexto universitário", 60, 100, 524896),
-("Atlética", "Organização que visa eventos de integração entre os alunos", 40, 200, 425169),
-("DCE", "Diretório Central dos Estudantes. Órgão para representação dos estudantes", 60, 300, 334578),
-("PET", "Programa de Ensino Tutorial. Desenvolvimento de projetos com auxílio de bolsa e supervisionado", 60, 400, 123456),
-("IC", "Iniciação Científica. Desenvolvimento de projeto com auxílio ou não de bolsa", 60, 500, 654321);
-
+("Empresa Júnior", "Empresa ambientada no contexto universitário", 60, 1, 524896),
+("Atlética", "Organização que visa eventos de integração entre os alunos", 40, 1, 425169),
+("DCE", "Diretório Central dos Estudantes. Órgão para representação dos estudantes", 60, 1, 334578),
+("PET", "Programa de Ensino Tutorial. Desenvolvimento de projetos com auxílio de bolsa e supervisionado", 60, 1, 123456),
+("IC", "Iniciação Científica. Desenvolvimento de projeto com auxílio ou não de bolsa", 60, 1, 654321);
+("ACIEPE", "Inclusão Digital", 60, 2, 334578);
 
 -- ----------------------------------------------------------------------------
 -- Departamento
@@ -331,10 +333,7 @@ CREATE TABLE IF NOT EXISTS tbl_disciplina
      creditospraticos        INT,
      creditosteoricos        INT,
      departamento            VARCHAR(10) NOT NULL,
-     ativ_comp_id            INT,
-     ativ_comp_ra            INT,
      CONSTRAINT fk_depto_disc FOREIGN KEY (departamento) REFERENCES tbl_departamento (sigla),
-     CONSTRAINT fk_atcomp_disc FOREIGN KEY (ativ_comp_id, ativ_comp_ra) REFERENCES tbl_atividade_complementar (id, ra_ativ),
      CONSTRAINT pk_disc PRIMARY KEY (codigo)
   );
 
