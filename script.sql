@@ -887,24 +887,45 @@ CREATE TABLE IF NOT EXISTS tbl_Inscricao (
 
 -- ----------------------------------------------------------------------------
 -- Atividade
--- Criado por: Grupo 6A
+-- Criado por: Gabriel Palomino (6A)
 
 DROP TABLE IF EXISTS tbl_atividade;
 CREATE TABLE IF NOT EXISTS tbl_atividade (
+	idAtividade INT(255) PRIMARY KEY,
     dataInicio DATE,
     dataTermino DATE,
     descricao VARCHAR(255) NOT NULL,
     responsaveis VARCHAR(50) NOT NULL,
     tipo INT(5) NOT NULL,
-    CONSTRAINT pk_atividadePeriodo PRIMARY KEY (dataInicio , dataTermino)
+    ano INT,
+    semestre INT,
+    CONSTRAINT atividade_fk_calendario FOREIGN KEY (ano, semestre) REFERENCES tbl_calendario (ano, semestre)
 );
 
 INSERT INTO tbl_atividade VALUES
-('2016-05-24','2016-06-24', 'Paralisação temporária', 'DCE', 20),
-('2016-02-29','2016-04-14', 'Período para substituição do conceito R', 'Docentes', 5),
-('2016-02-29','2016-05-09', 'Período para cancelamento de disciplina', 'Estudantes', 10),
-('2016-07-22','2016-07-25', 'Período de inscricao nas disciplinas para o segundo período letivo', 'Estudantes', 10),
-('2016-10-24','2016-10-28', 'Jornada Científica', 'Estudantes', 10);
+(1,'2016-05-24','2016-06-24', 'Paralisação temporária', 'DCE', 20, 2016, 1),
+(2,'2016-02-29','2016-04-14', 'Período para substituição do conceito R', 'Docentes', 5, 2018, 1),
+(3,'2016-02-29','2016-05-09', 'Período para cancelamento de disciplina', 'Estudantes', 10, 2017, 1),
+(4,'2016-07-22','2016-07-25', 'Período de inscricao nas disciplinas para o segundo período letivo', 'Estudantes', 10, 2017, 2),
+(5,'2016-10-24','2016-10-28', 'Jornada Científica', 'Estudantes', 10, 2016, 2);
+
+DROP VIEW IF EXISTS v_atividade;
+CREATE VIEW v_atividade AS
+SELECT dataInicio, dataTermino, descricao, responsaveis, tipo, ano, semestre
+FROM tbl_atividade;
+
+DROP VIEW IF EXISTS v_atividade_s1;
+CREATE VIEW v_atividade_s1 AS
+SELECT dataInicio, dataTermino, descricao, responsaveis, tipo, ano, semestre
+FROM tbl_atividade
+WHERE semestre = 1;
+
+DROP VIEW IF EXISTS v_atividade_s2;
+CREATE VIEW v_atividade_s2 AS
+SELECT dataInicio, dataTermino, descricao, responsaveis, tipo, ano, semestre
+FROM tbl_atividade
+WHERE semestre = 2;
+
 
 
 -- ----------------------------------------------------------------------------
