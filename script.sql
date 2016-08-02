@@ -344,8 +344,7 @@ INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPrat
 ('02.507-0', 'Construcao de Algoritmos e Programacao', '', 4, 4, 'DComp'),
 ('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
 ('08.910-9', 'Calculo 1', '', 4, 0, "DM"),
-('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC");
-('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC");
+('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC"),
 ('100.054-0', 'ACIEPE - Inclusão Digital', '', 0, 4, "DC");
 
 -- ----------------------------------------------------------------------------
@@ -426,7 +425,7 @@ INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVag
 (1, 2016, 'B', '02.522-4', 25, '16:00', 'terca-feira'),
 (1, 2016, 'C', '02.522-4', 25, '08:00', 'quarta-feira'),
 (1, 2016, 'A', '02.521-6', 50, '14:00', 'quinta-feira'),
-(1, 2016, 'A', '02.502-0', 25, '8:00', 'sexta-feira');
+(1, 2016, 'A', '02.502-0', 25, '8:00', 'sexta-feira'),
 (1, 2016, 'A', '100.054-0', 30, 'Horário Livre', 'Horário Livre');
 
 
