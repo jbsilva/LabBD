@@ -710,7 +710,7 @@ BEGIN
 	SELECT COUNT(*)
 	INTO aux
 	FROM tbl_matricula
-	WHERE ano_ingresso = aux;
+	WHERE ano_ingresso = ano;
 
 	RETURN aux;
 END$$
