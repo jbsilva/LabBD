@@ -697,6 +697,21 @@ INSERT INTO tbl_matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optat
 ("EQ", 654321, 20000, 0, 0, 0, 1, 2016),
 ("EP", 112358, 12985, 125, 12, 4, 9, 2012);
 
+DROP FUNCTION IF EXISTS fn_numero_alunos_ano;
+DELIMITER $$
+CREATE FUNCTION fn_numero_alunos_ano(ano INT(4))
+returns INT
+BEGIN
+	DECLARE aux INT;
+
+	SELECT COUNT(*)
+	INTO aux
+	FROM tbl_matricula
+	WHERE ano_ingresso = 2012;
+
+	RETURN aux;
+END$$
+DELIMITER ;
 
 -- ----------------------------------------------------------------------------
 -- Pré-Requisito
