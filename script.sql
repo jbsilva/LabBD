@@ -233,6 +233,46 @@ INSERT INTO tbl_estudante (ra, ensino_medio, ano_conclusao, pessoa_id) VALUES
 (123456, "Colegio ABC", 2005, '77426047792');
 
 -- ----------------------------------------------------------------------------
+-- Departamento
+-- Criado por: Rodrigo Teixeira Garcia (5A)
+
+DROP TABLE IF EXISTS  tbl_departamento;
+CREATE TABLE IF NOT EXISTS tbl_departamento
+  (
+     centro VARCHAR(10) NOT NULL,
+     campi  VARCHAR(20) NOT NULL,
+     nome   VARCHAR(50) NOT NULL,
+     sigla  VARCHAR(10) NOT NULL,
+     PRIMARY KEY (sigla)
+  );
+
+
+-- View que conta o numero de departamentos
+DROP view IF EXISTS v_departamento_numero;
+CREATE OR replace VIEW v_departamento_numero
+AS
+  SELECT nome     AS nome,
+         Count(*) AS qtd_depart
+  FROM   tbl_departamento
+  GROUP  BY nome;
+
+
+-- View que exibe cada departamento com seu respectivo campus e centro
+DROP view IF EXISTS v_departamentos;
+CREATE OR REPLACE view v_departamentos
+AS
+  SELECT nome, campi, sigla, centro
+  FROM   tbl_departamento;
+
+
+INSERT INTO tbl_departamento(centro, campi, nome, sigla) VALUES
+("CCET", "São Carlos", "Departamento de Computação", "DC"),
+("CCET", "Sorocaba", "Departamento de Computação", "DComp"),
+("CCA", "Araras", "Desenvolvimento Rural", "DDR"),
+("CCET", "São Carlos", "Departamento de Matemática", "DM"),
+("CCET", "São Carlos", "Departamento de Física", "DF");
+
+-- ----------------------------------------------------------------------------
 -- Disciplina
 -- Criado por: Vitor Rocha (5A)
 
@@ -306,46 +346,6 @@ INSERT INTO tbl_atividade_complementar(tipo, descricao, carga_horaria, id, ra_at
 
 INSERT INTO tbl_atividade_complementar(tipo, descricao, carga_horaria, id, ra_ativ, codigo_disciplina) VALUES
 ("ACIEPE", "Inclusão Digital", 60, 2, 334578, '100.054-0');
-
--- ----------------------------------------------------------------------------
--- Departamento
--- Criado por: Rodrigo Teixeira Garcia (5A)
-
-DROP TABLE IF EXISTS  tbl_departamento;
-CREATE TABLE IF NOT EXISTS tbl_departamento
-  (
-     centro VARCHAR(10) NOT NULL,
-     campi  VARCHAR(20) NOT NULL,
-     nome   VARCHAR(50) NOT NULL,
-     sigla  VARCHAR(10) NOT NULL,
-     PRIMARY KEY (sigla)
-  );
-
-
--- View que conta o numero de departamentos
-DROP view IF EXISTS v_departamento_numero;
-CREATE OR replace VIEW v_departamento_numero
-AS
-  SELECT nome     AS nome,
-         Count(*) AS qtd_depart
-  FROM   tbl_departamento
-  GROUP  BY nome;
-
-
--- View que exibe cada departamento com seu respectivo campus e centro
-DROP view IF EXISTS v_departamentos;
-CREATE OR REPLACE view v_departamentos
-AS
-  SELECT nome, campi, sigla, centro
-  FROM   tbl_departamento;
-
-
-INSERT INTO tbl_departamento(centro, campi, nome, sigla) VALUES
-("CCET", "São Carlos", "Departamento de Computação", "DC"),
-("CCET", "Sorocaba", "Departamento de Computação", "DComp"),
-("CCA", "Araras", "Desenvolvimento Rural", "DDR"),
-("CCET", "São Carlos", "Departamento de Matemática", "DM"),
-("CCET", "São Carlos", "Departamento de Física", "DF");
 
 -- ----------------------------------------------------------------------------
 -- Técnico Administrativo
