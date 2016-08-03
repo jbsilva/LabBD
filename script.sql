@@ -232,6 +232,32 @@ INSERT INTO tbl_estudante (ra, ensino_medio, ano_conclusao, pessoa_id) VALUES
 (112358, "Colegio Fibonacci", 2004, '54523707227'),
 (123456, "Colegio ABC", 2005, '77426047792');
 
+-- ----------------------------------------------------------------------------
+-- Disciplina
+-- Criado por: Vitor Rocha (5A)
+
+DROP TABLE IF EXISTS tbl_disciplina;
+CREATE TABLE IF NOT EXISTS tbl_disciplina
+  (
+     codigo                  VARCHAR(20) NOT NULL,
+     nome                    VARCHAR(40),
+     ementa                  TEXT,
+     creditospraticos        INT,
+     creditosteoricos        INT,
+     departamento            VARCHAR(10) NOT NULL,
+     CONSTRAINT fk_depto_disc FOREIGN KEY (departamento) REFERENCES tbl_departamento (sigla),
+     CONSTRAINT pk_disc PRIMARY KEY (codigo)
+  );
+
+INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPraticos, departamento) VALUES
+('02.522-4', 'Laboratorio de Banco de Dados', '', 0, 2, 'DC'),
+('02.521-6', 'Banco de Dados', '', 4, 0, 'DC'),
+('02.507-0', 'Construcao de Algoritmos e Programacao', '', 4, 4, 'DComp'),
+('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
+('08.910-9', 'Calculo 1', '', 4, 0, "DM"),
+('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC");
+('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC");
+('100.054-0', 'ACIEPE - Inclusão Digital', '', 0, 4, "DC");
 
 -- ----------------------------------------------------------------------------
 -- Atividade Complementar
@@ -318,34 +344,6 @@ INSERT INTO tbl_departamento(centro, campi, nome, sigla) VALUES
 ("CCA", "Araras", "Desenvolvimento Rural", "DDR"),
 ("CCET", "São Carlos", "Departamento de Matemática", "DM"),
 ("CCET", "São Carlos", "Departamento de Física", "DF");
-
-
--- ----------------------------------------------------------------------------
--- Disciplina
--- Criado por: Vitor Rocha (5A)
-
-DROP TABLE IF EXISTS tbl_disciplina;
-CREATE TABLE IF NOT EXISTS tbl_disciplina
-  (
-     codigo                  VARCHAR(20) NOT NULL,
-     nome                    VARCHAR(40),
-     ementa                  TEXT,
-     creditospraticos        INT,
-     creditosteoricos        INT,
-     departamento            VARCHAR(10) NOT NULL,
-     CONSTRAINT fk_depto_disc FOREIGN KEY (departamento) REFERENCES tbl_departamento (sigla),
-     CONSTRAINT pk_disc PRIMARY KEY (codigo)
-  );
-
-INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPraticos, departamento) VALUES
-('02.522-4', 'Laboratorio de Banco de Dados', '', 0, 2, 'DC'),
-('02.521-6', 'Banco de Dados', '', 4, 0, 'DC'),
-('02.507-0', 'Construcao de Algoritmos e Programacao', '', 4, 4, 'DComp'),
-('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
-('08.910-9', 'Calculo 1', '', 4, 0, "DM"),
-('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC");
-('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC");
-('100.054-0', 'ACIEPE - Inclusão Digital', '', 0, 4, "DC");
 
 -- ----------------------------------------------------------------------------
 -- Técnico Administrativo
