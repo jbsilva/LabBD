@@ -303,6 +303,8 @@ INSERT INTO tbl_atividade_complementar(tipo, descricao, carga_horaria, id, ra_at
 ("DCE", "Diretório Central dos Estudantes. Órgão para representação dos estudantes", 60, 1, 334578),
 ("PET", "Programa de Ensino Tutorial. Desenvolvimento de projetos com auxílio de bolsa e supervisionado", 60, 1, 123456),
 ("IC", "Iniciação Científica. Desenvolvimento de projeto com auxílio ou não de bolsa", 60, 1, 654321);
+
+INSERT INTO tbl_atividade_complementar(tipo, descricao, carga_horaria, id, ra_ativ, codigo_disciplina) VALUES
 ("ACIEPE", "Inclusão Digital", 60, 2, 334578);
 
 -- ----------------------------------------------------------------------------
