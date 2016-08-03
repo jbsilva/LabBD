@@ -296,7 +296,6 @@ INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPrat
 ('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
 ('08.910-9', 'Calculo 1', '', 4, 0, "DM"),
 ('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC"),
-('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC"),
 ('100.054-0', 'ACIEPE - Inclusão Digital', '', 0, 4, "DC");
 
 -- ----------------------------------------------------------------------------
