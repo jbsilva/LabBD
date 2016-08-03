@@ -255,8 +255,8 @@ INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPrat
 ('02.507-0', 'Construcao de Algoritmos e Programacao', '', 4, 4, 'DComp'),
 ('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
 ('08.910-9', 'Calculo 1', '', 4, 0, "DM"),
-('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC");
-('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC");
+('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC"),
+('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC"),
 ('100.054-0', 'ACIEPE - Inclusão Digital', '', 0, 4, "DC");
 
 -- ----------------------------------------------------------------------------
@@ -305,7 +305,7 @@ INSERT INTO tbl_atividade_complementar(tipo, descricao, carga_horaria, id, ra_at
 ("IC", "Iniciação Científica. Desenvolvimento de projeto com auxílio ou não de bolsa", 60, 1, 654321);
 
 INSERT INTO tbl_atividade_complementar(tipo, descricao, carga_horaria, id, ra_ativ, codigo_disciplina) VALUES
-("ACIEPE", "Inclusão Digital", 60, 2, 334578);
+("ACIEPE", "Inclusão Digital", 60, 2, 334578, '100.054-0');
 
 -- ----------------------------------------------------------------------------
 -- Departamento
