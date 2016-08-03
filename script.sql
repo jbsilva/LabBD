@@ -697,6 +697,9 @@ INSERT INTO tbl_matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optat
 ("EQ", 654321, 20000, 0, 0, 0, 1, 2016),
 ("EP", 112358, 12985, 125, 12, 4, 9, 2012);
 
+-- FUNCTION
+-- Retorna o número (INT) de alunos que ingressaram em um determinado ano (parâmetro)
+
 DROP FUNCTION IF EXISTS fn_numero_alunos_ano;
 DELIMITER $$
 CREATE FUNCTION fn_numero_alunos_ano(ano INT(4))
@@ -707,9 +710,22 @@ BEGIN
 	SELECT COUNT(*)
 	INTO aux
 	FROM tbl_matricula
-	WHERE ano_ingresso = 2012;
+	WHERE ano_ingresso = aux;
 
 	RETURN aux;
+END$$
+DELIMITER ;
+
+-- PROCEDURE
+-- 	Faz a matrícula (ou rematrícula) de um aluno em um curso
+-- utilizando de parâmetro o RA do aluno e a sigla do Curso
+
+DROP PROCEDURE IF EXISTS pr_fazer_matricula;
+DELIMITER $$
+CREATE PROCEDURE pr_fazer_matricula(ra INT(4), sigla VARCHAR(10))
+BEGIN
+	INSERT INTO tbl_matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optativos, creditos_complementares, perfil, ano_ingresso) VALUES
+	(sigla, ra, 20000, 0, 0, 0, 1, YEAR(CURDATE()));
 END$$
 DELIMITER ;
 
