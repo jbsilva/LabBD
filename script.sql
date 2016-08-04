@@ -736,14 +736,16 @@ DELIMITER ;
 
 -- PROCEDURE
 -- 	Faz a matrícula (ou rematrícula) de um aluno em um curso
--- utilizando de parâmetro o RA do aluno e a sigla do Curso
+-- utilizando os seguintes parâmetros:
+--	-> Sigla do Curso (obrigatório)
+--	-> RA (se for 0, cria um novo RA)
 
 DROP PROCEDURE IF EXISTS pr_faz_matricula;
 DELIMITER $$
-CREATE PROCEDURE pr_fazer_matricula(ra INT(4), sigla VARCHAR(10))
+CREATE PROCEDURE pr_fazer_matricula(sigla VARCHAR(10), ra INT(4))
 BEGIN
 	INSERT INTO tbl_matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optativos, creditos_complementares, perfil, ano_ingresso) VALUES
-	(sigla, ra, 20000, 0, 0, 0, 1, YEAR(CURDATE()));
+	(sigla, IF(ra>0,ra,fn_ultimo_ra()+1), 20000, 0, 0, 0, 1, YEAR(CURDATE()));
 END$$
 DELIMITER ;
 
