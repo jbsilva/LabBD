@@ -994,7 +994,7 @@ CREATE TABLE IF NOT EXISTS tbl_Inscricao (
     CONSTRAINT inscricao_pk PRIMARY KEY (ra , semestreTurma , anoTurma , codigoTurma , codigoDisciplina)
 );
 
--- primeiro semestre
+-- primeiro semestre 2016
 INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina, media, frequencia, resultado) VALUES
 (524896, 1, 2016, 'A', '02.522-4', 10.0, 100, "Aprovado"),
 (524896, 1, 2016, 'A', '02.502-0', 8.5, 90, "Aprovado"),
@@ -1014,6 +1014,25 @@ INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisci
 INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina, media, frequencia, resultado) VALUES
 (654321, 1, 2016, 'A', '08.910-9', 1.2, 100, "Reprovado"),
 (112358, 1, 2016, 'B', '08.910-9', 1.9, 80, "Reprovado");
+
+-- segundo semestre 2016
+INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina, media, frequencia, resultado) VALUES
+(524896, 2, 2016, 'A', '06.201-4', 9.3, 90, "Aprovado"),
+(524896, 2, 2016, 'D', '08.910-9', 1.9, 100, "Reprovado");
+
+INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina, media, frequencia, resultado) VALUES
+(425169, 2, 2016, 'A', '06.201-4', 8.9, 75, "Aprovado"),
+(425169, 2, 2016, 'D', '08.910-9', 0.5, 95, "Reprovado");
+
+INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina, media, frequencia, resultado) VALUES
+(334578, 2, 2016, 'A', '06.201-4', 6.0, 75, "Aprovado"),
+(334578, 2, 2016, 'D', '08.910-9', 0.0, 10, "Reprovado");
+
+INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina, media, frequencia, resultado) VALUES
+(654321, 2, 2016, 'A', '08.910-9', 0.3, 100, "Reprovado"),
+(654321, 2, 2016, 'A', '06.201-4', 8.1, 100, "Aprovado"),
+(112358, 2, 2016, 'B', '08.910-9', 0.1, 80, "Reprovado"),
+(112358, 2, 2016, 'A', '06.201-4', 10.0, 75, "Aprovado");
 
 -- ----------------------------------------------------------------------------
 -- Atividade
