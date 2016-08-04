@@ -716,11 +716,29 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- FUNCTION
+-- Retorna o RA mais recente (maior numéricamente)
+
+DROP FUNCTION IF EXISTS fn_ultimo_ra;
+DELIMITER $$
+CREATE FUNCTION fn_ultimo_ra()
+returns INT(6)
+BEGIN
+	DECLARE aux INT(6);
+
+	SELECT MAX(ra)
+	INTO aux
+	FROM tbl_estudante;
+
+	RETURN aux;
+END$$
+DELIMITER ;
+
 -- PROCEDURE
 -- 	Faz a matrícula (ou rematrícula) de um aluno em um curso
 -- utilizando de parâmetro o RA do aluno e a sigla do Curso
 
-DROP PROCEDURE IF EXISTS pr_fazer_matricula;
+DROP PROCEDURE IF EXISTS pr_faz_matricula;
 DELIMITER $$
 CREATE PROCEDURE pr_fazer_matricula(ra INT(4), sigla VARCHAR(10))
 BEGIN
