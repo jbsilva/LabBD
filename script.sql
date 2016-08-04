@@ -1013,7 +1013,7 @@ INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisci
 
 INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina, media, frequencia, resultado) VALUES
 (654321, 1, 2016, 'A', '08.910-9', 1.2, 100, "Reprovado"),
-(654321, 1, 2016, 'B', '08.910-9', 1.9, 80, "Reprovado");
+(112358, 1, 2016, 'B', '08.910-9', 1.9, 80, "Reprovado");
 
 -- ----------------------------------------------------------------------------
 -- Atividade
