@@ -899,44 +899,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- TRIGGERS
---
--- Feito por: Pedro Barbosa (407895)
---
---	Automáticamente atualiza os créditos completados do aluno
--- assim que houver qualquer mudança na tabela tbl_inscricao
-
-DROP TRIGGER IF EXISTS tr_matricula_insert;
-DELIMITER $$
-CREATE TRIGGER tr_matricula_insert
-  AFTER INSERT ON tbl_inscricao
-FOR EACH row
-BEGIN
-	CALL pr_atualizar_creditos(new.ra);
-END$$
-DELIMITER ;
-
-DROP TRIGGER IF EXISTS tr_matricula_update;
-DELIMITER $$
-CREATE TRIGGER tr_matricula_update
-  AFTER UPDATE ON tbl_inscricao
-FOR EACH row
-BEGIN
-	CALL pr_atualizar_creditos(new.ra);
-END$$
-DELIMITER ;
-
-
-DROP TRIGGER IF EXISTS tr_matricula_delete;
-DELIMITER $$
-CREATE TRIGGER tr_matricula_delete
-  AFTER DELETE ON tbl_inscricao
-FOR EACH row
-BEGIN
-	CALL pr_atualizar_creditos(old.ra);
-END$$
-DELIMITER ;
-
 -- ----------------------------------------------------------------------------
 -- Pré-Requisito
 -- Criado por: Vitor Rocha (5A)
@@ -1126,6 +1088,45 @@ CREATE TABLE IF NOT EXISTS tbl_Inscricao (
         REFERENCES tbl_turma (codigoDisciplina , codigoTurma , semestre , ano),
     CONSTRAINT inscricao_pk PRIMARY KEY (ra , semestreTurma , anoTurma , codigoTurma , codigoDisciplina)
 );
+
+-- TRIGGERS
+--
+-- Feito por: Pedro Barbosa (407895)
+--
+--	Automáticamente atualiza os créditos completados do aluno
+-- assim que houver qualquer mudança na tabela tbl_inscricao
+
+DROP TRIGGER IF EXISTS tr_matricula_insert;
+DELIMITER $$
+CREATE TRIGGER tr_matricula_insert
+  AFTER INSERT ON tbl_inscricao
+FOR EACH row
+BEGIN
+	CALL pr_atualizar_creditos(new.ra);
+END$$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS tr_matricula_update;
+DELIMITER $$
+CREATE TRIGGER tr_matricula_update
+  AFTER UPDATE ON tbl_inscricao
+FOR EACH row
+BEGIN
+	CALL pr_atualizar_creditos(new.ra);
+END$$
+DELIMITER ;
+
+
+DROP TRIGGER IF EXISTS tr_matricula_delete;
+DELIMITER $$
+CREATE TRIGGER tr_matricula_delete
+  AFTER DELETE ON tbl_inscricao
+FOR EACH row
+BEGIN
+	CALL pr_atualizar_creditos(old.ra);
+END$$
+DELIMITER ;
+
 
 -- primeiro semestre 2016
 INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina, media, frequencia, resultado) VALUES
