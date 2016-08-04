@@ -420,6 +420,7 @@ CREATE TABLE IF NOT EXISTS tbl_turma
      CONSTRAINT pk_turma PRIMARY KEY (codigodisciplina, codigoturma, semestre, ano)
   );
 
+-- primeiro semestre 2016
 INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVagas, horario, dia) VALUES
 (1, 2016, 'A', '02.522-4', 25, '14:00', 'terca-feira'),
 (1, 2016, 'B', '02.522-4', 25, '16:00', 'terca-feira'),
@@ -447,6 +448,26 @@ INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVag
 (1, 2016, 'O', '08.910-9', 50, '8:00', 'segunda-feira'),
 (1, 2016, 'Z', '08.910-9', 50, '8:00', 'segunda-feira'),
 (1, 2016, 'A', '100.054-0', 30, 'Horário Livre', 'Horário Livre');
+
+-- segundo semestre 2016
+INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVagas, horario, dia) VALUES
+(1, 2016, 'A', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'B', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'C', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'D', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'E', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'F', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'G', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'H', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'I', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'J', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'K', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'L', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'M', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'N', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'O', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'Z', '08.910-9', 50, '8:00', 'sexta-feira'),
+(1, 2016, 'A', '06.201-4', 30, '14:00', 'quinta-feira');
 
 -- ----------------------------------------------------------------------------
 -- Conselho
