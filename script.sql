@@ -739,6 +739,9 @@ INSERT INTO tbl_matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optat
 ("EP", 112358, 12985, 125, 12, 4, 9, 2012);
 
 -- FUNCTION
+--
+-- Feito por: Pedro Barbosa (407895)
+--
 -- Retorna o número (INT) de alunos que ingressaram em um determinado ano (parâmetro)
 
 DROP FUNCTION IF EXISTS fn_numero_alunos_ano;
@@ -758,6 +761,9 @@ END$$
 DELIMITER ;
 
 -- FUNCTION
+--
+-- Feito por: Pedro Barbosa (407895)
+--
 -- Retorna o RA mais recente (maior numéricamente)
 
 DROP FUNCTION IF EXISTS fn_ultimo_ra;
@@ -776,6 +782,9 @@ END$$
 DELIMITER ;
 
 -- PROCEDURE
+--
+-- Feito por: Pedro Barbosa (407895)
+--
 -- 	Faz a matrícula (ou rematrícula) de um aluno em um curso
 -- utilizando os seguintes parâmetros:
 --	-> ID
@@ -801,6 +810,92 @@ BEGIN
 
 	INSERT INTO tbl_matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optativos, creditos_complementares, perfil, ano_ingresso) VALUES
 	(sigla, ra, 20000, 0, 0, 0, 1, YEAR(CURDATE()));
+END$$
+DELIMITER ;
+
+-- PROCEDURE com CURSOR
+--
+-- Feito por: Pedro Barbosa (407895)
+--
+--	 A partir do RA, contabiliza e atualiza os creditos obrigatórios e optativos
+-- completados pelo aluno em tbl_matricula. 
+
+DROP PROCEDURE IF EXISTS pr_atualizar_creditos;
+DELIMITER $$
+CREATE PROCEDURE pr_atualizar_creditos(ra VARCHAR(6))
+BEGIN
+
+	DECLARE obrigatorios INT DEFAULT 0;
+	DECLARE optativos INT DEFAULT 0;
+	DECLARE acumulador INT;
+	DECLARE codigo VARCHAR(20);
+
+	DECLARE done INT DEFAULT FALSE;
+
+	DECLARE aux CURSOR FOR
+		SELECT DISTINCT tbl_inscricao.codigoDisciplina, creditospraticos + creditosteoricos AS creditos
+		FROM tbl_inscricao, tbl_disciplina, tbl_grade, tbl_matricula
+		WHERE tbl_inscricao.ra = ra
+		AND tbl_inscricao.codigoDisciplina = tbl_disciplina.codigo
+		AND tbl_disciplina.codigo = tbl_grade.codigo
+		AND tbl_inscricao.resultado = 'Aprovado'
+		AND tbl_matricula.ra = ra
+		AND tbl_matricula.sigla = tbl_grade.sigla
+		AND tbl_grade.tipo = 'obrigatoria';
+
+	DECLARE aux2 CURSOR FOR
+		SELECT DISTINCT tbl_inscricao.codigoDisciplina, creditospraticos + creditosteoricos AS creditos
+		FROM tbl_inscricao, tbl_disciplina, tbl_grade, tbl_matricula
+		WHERE tbl_inscricao.ra = ra
+		AND tbl_inscricao.codigoDisciplina = tbl_disciplina.codigo
+		AND tbl_disciplina.codigo = tbl_grade.codigo
+		AND tbl_inscricao.resultado = 'Aprovado'
+		AND tbl_matricula.ra = ra
+		AND tbl_matricula.sigla = tbl_grade.sigla
+		AND tbl_grade.tipo = 'optativa';
+
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+	-- CRÉDITOS OBRIGATÓRIOS
+
+	OPEN aux;
+	
+	loopLoko: LOOP
+		FETCH aux INTO codigo, acumulador;
+		IF done THEN
+			LEAVE loopLoko;
+		END IF;
+		SET obrigatorios = obrigatorios + acumulador;
+
+	END LOOP loopLoko;
+	
+	UPDATE tbl_matricula
+    		SET tbl_matricula.creditos_obrigatorios = obrigatorios
+   		WHERE tbl_matricula.ra = ra;
+
+	CLOSE aux;
+
+	-- CRÉDITOS OPTATIVOS
+
+	SET done = FALSE;
+
+	OPEN aux2;
+	
+	loopLoko2: LOOP
+		FETCH aux2 INTO codigo, acumulador;
+		IF done THEN
+			LEAVE loopLoko2;
+		END IF;
+		SET optativos = optativos + acumulador;
+
+	END LOOP loopLoko2;
+	
+	UPDATE tbl_matricula
+    		SET tbl_matricula.creditos_optativos = optativos
+   		WHERE tbl_matricula.ra = ra;
+
+	CLOSE aux2;
+
 END$$
 DELIMITER ;
 
