@@ -296,6 +296,7 @@ INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPrat
 ('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
 ('08.910-9', 'Calculo 1', '', 4, 0, "DM"),
 ('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC"),
+('06.201-4', 'Comunicação e Depressão', '', 4, 0, "CCA"),
 ('100.054-0', 'ACIEPE - Inclusão Digital', '', 0, 4, "DC");
 
 -- ----------------------------------------------------------------------------
@@ -825,7 +826,8 @@ INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
 ('02.507-0', 'ENC', 1, 'obrigatoria'),
 ('02.502-0', 'ENC', 2, 'obrigatoria'),
 ('08.910-9', 'ENC', 1, 'obrigatoria'),
-('02.034-6', 'ENC', 4, 'optativa');
+('02.034-6', 'ENC', 4, 'optativa'),
+('06.201-4', 'ENC', 4, 'optativa');
 
 INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
 ('02.522-4', 'BCC', 7, 'obrigatoria'),
@@ -833,12 +835,16 @@ INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
 ('02.507-0', 'BCC', 1, 'obrigatoria'),
 ('02.502-0', 'BCC', 2, 'obrigatoria'),
 ('08.910-9', 'BCC', 1, 'obrigatoria'),
-('02.034-6', 'BCC', 4, 'obrigatoria');
+('02.034-6', 'BCC', 4, 'obrigatoria'),
+('06.201-4', 'BCC', 4, 'optativa');
 
 INSERT INTO tbl_grade (codigo, sigla, perfil, tipo) VALUES
 ('08.910-9', 'EP', 1, 'obrigatoria'),
+('06.201-4', 'EP', 4, 'optativa'),
 ('08.910-9', 'EC', 1, 'obrigatoria'),
-('08.910-9', 'EQ', 1, 'obrigatoria');
+('06.201-4', 'EC', 4, 'optativa'),
+('08.910-9', 'EQ', 1, 'obrigatoria'),
+('06.201-4', 'EQ', 4, 'optativa');
 
 -- ------------------------------------------------------------------
 -- View que exibe quantos créditos há em cada perfil de cada curso
