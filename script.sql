@@ -813,7 +813,7 @@ BEGIN
 END$$
 DELIMITER ;
 
--- PROCEDURE com CURSOR
+-- Procedure com CURSOR
 --
 -- Feito por: Pedro Barbosa (407895)
 --
@@ -827,12 +827,13 @@ BEGIN
 
 	DECLARE obrigatorios INT DEFAULT 0;
 	DECLARE optativos INT DEFAULT 0;
+	DECLARE complementares INT DEFAULT 0;
 	DECLARE acumulador INT;
 	DECLARE codigo VARCHAR(20);
 
 	DECLARE done INT DEFAULT FALSE;
 
-	DECLARE aux CURSOR FOR
+	DECLARE cursor1 CURSOR FOR
 		SELECT DISTINCT tbl_inscricao.codigoDisciplina, creditospraticos + creditosteoricos AS creditos
 		FROM tbl_inscricao, tbl_disciplina, tbl_grade, tbl_matricula
 		WHERE tbl_inscricao.ra = ra
@@ -843,7 +844,7 @@ BEGIN
 		AND tbl_matricula.sigla = tbl_grade.sigla
 		AND tbl_grade.tipo = 'obrigatoria';
 
-	DECLARE aux2 CURSOR FOR
+	DECLARE cursor2 CURSOR FOR
 		SELECT DISTINCT tbl_inscricao.codigoDisciplina, creditospraticos + creditosteoricos AS creditos
 		FROM tbl_inscricao, tbl_disciplina, tbl_grade, tbl_matricula
 		WHERE tbl_inscricao.ra = ra
@@ -854,14 +855,19 @@ BEGIN
 		AND tbl_matricula.sigla = tbl_grade.sigla
 		AND tbl_grade.tipo = 'optativa';
 
+	DECLARE cursor3 CURSOR FOR
+		SELECT id, carga_horaria
+		FROM tbl_atividade_complementar
+		WHERE ra_ativ = ra;
+
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
 	-- CRÉDITOS OBRIGATÓRIOS
 
-	OPEN aux;
+	OPEN cursor1;
 	
 	loopLoko: LOOP
-		FETCH aux INTO codigo, acumulador;
+		FETCH cursor1 INTO codigo, acumulador;
 		IF done THEN
 			LEAVE loopLoko;
 		END IF;
@@ -873,16 +879,16 @@ BEGIN
     		SET tbl_matricula.creditos_obrigatorios = obrigatorios
    		WHERE tbl_matricula.ra = ra;
 
-	CLOSE aux;
+	CLOSE cursor1;
 
 	-- CRÉDITOS OPTATIVOS
 
 	SET done = FALSE;
 
-	OPEN aux2;
+	OPEN cursor2;
 	
 	loopLoko2: LOOP
-		FETCH aux2 INTO codigo, acumulador;
+		FETCH cursor2 INTO codigo, acumulador;
 		IF done THEN
 			LEAVE loopLoko2;
 		END IF;
@@ -894,7 +900,28 @@ BEGIN
     		SET tbl_matricula.creditos_optativos = optativos
    		WHERE tbl_matricula.ra = ra;
 
-	CLOSE aux2;
+	CLOSE cursor2;
+
+	-- CRÉDITOS COMPLEMENTARES
+
+	SET done = FALSE;
+
+	OPEN cursor3;
+	
+	loopLoko3: LOOP
+		FETCH cursor3 INTO codigo, acumulador;
+		IF done THEN
+			LEAVE loopLoko3;
+		END IF;
+		SET complementares = complementares + acumulador/15;
+
+	END LOOP loopLoko3;
+	
+	UPDATE tbl_matricula
+    		SET tbl_matricula.creditos_complementares = complementares
+   		WHERE tbl_matricula.ra = ra;
+
+	CLOSE cursor3;
 
 END$$
 DELIMITER ;
