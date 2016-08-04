@@ -926,7 +926,39 @@ SELECT dataInicio, dataTermino, descricao, responsaveis, tipo, ano, semestre
 FROM tbl_atividade
 WHERE semestre = 2;
 
+DROP PROCEDURE IF EXISTS last_activity;
+DELIMITER //
+CREATE PROCEDURE last_activity(
+IN ano_i INT,
+IN semestre_i INT)
+BEGIN
+DECLARE data DATE;
+	SET data = (SELECT max(dataTermino) FROM tbl_atividade WHERE ano = ano_i AND semestre = semestre_i) ;
+	SELECT * FROM tbl_atividade WHERE dataTermino = data AND ano = ano_i AND semestre = semestre_i ;
+END //
+DELIMITER ;
 
+DROP PROCEDURE IF EXISTS first_activity;
+DELIMITER //
+CREATE PROCEDURE first_activity(
+IN ano_i INT,
+IN semestre_i INT)
+BEGIN
+DECLARE data DATE;
+	SET data = (SELECT min(dataInicio) FROM tbl_atividade WHERE ano = ano_i AND semestre = semestre_i) ;
+	SELECT * FROM tbl_atividade WHERE dataInicio = data AND ano = ano_i AND semestre = semestre_i ;
+END //
+DELIMITER ;
+
+DROP FUNCTION IF EXISTS count_Tipo;
+DELIMITER //
+CREATE FUNCTION count_Tipo(tipo_i INT, ano_i INT) RETURNS INT
+BEGIN
+	DECLARE contador INT DEFAULT 0;
+	SELECT count(tipo_i) INTO contador FROM tbl_atividade WHERE ano = ano_i ;
+	RETURN contador;
+END //
+DELIMITER ;
 
 -- ----------------------------------------------------------------------------
 -- Proposta Intermediária
