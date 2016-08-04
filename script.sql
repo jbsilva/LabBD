@@ -1096,9 +1096,9 @@ CREATE TABLE IF NOT EXISTS tbl_Inscricao (
 --	Automáticamente atualiza os créditos completados do aluno
 -- assim que houver qualquer mudança na tabela tbl_inscricao
 
-DROP TRIGGER IF EXISTS tr_matricula_insert;
+DROP TRIGGER IF EXISTS tr_inscricao_insert;
 DELIMITER $$
-CREATE TRIGGER tr_matricula_insert
+CREATE TRIGGER tr_inscricao_insert
   AFTER INSERT ON tbl_inscricao
 FOR EACH row
 BEGIN
@@ -1106,9 +1106,9 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP TRIGGER IF EXISTS tr_matricula_update;
+DROP TRIGGER IF EXISTS tr_inscricao_update;
 DELIMITER $$
-CREATE TRIGGER tr_matricula_update
+CREATE TRIGGER tr_inscricao_update
   AFTER UPDATE ON tbl_inscricao
 FOR EACH row
 BEGIN
@@ -1117,9 +1117,9 @@ END$$
 DELIMITER ;
 
 
-DROP TRIGGER IF EXISTS tr_matricula_delete;
+DROP TRIGGER IF EXISTS tr_inscricao_delete;
 DELIMITER $$
-CREATE TRIGGER tr_matricula_delete
+CREATE TRIGGER tr_inscricao_delete
   AFTER DELETE ON tbl_inscricao
 FOR EACH row
 BEGIN
@@ -1127,7 +1127,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-
+-- INSERTS
 -- primeiro semestre 2016
 INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina, media, frequencia, resultado) VALUES
 (524896, 1, 2016, 'A', '02.522-4', 10.0, 100, "Aprovado"),
