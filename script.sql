@@ -1022,11 +1022,93 @@ CREATE TABLE IF NOT EXISTS tbl_predio (
     CONSTRAINT pk_predio PRIMARY KEY (sigla)
 );
 
+INSERT INTO tbl_predio
+VALUES ('AT-1','', 'http://www2.ufscar.br/servicos/img_ru.jpg', '','',3,17);
+INSERT INTO tbl_predio
+VALUES ('AT-2','', 'http://www2.ufscar.br/uploads/44445_portal_sao_carlos_norte_atual_3609123126331919332.jpg', '','',26,44);
+INSERT INTO tbl_predio
+VALUES ('AT-4','', 'http://www2.ufscar.br/vidaacademica/img_cienciaexata.jpg', '','',67,91);
+INSERT INTO tbl_predio
+VALUES ('AT-5','', '', '','',96,116);
+INSERT INTO tbl_predio 
+VALUES ('AT-7','', 'http://www2.ufscar.br/vidaacademica/img_cienciaexata.jpg', '','',160,176);
 
-INSERT INTO tbl_predio VALUES
-('AT-1','', 'http://www2.ufscar.br/servicos/img_ru.jpg', '','',3,17),
-('AT-2','', 'http://www2.ufscar.br/uploads/44445_portal_sao_carlos_norte_atual_3609123126331919332.jpg', '','',26,44),
-('AT-4','', 'http://www2.ufscar.br/vidaacademica/img_cienciaexata.jpg', '','',67,91);
+-- views_tbl_predio
+DROP VIEW IF EXISTS ats_intervalosala;
+CREATE VIEW ats_intervalosala AS 
+SELECT sigla, primeira_sala, ultima_sala FROM tbl_predio;
+
+
+DROP VIEW IF EXISTS view_visualiza_recursos_cada_sala_cada_predio;
+CREATE VIEW view_visualiza_recursos_cada_sala_cada_predio AS 
+SELECT P.sigla, S.numero, S.recursos FROM tbl_sala AS S 
+	INNER JOIN tbl_predio AS P ON P.sigla = S.predio ;
+
+-- Procedure para predio
+DROP PROCEDURE IF EXISTS proc_salas_por_predio;
+DELIMITER $$
+	CREATE PROCEDURE proc_salas_por_predio
+	(
+		IN siglaPredio VARCHAR(5) 
+
+	)
+	BEGIN      
+		SELECT predio, numero 
+			FROM tbl_sala AS S 
+				INNER JOIN tbl_predio AS P ON P.sigla = S.predio
+				WHERE P.sigla = siglaPredio;
+
+END$$
+
+
+--- Function para quantidade de salas por predio
+DROP FUNCTION IF EXISTS func_qntd_sala_predio;
+DELIMITER $$
+	CREATE FUNCTION func_qntd_sala_predio
+	(
+		siglaPredio VARCHAR(5)
+	)
+		RETURNS TEXT
+	BEGIN
+		DECLARE contagem INT;
+		SET contagem = (SELECT count(numero) 
+			FROM tbl_sala 
+			WHERE predio = siglaPredio 
+			GROUP BY predio);
+	  	RETURN CONCAT('Quantidade de salas no ', siglaPredio, ': ', contagem);
+
+END$$
+
+DELIMITER ;
+
+---Trigger para predio e sala
+---Trigger para que o numero da sala esteja entre os intervalos do at em que se deseja adicionar uma nova sala
+DROP TRIGGER IF EXISTS t_before_insert_sala_intervaloErrado ;
+DELIMITER $$
+CREATE TRIGGER t_before_insert_sala_intervaloErrado
+	BEFORE INSERT 
+	ON tbl_sala	
+	FOR EACH ROW
+	BEGIN
+		DECLARE intervaloInicio INT(3);
+		DECLARE intervaloFim INT(3);
+
+		SET intervaloInicio = (SELECT primeira_sala FROM tbl_predio
+							WHERE sigla = NEW.predio) ;
+		SET intervaloFim = (SELECT ultima_sala FROM tbl_predio
+							WHERE sigla = NEW.predio);
+
+		IF NEW.numero < intervaloInicio THEN
+			signal sqlstate '45000' set message_text = "Numero de sala fora do intervalo do AT" ;
+		ELSEIF NEW.numero > intervaloFim THEN
+			signal sqlstate '45000' set message_text = "Numero de sala fora do intervalo M do AT" ;
+		END IF;	
+
+	END$$
+
+DELIMITER ;
+
+
 
 
 -- ----------------------------------------------------------------------------
@@ -1069,8 +1151,11 @@ WHERE capacidade_de_alunos <= 30;
 
 
 INSERT INTO tbl_sala (numero,predio,tipo,recursos,caracteristicas,capacidade_de_alunos) VALUES
-(297,"at-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
-(200,"at-1","aula teorica","70 carteiras.","sala grande e com ventilador",70);
+(15,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(75,"AT-4","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(72,"AT-4","aula teorica","30 carteiras.","sala grande com projetor",30),
+(71,"AT-4","aula teorica","35 carteiras.","sala grande com projetor",35),
+(162,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70);
 
 
 -- ----------------------------------------------------------------------------
