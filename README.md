@@ -32,6 +32,7 @@
 - Prédio(Raphael Henrique)
 - Sala (Henrique Savelli)
 - Atividade (Gabriel Palomino)
+- relacionamento contém (Gabriel Palomino)
 - Calendário (Vinícius Carvalho)
 
 # Comentários
@@ -116,8 +117,10 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 ### Atividade
 
 - Não sei se faz sentido a PK ser únicamente data de início/fim. É impossível que haja duas atividades que acontecem no mesmo dia? Acredito que para melhor solucionar este problema, seria bom _rever os requisitos_ do grupo e/ou perguntas respondidas pela professora.
+FIX: Adicionei o campo id para servir com pk do campo atividade, FALTA ATUALIZAR O DER!
 
 ### Contém
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Atividade.
+FIX: Relacionamento implementado levando a pk de calendario para atividade, no entando falta corrigir a cardinalidade, uma atividade pertence a um único calendário, já que o período faz com que ela seja correspondente a um calendário, FALTA ATUALIZAR O DER!
