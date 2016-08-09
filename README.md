@@ -130,6 +130,7 @@ FIX: Relacionamento implementado levando a pk de calendario para atividade, no e
 
 ### Criação do usuário mysql
     $ mysql.server restart
+    $ mysql -u root -p --default-character-set=utf8 < LabBD/script.sql
     $ mysql -u root -p
     mysql> CREATE USER 'labbd'@'localhost' IDENTIFIED BY 'labbd123';
     mysql> GRANT ALL PRIVILEGES ON siga.* TO 'labbd'@'localhost' WITH GRANT OPTION;
