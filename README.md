@@ -124,3 +124,12 @@ FIX: Adicionei o campo id para servir com pk do campo atividade, FALTA ATUALIZAR
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Atividade.
 FIX: Relacionamento implementado levando a pk de calendario para atividade, no entando falta corrigir a cardinalidade, uma atividade pertence a um único calendário, já que o período faz com que ela seja correspondente a um calendário, FALTA ATUALIZAR O DER!
+
+
+## Interface
+
+### Criação do usuário mysql
+    $ mysql.server restart
+    $ mysql -u root -p
+    mysql> CREATE USER 'labbd'@'localhost' IDENTIFIED BY 'labbd123';
+    mysql> GRANT ALL PRIVILEGES ON siga.* TO 'labbd'@'localhost' WITH GRANT OPTION;
