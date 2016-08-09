@@ -745,7 +745,7 @@ INSERT INTO tbl_matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optat
 -- Retorna o número (INT) de alunos que ingressaram em um determinado ano (parâmetro)
 
 DROP FUNCTION IF EXISTS fn_numero_alunos_ano;
-DELIMITER $$
+delimiter $$
 CREATE FUNCTION fn_numero_alunos_ano(ano INT(4))
 returns INT
 BEGIN
@@ -758,7 +758,7 @@ BEGIN
 
 	RETURN aux;
 END$$
-DELIMITER ;
+delimiter ;
 
 -- FUNCTION
 --
@@ -767,7 +767,7 @@ DELIMITER ;
 -- Retorna o RA mais recente (maior numéricamente)
 
 DROP FUNCTION IF EXISTS fn_ultimo_ra;
-DELIMITER $$
+delimiter $$
 CREATE FUNCTION fn_ultimo_ra()
 returns INT(6)
 BEGIN
@@ -779,7 +779,7 @@ BEGIN
 
 	RETURN aux;
 END$$
-DELIMITER ;
+delimiter ;
 
 -- PROCEDURE
 --
@@ -791,7 +791,7 @@ DELIMITER ;
 --	-> Sigla do Curso
 
 DROP PROCEDURE IF EXISTS pr_fazer_matricula;
-DELIMITER $$
+delimiter $$
 CREATE PROCEDURE pr_fazer_matricula(id VARCHAR(15), sigla VARCHAR(10))
 BEGIN
 	DECLARE ra INT;
@@ -811,7 +811,7 @@ BEGIN
 	INSERT INTO tbl_matricula (sigla, ra, ira, creditos_obrigatorios, creditos_optativos, creditos_complementares, perfil, ano_ingresso) VALUES
 	(sigla, ra, 20000, 0, 0, 0, 1, YEAR(CURDATE()));
 END$$
-DELIMITER ;
+delimiter ;
 
 -- Procedure com CURSOR
 --
@@ -821,7 +821,7 @@ DELIMITER ;
 -- completados pelo aluno em tbl_matricula. 
 
 DROP PROCEDURE IF EXISTS pr_atualizar_creditos;
-DELIMITER $$
+delimiter $$
 CREATE PROCEDURE pr_atualizar_creditos(ra VARCHAR(6))
 BEGIN
 
@@ -924,7 +924,7 @@ BEGIN
 	CLOSE cursor3;
 
 END$$
-DELIMITER ;
+delimiter ;
 
 -- ----------------------------------------------------------------------------
 -- Pré-Requisito
@@ -1039,78 +1039,6 @@ CREATE VIEW ats_intervalosala AS
 SELECT sigla, primeira_sala, ultima_sala FROM tbl_predio;
 
 
-DROP VIEW IF EXISTS view_visualiza_recursos_cada_sala_cada_predio;
-CREATE VIEW view_visualiza_recursos_cada_sala_cada_predio AS 
-SELECT P.sigla, S.numero, S.recursos FROM tbl_sala AS S 
-	INNER JOIN tbl_predio AS P ON P.sigla = S.predio ;
-
--- Procedure para predio
-DROP PROCEDURE IF EXISTS proc_salas_por_predio;
-DELIMITER $$
-	CREATE PROCEDURE proc_salas_por_predio
-	(
-		IN siglaPredio VARCHAR(5) 
-
-	)
-	BEGIN      
-		SELECT predio, numero 
-			FROM tbl_sala AS S 
-				INNER JOIN tbl_predio AS P ON P.sigla = S.predio
-				WHERE P.sigla = siglaPredio;
-
-END$$
-
-
---- Function para quantidade de salas por predio
-DROP FUNCTION IF EXISTS func_qntd_sala_predio;
-DELIMITER $$
-	CREATE FUNCTION func_qntd_sala_predio
-	(
-		siglaPredio VARCHAR(5)
-	)
-		RETURNS TEXT
-	BEGIN
-		DECLARE contagem INT;
-		SET contagem = (SELECT count(numero) 
-			FROM tbl_sala 
-			WHERE predio = siglaPredio 
-			GROUP BY predio);
-	  	RETURN CONCAT('Quantidade de salas no ', siglaPredio, ': ', contagem);
-
-END$$
-
-DELIMITER ;
-
----Trigger para predio e sala
----Trigger para que o numero da sala esteja entre os intervalos do at em que se deseja adicionar uma nova sala
-DROP TRIGGER IF EXISTS t_before_insert_sala_intervaloErrado ;
-DELIMITER $$
-CREATE TRIGGER t_before_insert_sala_intervaloErrado
-	BEFORE INSERT 
-	ON tbl_sala	
-	FOR EACH ROW
-	BEGIN
-		DECLARE intervaloInicio INT(3);
-		DECLARE intervaloFim INT(3);
-
-		SET intervaloInicio = (SELECT primeira_sala FROM tbl_predio
-							WHERE sigla = NEW.predio) ;
-		SET intervaloFim = (SELECT ultima_sala FROM tbl_predio
-							WHERE sigla = NEW.predio);
-
-		IF NEW.numero < intervaloInicio THEN
-			signal sqlstate '45000' set message_text = "Numero de sala fora do intervalo do AT" ;
-		ELSEIF NEW.numero > intervaloFim THEN
-			signal sqlstate '45000' set message_text = "Numero de sala fora do intervalo M do AT" ;
-		END IF;	
-
-	END$$
-
-DELIMITER ;
-
-
-
-
 -- ----------------------------------------------------------------------------
 -- Sala
 -- Criado por: Grupo 6A
@@ -1209,35 +1137,35 @@ CREATE TABLE IF NOT EXISTS tbl_Inscricao (
 -- assim que houver qualquer mudança na tabela tbl_inscricao
 
 DROP TRIGGER IF EXISTS tr_inscricao_insert;
-DELIMITER $$
+delimiter $$
 CREATE TRIGGER tr_inscricao_insert
   AFTER INSERT ON tbl_inscricao
 FOR EACH row
 BEGIN
 	CALL pr_atualizar_creditos(new.ra);
 END$$
-DELIMITER ;
+delimiter ;
 
 DROP TRIGGER IF EXISTS tr_inscricao_update;
-DELIMITER $$
+delimiter $$
 CREATE TRIGGER tr_inscricao_update
   AFTER UPDATE ON tbl_inscricao
 FOR EACH row
 BEGIN
 	CALL pr_atualizar_creditos(new.ra);
 END$$
-DELIMITER ;
+delimiter ;
 
 
 DROP TRIGGER IF EXISTS tr_inscricao_delete;
-DELIMITER $$
+delimiter $$
 CREATE TRIGGER tr_inscricao_delete
   AFTER DELETE ON tbl_inscricao
 FOR EACH row
 BEGIN
 	CALL pr_atualizar_creditos(old.ra);
 END$$
-DELIMITER ;
+delimiter ;
 
 -- INSERTS
 -- primeiro semestre 2016
@@ -1322,7 +1250,7 @@ FROM tbl_atividade
 WHERE semestre = 2;
 
 DROP PROCEDURE IF EXISTS last_activity;
-DELIMITER //
+delimiter //
 CREATE PROCEDURE last_activity(
 IN ano_i INT,
 IN semestre_i INT)
@@ -1331,10 +1259,10 @@ DECLARE data DATE;
 	SET data = (SELECT max(dataTermino) FROM tbl_atividade WHERE ano = ano_i AND semestre = semestre_i) ;
 	SELECT * FROM tbl_atividade WHERE dataTermino = data AND ano = ano_i AND semestre = semestre_i ;
 END //
-DELIMITER ;
+delimiter ;
 
 DROP PROCEDURE IF EXISTS first_activity;
-DELIMITER //
+delimiter //
 CREATE PROCEDURE first_activity(
 IN ano_i INT,
 IN semestre_i INT)
@@ -1343,17 +1271,17 @@ DECLARE data DATE;
 	SET data = (SELECT min(dataInicio) FROM tbl_atividade WHERE ano = ano_i AND semestre = semestre_i) ;
 	SELECT * FROM tbl_atividade WHERE dataInicio = data AND ano = ano_i AND semestre = semestre_i ;
 END //
-DELIMITER ;
+delimiter ;
 
 DROP FUNCTION IF EXISTS count_Tipo;
-DELIMITER //
+delimiter //
 CREATE FUNCTION count_Tipo(tipo_i INT, ano_i INT) RETURNS INT
 BEGIN
 	DECLARE contador INT DEFAULT 0;
 	SELECT count(tipo_i) INTO contador FROM tbl_atividade WHERE ano = ano_i ;
 	RETURN contador;
 END //
-DELIMITER ;
+delimiter ;
 
 -- ----------------------------------------------------------------------------
 -- Proposta Intermediária
@@ -1453,3 +1381,77 @@ AS
          tbl_matricula
   WHERE  tbl_estudante.ra = tbl_matricula.ra
   GROUP  BY pessoa_id;
+
+
+-- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------
+DROP VIEW IF EXISTS view_visualiza_recursos_cada_sala_cada_predio;
+CREATE VIEW view_visualiza_recursos_cada_sala_cada_predio AS 
+SELECT P.sigla, S.numero, S.recursos FROM tbl_sala AS S 
+	INNER JOIN tbl_predio AS P ON P.sigla = S.predio ;
+
+-- Procedure para predio
+DROP PROCEDURE IF EXISTS proc_salas_por_predio;
+delimiter $$
+	CREATE PROCEDURE proc_salas_por_predio
+	(
+		IN siglaPredio VARCHAR(5) 
+
+	)
+	BEGIN      
+		SELECT predio, numero 
+			FROM tbl_sala AS S 
+				INNER JOIN tbl_predio AS P ON P.sigla = S.predio
+				WHERE P.sigla = siglaPredio;
+
+END$$
+delimiter ;
+
+
+-- Function para quantidade de salas por predio
+DROP FUNCTION IF EXISTS func_qntd_sala_predio;
+delimiter $$
+CREATE function
+  func_qntd_sala_predio
+                         (
+                         siglapredio VARCHAR(5)
+                         )
+  returns TEXT
+begin
+  DECLARE contagem INT;
+  SET contagem =
+  (
+           SELECT   count(numero)
+           FROM     tbl_sala
+           WHERE    predio = siglapredio
+           GROUP BY predio);
+  RETURN Concat('Quantidade de salas no ', siglapredio, ': ', contagem);
+  end$$
+delimiter ;
+
+-- Trigger para predio e sala
+-- Trigger para que o numero da sala esteja entre os intervalos do at em que se deseja adicionar uma nova sala
+DROP TRIGGER IF EXISTS t_before_insert_sala_intervaloErrado ;
+delimiter $$
+CREATE TRIGGER t_before_insert_sala_intervaloErrado
+	BEFORE INSERT 
+	ON tbl_sala	
+	FOR EACH ROW
+	BEGIN
+		DECLARE intervaloInicio INT(3);
+		DECLARE intervaloFim INT(3);
+
+		SET intervaloInicio = (SELECT primeira_sala FROM tbl_predio
+							WHERE sigla = NEW.predio) ;
+		SET intervaloFim = (SELECT ultima_sala FROM tbl_predio
+							WHERE sigla = NEW.predio);
+
+		IF NEW.numero < intervaloInicio THEN
+			signal sqlstate '45000' set message_text = "Numero de sala fora do intervalo do AT" ;
+		ELSEIF NEW.numero > intervaloFim THEN
+			signal sqlstate '45000' set message_text = "Numero de sala fora do intervalo M do AT" ;
+		END IF;	
+
+	END$$
+
+delimiter ;
