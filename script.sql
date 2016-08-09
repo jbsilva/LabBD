@@ -126,13 +126,13 @@ INSERT INTO tbl_docente (pessoa, titularidade, alivio_integral) VALUES
 DROP TABLE IF EXISTS tbl_membro;
 CREATE TABLE tbl_membro
   (
-     cpf            VARCHAR(15) NOT NULL,
+     id            VARCHAR(15) NOT NULL,
      categoria      VARCHAR(64) NOT NULL,
      data_eleicao   DATE NOT NULL,
      periodo_inicio DATE NOT NULL,
      periodo_fim    DATE NOT NULL,
-     CONSTRAINT membro_pk PRIMARY KEY (cpf),
-     CONSTRAINT membro_fk_docente FOREIGN KEY (cpf) REFERENCES tbl_docente (pessoa)
+     CONSTRAINT membro_pk PRIMARY KEY (id),
+     CONSTRAINT membro_fk_docente FOREIGN KEY (id) REFERENCES tbl_docente (pessoa)
   );
 
 
@@ -193,7 +193,7 @@ CREATE TABLE tbl_ata
 -- ----------------------------------------------------------------------------
 -- Participa
 -- Criado por: Lucas Bataglia (4A)
--- Participa ( PK(FK_Membro(cpf), FK_reuniao(numero_reuniao))) está na 3FN:
+-- Participa ( PK(FK_Membro(id), FK_reuniao(numero_reuniao))) está na 3FN:
 -- Está na 1FN: porque todos os atributos são atômicos;
 -- Está na 2FN: Não existe atributo não chave que é dependente de somente uma parte da chave primária);
 -- Está na 3FN: porque não existem atributos não chave que sejam dependentes de outros atributos não chave.
@@ -205,7 +205,7 @@ CREATE TABLE tbl_participa
      numero_reuniao INT(5) NOT NULL,
      CONSTRAINT participa_pk PRIMARY KEY (id, numero_reuniao),
      CONSTRAINT part_fk_reuniao FOREIGN KEY (numero_reuniao) REFERENCES tbl_reuniao (numero),
-     CONSTRAINT part_fk_membro FOREIGN KEY (id) REFERENCES tbl_membro (cpf)
+     CONSTRAINT part_fk_membro FOREIGN KEY (id) REFERENCES tbl_membro (id)
   );
 
 
@@ -1379,9 +1379,7 @@ AS
          ira
   FROM   tbl_estudante,
          tbl_matricula
-  WHERE  tbl_estudante.ra = tbl_matricula.ra
-  GROUP  BY pessoa_id;
-
+  WHERE  tbl_estudante.ra = tbl_matricula.ra;
 
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
