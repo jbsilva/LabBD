@@ -79,6 +79,7 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 ###*REVER* - Código Turma
 
 - O que é essa tabela? Acho que ela nem existe no modelo relacional...
+- Se for manter ela, precisa também popular.
 
 ## Grupo 6A
 
