@@ -1079,7 +1079,7 @@ WHERE capacidade_de_alunos <= 30;
 
 
 INSERT INTO tbl_sala (numero,predio,tipo,recursos,caracteristicas,capacidade_de_alunos) VALUES
-(11,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(13,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
 (14,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
 (15,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
 (16,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
