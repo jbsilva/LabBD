@@ -47,39 +47,49 @@ Modelo Físico == os scripts que estão no github
 Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões sejam resolvidas, podem ir tirando elas daqui (e daí saberemos o que ainda está faltando arrumar).
 
 ## Grupo 4A
+###*POPULAR* - Reunião
+###*POPULAR* - Participa
+###*POPULAR* - Alocação
+###*POPULAR* - Plano de Ensino
 
 ###*REVER* - Conselho
 
 - Não existe o atributo "sigla" no esquema conceitual. Verifique o requisito do seu grupo/perguntas respondidas pela professora, e caso realmente seja para ter a "sigla", devemos colocar no modelo conceitual.
 
-###*REVER* - Membro
+###*REVER & POPULAR* - Membro
 
 - Está faltando uma FK para Conselho, uma vez que um membro tem que pertencer à um conselho. DICA: relacionamentos NxN possuem como PK as PK de ambas as entidades que estão se relacionando.
 - Provavelmente deveria também ser inserido dentro da PK, a data de início de vigência.
 - Acredito que também é de responsabilidade do responsável da tabela Membro de ajustar a tabela Participa para que esta segunda esteja condizentes com as alterações da tabela Membro.
 
-###Rever - Ata
+###*POPULAR* & Rever - Ata
 
 - Será que VARCHAR(256) é o suficiente para os atributos "decisoes", "pautas", "topicos" e "resumos"? Acho que existem atributos para textos maiores, mas desconheço. Se possível, dê uma olhada nisso :)
 
-###*FAZER* - Contribuição
+###*FAZER & POPULAR* - Contribuição
 
 - FALTANDO: Atualmente, esta tabela não exista no nosso modelo físico. (alias, alguém simplesmente copiou a tabela Ata no lugar de Contribuição... porra, que serviço porco ein?)
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Ata e do responsável pela tabela Membro.
 
-###*FAZER* - Revisa
+###*FAZER & POPULAR* - Revisa
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Plano de Ensino.
 
+###*REVER* - Código Turma
+
+- O que é essa tabela? Acho que ela nem existe no modelo relacional...
+
 ## Grupo 6A
+
+###*POPULAR* - E-mail
 
 ###*FAZER* Nacional & Estrangeiro
 
 - FALTANDO: Inexistentes no modelo físico.
 - Acredito que seja responsabilidade do responsável pela tabela Pessoa.
 
-###*REVISAR* - Endereço
+###*REVISAR & POPULAR* - Endereço
 
 - No modelo físico, o discriminador está como CEP. Porém, de acordo com o modelo conceitual, o discriminador deveria ser Tipo (Local ou Origem).
 - Acredito que está faltando o atributo "número" (número da casa).
@@ -88,7 +98,7 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 - Alívio integral/parcial: básicamente, rever que porra é essa. Quem for encarregado desta tabela, por favor _verifique o requisito_ do seu grupo e verifique o que diabos é saporra aqui. Caso seja "tipo de alívio: integral ou parcial", seria só um atributo chamado "alívio" e conteria ou o valor "integral" ou "parcial".
 
-###*REVISAR* Carga Horária
+###*REVISAR & POPULAR* Carga Horária
 
 - Acho que os discriminadores deveriam ser ano inicial + semestre inicial, e não só semestre inicial. Acredito que o atributo semestre (inicial) só se refere se é 1º ou 2º semestre do ano.
 - Também notei que não há população alguma dessa tabela.
