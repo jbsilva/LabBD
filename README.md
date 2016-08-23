@@ -62,19 +62,19 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 - Será que VARCHAR(256) é o suficiente para os atributos "decisoes", "pautas", "topicos" e "resumos"? Acho que existem atributos para textos maiores, mas desconheço. Se possível, dê uma olhada nisso :)
 
-###**FAZER** - Contribuição
+###*FAZER* - Contribuição
 
 - FALTANDO: Atualmente, esta tabela não exista no nosso modelo físico. (alias, alguém simplesmente copiou a tabela Ata no lugar de Contribuição... porra, que serviço porco ein?)
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Ata e do responsável pela tabela Membro.
 
-###**FAZER** - Revisa
+###*FAZER* - Revisa
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Plano de Ensino.
 
 ## Grupo 6A
 
-###**FAZER** Nacional & Estrangeiro
+###*FAZER* Nacional & Estrangeiro
 
 - FALTANDO: Inexistentes no modelo físico.
 - Acredito que seja responsabilidade do responsável pela tabela Pessoa.
@@ -93,7 +93,7 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 - Acho que os discriminadores deveriam ser ano inicial + semestre inicial, e não só semestre inicial. Acredito que o atributo semestre (inicial) só se refere se é 1º ou 2º semestre do ano.
 - Também notei que não há população alguma dessa tabela.
 
-###**FAZER** - Licença
+###*FAZER* - Licença
 
 - FALTANDO: Atualmente, não existe a tabela Licença no nosso modelo físico.
 - Acredito que seja responsabilidade do responsável pela tabela Docente.
@@ -102,7 +102,7 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 - Repensar se o atributo "tipo" deve ser mapiado para o esquema lógico. Se sim, devemos mudar o esquema conceitual.
 
-###**FAZER** - Recesso
+###*FAZER* - Recesso
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Calendário.
@@ -112,7 +112,7 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 - (OK) Não sei se faz sentido a PK ser únicamente data de início/fim. É impossível que haja duas atividades que acontecem no mesmo dia? Acredito que para melhor solucionar este problema, seria bom _rever os requisitos_ do grupo e/ou perguntas respondidas pela professora.
 FIX: Adicionei o campo id para servir com pk do campo atividade, FALTA ATUALIZAR O DER!
 
-###**FAZER** Contém
+###*FAZER* Contém
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Atividade.
