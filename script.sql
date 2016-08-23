@@ -1079,12 +1079,23 @@ WHERE capacidade_de_alunos <= 30;
 
 
 INSERT INTO tbl_sala (numero,predio,tipo,recursos,caracteristicas,capacidade_de_alunos) VALUES
+(14,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
 (15,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(16,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(17,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(31,"AT-2","aula teorica","60 carteiras.","sala grande",60),
+(32,"AT-2","aula teorica","60 carteiras.","sala grande",60),
+(33,"AT-2","aula teorica","60 carteiras.","sala grande",60),
 (75,"AT-4","aula teorica","70 carteiras.","sala grande e com ventilador",70),
 (72,"AT-4","aula teorica","30 carteiras.","sala grande com projetor",30),
 (71,"AT-4","aula teorica","35 carteiras.","sala grande com projetor",35),
-(162,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70);
-
+(160,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(161,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(162,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(163,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(171,"AT-7","aula teorica","40 carteiras.","sala grande e com ventilador",40),
+(172,"AT-7","aula teorica","40 carteiras.","sala grande e com ventilador",40),
+(173,"AT-7","aula teorica","40 carteiras.","sala grande e com ventilador",40);
 
 -- ----------------------------------------------------------------------------
 -- Alocação
