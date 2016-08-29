@@ -118,11 +118,6 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Calendário.
 
-### (ok) Atividade
-
-- (OK) Não sei se faz sentido a PK ser únicamente data de início/fim. É impossível que haja duas atividades que acontecem no mesmo dia? Acredito que para melhor solucionar este problema, seria bom _rever os requisitos_ do grupo e/ou perguntas respondidas pela professora.
-FIX: Adicionei o campo id para servir com pk do campo atividade, FALTA ATUALIZAR O DER!
-
 ###*FAZER* Contém
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
