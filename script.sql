@@ -467,7 +467,7 @@ INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVag
 (2, 2016, 'N', '08.910-9', 50, '8:00', 'sexta-feira'),
 (2, 2016, 'O', '08.910-9', 50, '8:00', 'sexta-feira'),
 (2, 2016, 'Z', '08.910-9', 50, '8:00', 'sexta-feira'),
-(2, 2016, 'A', '06.201-4', 30, '14:00', 'quinta-feira');
+(2, 2016, 'A', '06.201-4', 30, '8:00', 'sexta-feira');
 
 -- ----------------------------------------------------------------------------
 -- Conselho
