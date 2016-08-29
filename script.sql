@@ -1096,6 +1096,9 @@ INSERT INTO tbl_sala (numero,predio,tipo,recursos,caracteristicas,capacidade_de_
 (161,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
 (162,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
 (163,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(164,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(165,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(166,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
 (171,"AT-7","aula teorica","40 carteiras.","sala grande e com ventilador",40),
 (172,"AT-7","aula teorica","40 carteiras.","sala grande e com ventilador",40),
 (173,"AT-7","aula teorica","40 carteiras.","sala grande e com ventilador",40);
@@ -1119,62 +1122,20 @@ CREATE TABLE IF NOT EXISTS tbl_alocacao (
     PRIMARY KEY (semestre , ano , codigoTurma , codigoDisciplina , numeroSala , siglaPredio)
 );
 
-INSERT INTO tbl_alocacao(semestre, ano, codigoTurma, codigoDisciplina, numeroSala, siglaPredio) VALUES
-(1, 2016, 'A', '02.522-4', 72, "AT-4"),
-(1, 2016, 'B', '02.522-4', 72, 'AT-4'),
-(1, 2016, 'C', '02.522-4', 71, 'AT-4'),
-(1, 2016, 'A', '02.521-6', 14, 'AT-1'),
-(1, 2016, 'B', '02.507-0', 160, 'AT-7'),
-(1, 2016, 'C', '02.507-0', 162, 'AT-7'),
-(1, 2016, 'A', '02.502-0', 171, 'AT-7'),
-(1, 2016, 'A', '02.034-6', 171, 'AT-7'),
-(1, 2016, 'A', '02.507-0', 72, 'AT-4'),
-(1, 2016, 'A', '08.910-9', 15, 'AT-1'),
-(1, 2016, 'B', '08.910-9', 16, 'AT-1'),
-(1, 2016, 'C', '08.910-9', 17, 'AT-1'),
-(1, 2016, 'D', '08.910-9', 31, 'AT-2'),
-(1, 2016, 'E', '08.910-9', 32, 'AT-2'),
-(1, 2016, 'F', '08.910-9', 33, 'AT-2'),
-(1, 2016, 'G', '08.910-9', 75, 'AT-4'),
-(1, 2016, 'H', '08.910-9', 14, 'AT-1'),
-(1, 2016, 'I', '08.910-9', 13, 'AT-1'),
-(1, 2016, 'J', '08.910-9', 160, 'AT-7'),
-(1, 2016, 'K', '08.910-9', 161, 'AT-7'),
-(1, 2016, 'L', '08.910-9', 162, 'AT-7'),
-(1, 2016, 'M', '08.910-9', 163, 'AT-7'),
-(1, 2016, 'N', '08.910-9', 171, 'AT-7'),
-(1, 2016, 'O', '08.910-9', 172, 'AT-7'),
-(1, 2016, 'Z', '08.910-9', 173, 'AT-7');
-
-INSERT INTO tbl_alocacao(semestre, ano, codigoTurma, codigoDisciplina, numeroSala, siglaPredio) VALUES
-(2, 2016, 'A', '08.910-9', 15, 'AT-1'),
-(2, 2016, 'B', '08.910-9', 16, 'AT-1'),
-(2, 2016, 'C', '08.910-9', 17, 'AT-1'),
-(2, 2016, 'D', '08.910-9', 31, 'AT-2'),
-(2, 2016, 'E', '08.910-9', 32, 'AT-2'),
-(2, 2016, 'F', '08.910-9', 33, 'AT-2'),
-(2, 2016, 'G', '08.910-9', 75, 'AT-4'),
-(2, 2016, 'H', '08.910-9', 14, 'AT-1'),
-(2, 2016, 'I', '08.910-9', 13, 'AT-1'),
-(2, 2016, 'J', '08.910-9', 160, 'AT-7'),
-(2, 2016, 'K', '08.910-9', 161, 'AT-7'),
-(2, 2016, 'L', '08.910-9', 162, 'AT-7'),
-(2, 2016, 'M', '08.910-9', 163, 'AT-7'),
-(2, 2016, 'N', '08.910-9', 171, 'AT-7'),
-(2, 2016, 'O', '08.910-9', 172, 'AT-7'),
-(2, 2016, 'Z', '08.910-9', 173, 'AT-7'),
-(2, 2016, 'A', '06.201-4', 72, 'AT-4');
-
 -- Procedure
 --
 -- Feito por: Pedro Barbosa (407895)
 --
 --	 Aloca uma sala qualquer para uma turma de uma disciplina.
--- A alocação será automaticamente no semestre/ano vigente.
+-- Tem como entrada os seguintes argumentos:
+-- 	* Código da Turma
+--	* Código da Disciplina
+--	* Ano
+--	* Semestre
 
 DROP PROCEDURE IF EXISTS pr_alocar_sala;
 delimiter $$
-CREATE PROCEDURE pr_alocar_sala(cod_turma VARCHAR(1), cod_disciplina VARCHAR(20))
+CREATE PROCEDURE pr_alocar_sala(cod_turma VARCHAR(1), cod_disciplina VARCHAR(20), d_ano INT, d_semestre INT)
 BEGIN	
 	DECLARE num INT;
 	DECLARE prd VARCHAR(5);
@@ -1188,23 +1149,20 @@ BEGIN
 		AND (numero + predio) NOT IN(
 		-- IGNORA AS SALAS INVÁLIDAS
 			SELECT (tbl_alocacao.numeroSala + tbl_alocacao.siglaPredio)
-			FROM tbl_calendario, tbl_turma turma, tbl_turma outras, tbl_alocacao, tbl_sala
-			-- Seleciona o calendário vigente
-			WHERE CURDATE() > tbl_calendario.data_ini
-			AND CURDATE() < tbl_calendario.data_ter
+			FROM tbl_turma turma, tbl_turma outras, tbl_alocacao, tbl_sala
 			-- Seleciona a turma a qual a reserva será feita
-			AND turma.codigoturma = cod_turma
+			WHERE turma.codigoturma = cod_turma
 			AND turma.codigodisciplina = cod_disciplina
-			AND turma.ano = tbl_calendario.ano
-			AND turma.semestre = tbl_calendario.semestre
+			AND turma.ano = d_ano
+			AND turma.semestre = d_semestre
 			-- Seleciona as outras turmas no mesmo horario
-			AND outras.ano = tbl_calendario.ano
-			AND outras.semestre = tbl_calendario.semestre
+			AND outras.ano = d_ano
+			AND outras.semestre = d_semestre
 			AND outras.dia = turma.dia
 			AND outras.horario = turma.horario
 			-- Seleciona as salas das outras turmas
-			AND tbl_alocacao.ano = tbl_calendario.ano
-			AND tbl_alocacao.semestre = tbl_calendario.semestre
+			AND tbl_alocacao.ano = d_ano
+			AND tbl_alocacao.semestre = d_semestre
 			AND tbl_alocacao.codigoTurma = outras.codigoturma
 			AND tbl_alocacao.codigoDisciplina = outras.codigodisciplina);
 	
@@ -1213,14 +1171,57 @@ BEGIN
 	CLOSE aux;
 	
 	INSERT INTO tbl_alocacao(semestre, ano, codigoTurma, codigoDisciplina, numeroSala, siglaPredio) VALUES
-	(
-		(SELECT semestre FROM tbl_calendario WHERE CURDATE() > data_ini AND CURDATE() < data_ter),
-		(SELECT ano FROM tbl_calendario WHERE CURDATE() > data_ini AND CURDATE() < data_ter),
-		cod_turma, cod_disciplina, num, prd
-	);
+	(d_semestre, d_ano, cod_turma, cod_disciplina, num, prd);
 	
 END$$
 delimiter ;
+
+-- ----------------------------------------------------------------------------
+-- População da tabela Alocação
+
+CALL pr_alocar_sala('A', '02.522-4', 2016, 1);
+CALL pr_alocar_sala('B', '02.522-4', 2016, 1);
+CALL pr_alocar_sala('C', '02.522-4', 2016, 1);
+CALL pr_alocar_sala('A', '02.521-6', 2016, 1);
+CALL pr_alocar_sala('B', '02.507-0', 2016, 1);
+CALL pr_alocar_sala('C', '02.507-0', 2016, 1);
+CALL pr_alocar_sala('A', '02.502-0', 2016, 1);
+CALL pr_alocar_sala('A', '02.034-6', 2016, 1);
+CALL pr_alocar_sala('A', '02.507-0', 2016, 1);
+CALL pr_alocar_sala('A', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('B', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('C', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('D', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('E', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('F', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('G', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('H', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('I', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('J', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('K', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('L', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('M', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('N', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('O', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('Z', '08.910-9', 2016, 1);
+
+CALL pr_alocar_sala('A', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('B', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('C', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('D', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('E', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('F', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('G', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('H', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('I', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('J', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('K', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('L', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('M', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('N', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('O', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('Z', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('A', '06.201-4', 2016, 2);
 
 -- ----------------------------------------------------------------------------
 -- Inscrição
