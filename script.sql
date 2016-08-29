@@ -1165,6 +1165,63 @@ INSERT INTO tbl_alocacao(semestre, ano, codigoTurma, codigoDisciplina, numeroSal
 (2, 2016, 'Z', '08.910-9', 173, 'AT-7'),
 (2, 2016, 'A', '06.201-4', 72, 'AT-4');
 
+-- Procedure
+--
+-- Feito por: Pedro Barbosa (407895)
+--
+--	 Aloca uma sala qualquer para uma turma de uma disciplina.
+-- A alocação será automaticamente no semestre/ano vigente.
+
+DROP PROCEDURE IF EXISTS pr_alocar_sala;
+delimiter $$
+CREATE PROCEDURE pr_alocar_sala(cod_turma VARCHAR(1), cod_disciplina VARCHAR(20))
+BEGIN	
+	DECLARE num INT;
+	DECLARE prd VARCHAR(5);
+
+	DECLARE aux CURSOR FOR
+		SELECT numero, predio
+		FROM tbl_sala, tbl_turma
+		WHERE tbl_turma.codigoturma = cod_turma
+		AND tbl_turma.codigodisciplina = cod_disciplina
+		AND tbl_sala.capacidade_de_alunos >= tbl_turma.numerodevagas
+		AND (numero + predio) NOT IN(
+		-- IGNORA AS SALAS INVÁLIDAS
+			SELECT (tbl_alocacao.numeroSala + tbl_alocacao.siglaPredio)
+			FROM tbl_calendario, tbl_turma turma, tbl_turma outras, tbl_alocacao, tbl_sala
+			-- Seleciona o calendário vigente
+			WHERE CURDATE() > tbl_calendario.data_ini
+			AND CURDATE() < tbl_calendario.data_ter
+			-- Seleciona a turma a qual a reserva será feita
+			AND turma.codigoturma = cod_turma
+			AND turma.codigodisciplina = cod_disciplina
+			AND turma.ano = tbl_calendario.ano
+			AND turma.semestre = tbl_calendario.semestre
+			-- Seleciona as outras turmas no mesmo horario
+			AND outras.ano = tbl_calendario.ano
+			AND outras.semestre = tbl_calendario.semestre
+			AND outras.dia = turma.dia
+			AND outras.horario = turma.horario
+			-- Seleciona as salas das outras turmas
+			AND tbl_alocacao.ano = tbl_calendario.ano
+			AND tbl_alocacao.semestre = tbl_calendario.semestre
+			AND tbl_alocacao.codigoTurma = outras.codigoturma
+			AND tbl_alocacao.codigoDisciplina = outras.codigodisciplina);
+	
+	OPEN aux;
+	FETCH aux INTO num, prd;
+	CLOSE aux;
+	
+	INSERT INTO tbl_alocacao(semestre, ano, codigoTurma, codigoDisciplina, numeroSala, siglaPredio) VALUES
+	(
+		(SELECT semestre FROM tbl_calendario WHERE CURDATE() > data_ini AND CURDATE() < data_ter),
+		(SELECT ano FROM tbl_calendario WHERE CURDATE() > data_ini AND CURDATE() < data_ter),
+		cod_turma, cod_disciplina, num, prd
+	);
+	
+END$$
+delimiter ;
+
 -- ----------------------------------------------------------------------------
 -- Inscrição
 -- Criado por: Grupo 5A
