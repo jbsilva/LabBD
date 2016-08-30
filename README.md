@@ -10,7 +10,7 @@
 
 
 ## Grupo 5A:
-	
+
 - Curso (Eduardo Marinho)
 - Estágio (Julio)
 - Atividade Complementar (Rodrigo Teixeira Garcia)
@@ -27,7 +27,7 @@
 ## Grupo 6A:
 
 - Pessoa (Murilo Guedes)
-- Docente (Murilo Guedes) 
+- Docente (Murilo Guedes)
 - relacionamento responsável/ministra
 - Prédio(Raphael Henrique)
 - Sala (Henrique Savelli)
@@ -49,10 +49,8 @@ Modelo Físico == os scripts que estão no github
 Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões sejam resolvidas, podem ir tirando elas daqui (e daí saberemos o que ainda está faltando arrumar).
 
 ## Grupo 4A
-###*POPULAR* - Reunião
 ###*POPULAR* - Participa
 ###*POPULAR* - Alocação
-###*POPULAR* - Plano de Ensino
 
 ###*REVER* - Conselho
 
@@ -77,11 +75,6 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Plano de Ensino.
-
-###*REVER* - Código Turma
-
-- O que é essa tabela? Acho que ela nem existe no modelo relacional...
-- Se for manter ela, precisa também popular.
 
 ## Grupo 6A
 
