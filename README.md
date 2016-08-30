@@ -47,79 +47,78 @@ Modelo Físico == os scripts que estão no github
 Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões sejam resolvidas, podem ir tirando elas daqui (e daí saberemos o que ainda está faltando arrumar).
 
 ## Grupo 4A
+###*POPULAR* - Reunião
+###*POPULAR* - Participa
+###*POPULAR* - Alocação
+###*POPULAR* - Plano de Ensino
 
-### Conselho
+###*REVER* - Conselho
 
 - Não existe o atributo "sigla" no esquema conceitual. Verifique o requisito do seu grupo/perguntas respondidas pela professora, e caso realmente seja para ter a "sigla", devemos colocar no modelo conceitual.
 
-### Membro
+###*REVER & POPULAR* - Membro
 
-- Se eu entendi direito, a tabela está usando "cpf" como identificador do docente. Foi decidido (a várias semanas atrás) que o identificador de pessoa (e por consequência, de docente) seria "id". Por favor, verifique a tabela de origem antes de fazer uma FK.
 - Está faltando uma FK para Conselho, uma vez que um membro tem que pertencer à um conselho. DICA: relacionamentos NxN possuem como PK as PK de ambas as entidades que estão se relacionando.
 - Provavelmente deveria também ser inserido dentro da PK, a data de início de vigência.
 - Acredito que também é de responsabilidade do responsável da tabela Membro de ajustar a tabela Participa para que esta segunda esteja condizentes com as alterações da tabela Membro.
 
-### Ata
+###*POPULAR* & Rever - Ata
 
 - Será que VARCHAR(256) é o suficiente para os atributos "decisoes", "pautas", "topicos" e "resumos"? Acho que existem atributos para textos maiores, mas desconheço. Se possível, dê uma olhada nisso :)
 
-### Contribuição
+###*FAZER & POPULAR* - Contribuição
 
-- FALTANDO: Atualmente, esta tabela não exista no nosso modelo físico.
+- FALTANDO: Atualmente, esta tabela não exista no nosso modelo físico. (alias, alguém simplesmente copiou a tabela Ata no lugar de Contribuição... porra, que serviço porco ein?)
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Ata e do responsável pela tabela Membro.
 
-### Revisa
+###*FAZER & POPULAR* - Revisa
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Plano de Ensino.
 
-## Grupo 5A
+###*REVER* - Código Turma
 
-### Curso
-
-- Talvez não deveria haver um atributo chamado "créditos necessários". Tem no diagrama conceitual como atributo composto, mas isso acaba sendo ignorado a trazer para o esquema físico (revisar, mas não necessáriamente alterar).
+- O que é essa tabela? Acho que ela nem existe no modelo relacional...
+- Se for manter ela, precisa também popular.
 
 ## Grupo 6A
 
-### Nacional & Estrangeiro
+###*POPULAR* - E-mail
+
+###*FAZER* Nacional & Estrangeiro
 
 - FALTANDO: Inexistentes no modelo físico.
 - Acredito que seja responsabilidade do responsável pela tabela Pessoa.
 
-### Endereço
+###*REVISAR & POPULAR* - Endereço
 
 - No modelo físico, o discriminador está como CEP. Porém, de acordo com o modelo conceitual, o discriminador deveria ser Tipo (Local ou Origem).
 - Acredito que está faltando o atributo "número" (número da casa).
 
-### Docente
+###*REVISAR* - Docente
 
 - Alívio integral/parcial: básicamente, rever que porra é essa. Quem for encarregado desta tabela, por favor _verifique o requisito_ do seu grupo e verifique o que diabos é saporra aqui. Caso seja "tipo de alívio: integral ou parcial", seria só um atributo chamado "alívio" e conteria ou o valor "integral" ou "parcial".
 
-### Carga Horária
+###*REVISAR & POPULAR* Carga Horária
 
 - Acho que os discriminadores deveriam ser ano inicial + semestre inicial, e não só semestre inicial. Acredito que o atributo semestre (inicial) só se refere se é 1º ou 2º semestre do ano.
 - Também notei que não há população alguma dessa tabela.
 
-### Licença
+###*FAZER* - Licença
 
 - FALTANDO: Atualmente, não existe a tabela Licença no nosso modelo físico.
 - Acredito que seja responsabilidade do responsável pela tabela Docente.
 
-### Sala
+###*REVER* - Sala
 
 - Repensar se o atributo "tipo" deve ser mapiado para o esquema lógico. Se sim, devemos mudar o esquema conceitual.
 
-### Recesso
+###*FAZER* - Recesso
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Calendário.
 
-### Atividade
-
-- Não sei se faz sentido a PK ser únicamente data de início/fim. É impossível que haja duas atividades que acontecem no mesmo dia? Acredito que para melhor solucionar este problema, seria bom _rever os requisitos_ do grupo e/ou perguntas respondidas pela professora.
-FIX: Adicionei o campo id para servir com pk do campo atividade, FALTA ATUALIZAR O DER!
-
-### Contém
+###*FAZER* Contém
 
 - FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Atividade.

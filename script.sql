@@ -478,7 +478,7 @@ INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVag
 (2, 2016, 'N', '08.910-9', 50, '8:00', 'sexta-feira'),
 (2, 2016, 'O', '08.910-9', 50, '8:00', 'sexta-feira'),
 (2, 2016, 'Z', '08.910-9', 50, '8:00', 'sexta-feira'),
-(2, 2016, 'A', '06.201-4', 30, '14:00', 'quinta-feira');
+(2, 2016, 'A', '06.201-4', 30, '8:00', 'sexta-feira');
 
 -- ----------------------------------------------------------------------------
 -- Conselho
@@ -1090,12 +1090,29 @@ WHERE capacidade_de_alunos <= 30;
 
 
 INSERT INTO tbl_sala (numero,predio,tipo,recursos,caracteristicas,capacidade_de_alunos) VALUES
+(11,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(12,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(13,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(14,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
 (15,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(16,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(17,"AT-1","aula teorica","55 carteiras. 1 projetor.","sala grande e com ar condicionado",55),
+(31,"AT-2","aula teorica","60 carteiras.","sala grande",60),
+(32,"AT-2","aula teorica","60 carteiras.","sala grande",60),
+(33,"AT-2","aula teorica","60 carteiras.","sala grande",60),
 (75,"AT-4","aula teorica","70 carteiras.","sala grande e com ventilador",70),
 (72,"AT-4","aula teorica","30 carteiras.","sala grande com projetor",30),
 (71,"AT-4","aula teorica","35 carteiras.","sala grande com projetor",35),
-(162,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70);
-
+(160,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(161,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(162,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(163,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(164,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(165,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(166,"AT-7","aula teorica","70 carteiras.","sala grande e com ventilador",70),
+(171,"AT-7","aula teorica","40 carteiras.","sala grande e com ventilador",40),
+(172,"AT-7","aula teorica","40 carteiras.","sala grande e com ventilador",40),
+(173,"AT-7","aula teorica","40 carteiras.","sala grande e com ventilador",40);
 
 -- ----------------------------------------------------------------------------
 -- Alocação
@@ -1116,6 +1133,106 @@ CREATE TABLE IF NOT EXISTS tbl_alocacao (
     PRIMARY KEY (semestre , ano , codigoTurma , codigoDisciplina , numeroSala , siglaPredio)
 );
 
+-- Procedure
+--
+-- Feito por: Pedro Barbosa (407895)
+--
+--	 Aloca uma sala qualquer para uma turma de uma disciplina.
+-- Tem como entrada os seguintes argumentos:
+-- 	* Código da Turma
+--	* Código da Disciplina
+--	* Ano
+--	* Semestre
+
+DROP PROCEDURE IF EXISTS pr_alocar_sala;
+delimiter $$
+CREATE PROCEDURE pr_alocar_sala(cod_turma VARCHAR(1), cod_disciplina VARCHAR(20), d_ano INT, d_semestre INT)
+BEGIN	
+	DECLARE num INT;
+	DECLARE prd VARCHAR(5);
+
+	DECLARE aux CURSOR FOR
+		SELECT numero, predio
+		FROM tbl_sala, tbl_turma
+		WHERE tbl_turma.codigoturma = cod_turma
+		AND tbl_turma.codigodisciplina = cod_disciplina
+		AND tbl_sala.capacidade_de_alunos >= tbl_turma.numerodevagas
+		AND (numero + predio) NOT IN(
+		-- IGNORA AS SALAS INVÁLIDAS
+			SELECT (tbl_alocacao.numeroSala + tbl_alocacao.siglaPredio)
+			FROM tbl_turma turma, tbl_turma outras, tbl_alocacao, tbl_sala
+			-- Seleciona a turma a qual a reserva será feita
+			WHERE turma.codigoturma = cod_turma
+			AND turma.codigodisciplina = cod_disciplina
+			AND turma.ano = d_ano
+			AND turma.semestre = d_semestre
+			-- Seleciona as outras turmas no mesmo horario
+			AND outras.ano = d_ano
+			AND outras.semestre = d_semestre
+			AND outras.dia = turma.dia
+			AND outras.horario = turma.horario
+			-- Seleciona as salas das outras turmas
+			AND tbl_alocacao.ano = d_ano
+			AND tbl_alocacao.semestre = d_semestre
+			AND tbl_alocacao.codigoTurma = outras.codigoturma
+			AND tbl_alocacao.codigoDisciplina = outras.codigodisciplina);
+	
+	OPEN aux;
+	FETCH aux INTO num, prd;
+	CLOSE aux;
+	
+	INSERT INTO tbl_alocacao(semestre, ano, codigoTurma, codigoDisciplina, numeroSala, siglaPredio) VALUES
+	(d_semestre, d_ano, cod_turma, cod_disciplina, num, prd);
+	
+END$$
+delimiter ;
+
+-- ----------------------------------------------------------------------------
+-- População da tabela Alocação
+
+CALL pr_alocar_sala('A', '02.522-4', 2016, 1);
+CALL pr_alocar_sala('B', '02.522-4', 2016, 1);
+CALL pr_alocar_sala('C', '02.522-4', 2016, 1);
+CALL pr_alocar_sala('A', '02.521-6', 2016, 1);
+CALL pr_alocar_sala('B', '02.507-0', 2016, 1);
+CALL pr_alocar_sala('C', '02.507-0', 2016, 1);
+CALL pr_alocar_sala('A', '02.502-0', 2016, 1);
+CALL pr_alocar_sala('A', '02.034-6', 2016, 1);
+CALL pr_alocar_sala('A', '02.507-0', 2016, 1);
+CALL pr_alocar_sala('A', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('B', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('C', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('D', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('E', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('F', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('G', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('H', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('I', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('J', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('K', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('L', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('M', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('N', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('O', '08.910-9', 2016, 1);
+CALL pr_alocar_sala('Z', '08.910-9', 2016, 1);
+
+CALL pr_alocar_sala('A', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('B', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('C', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('D', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('E', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('F', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('G', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('H', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('I', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('J', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('K', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('L', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('M', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('N', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('O', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('Z', '08.910-9', 2016, 2);
+CALL pr_alocar_sala('A', '06.201-4', 2016, 2);
 
 -- ----------------------------------------------------------------------------
 -- Inscrição
