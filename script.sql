@@ -1423,7 +1423,7 @@ delimiter //
 CREATE FUNCTION count_Tipo(tipo_i INT, ano_i INT) RETURNS INT
 BEGIN
 	DECLARE contador INT DEFAULT 0;
-	SELECT count(tipo_i) INTO contador FROM tbl_atividade WHERE ano = ano_i ;
+	SELECT count(tipo_i) INTO contador FROM tbl_atividade WHERE ano = ano_i AND tipo = tipo_i;
 	RETURN contador;
 END //
 delimiter ;
