@@ -33,6 +33,8 @@
 - Sala (Henrique Savelli)
 - Atividade (Gabriel Palomino)
 - relacionamento contém (Gabriel Palomino)
+- Proposta Intermediaria (Vinícius Carvalho)
+- Recesso (Vinícius Carvalho)
 - Calendário (Vinícius Carvalho)
 
 # Comentários
@@ -113,10 +115,6 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 - Repensar se o atributo "tipo" deve ser mapiado para o esquema lógico. Se sim, devemos mudar o esquema conceitual.
 
-###*FAZER* - Recesso
-
-- FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
-- Acredito que esta tabela seja responsabilidade do responsável pela tabela Calendário.
 
 ###*FAZER* Contém
 

@@ -380,7 +380,7 @@ INSERT INTO tbl_tecnico_administrativo(id) VALUES
 
 -- ----------------------------------------------------------------------------
 -- Calendário
--- Criado por: Grupo 6A
+-- Criado por: Vinicius Carvalho (6A)
 
 DROP TABLE IF EXISTS tbl_calendario;
 CREATE TABLE IF NOT EXISTS tbl_calendario (
@@ -410,6 +410,23 @@ INSERT INTO tbl_calendario(ano, semestre, tipo, data_ini, data_ter) VALUES
 (2017, 1, "Acadêmico", '2017-02-01', '2017-07-30'),
 (2017, 2, "Acadêmico", '2017-08-01', '2017-12-15'),
 (2018, 1, "Acadêmico", '2018-02-01', '2018-07-30');
+
+-- ----------------------------------------------------------
+-- Procedure que verifica a duração de um semestre academico
+-- Exemplo: CALL pr_periodo_academico(2016, 2);
+
+DROP PROCEDURE IF EXISTS pr_periodo_academico;
+delimiter $$
+CREATE PROCEDURE pr_periodo_academico(  IN ano_p    INT,
+                                    IN semestre_p   INT)
+BEGIN
+DECLARE inicio  DATE;
+DECLARE fim   DATE;
+  SET inicio = (SELECT data_ini FROM tbl_calendario WHERE ano = ano_p AND semestre = semestre_p);
+  SET fim = (SELECT data_ter FROM tbl_calendario WHERE ano = ano_p AND semestre = semestre_p);
+  SELECT data_ini, data_ter FROM tbl_calendario WHERE data_ini = inicio AND data_ter = fim AND tipo = 'Acadêmico';
+END$$
+delimiter ;
 
 
 -- ----------------------------------------------------------------------------
@@ -1413,7 +1430,7 @@ delimiter ;
 
 -- ----------------------------------------------------------------------------
 -- Proposta Intermediária
--- Criado por: Grupo 6A
+-- Criado por: Vinicius Carvalho (6A)
 
 DROP TABLE IF EXISTS tbl_proposta_int;
 CREATE TABLE IF NOT EXISTS tbl_proposta_int (
@@ -1443,6 +1460,49 @@ INSERT INTO tbl_proposta_int(ano, semestre, data_submissao) VALUES
 (2017, 1, '2017-07-30'),
 (2017, 2, '2017-12-15'),
 (2018, 1, '2018-07-30');
+
+-- ----------------------------------------------------------
+-- Função que retorna a data de submissao de uma proposta intermediária, dado seu ano e semestre
+-- Exemplo: SELECT * FROM tbl_proposta_int WHERE data_submissao = fn_datasub_propint (2016, 2);
+DROP FUNCTION IF EXISTS fn_datasub_propint;
+delimiter $$
+CREATE FUNCTION fn_datasub_propint( ano_p INT,
+                  semestre_p INT)
+RETURNS DATE
+BEGIN
+  DECLARE data DATE;
+
+  SELECT proposta.data_submissao
+  INTO   data
+  FROM   tbl_proposta_int AS proposta
+  WHERE  proposta.ano = ano_p AND proposta.semestre = semestre_p;
+
+  RETURN data;
+END$$
+delimiter ;
+
+-- ----------------------------------------------------------------------------
+-- Recesso
+-- Criado por: Vinicius Carvalho (6A)
+
+DROP TABLE IF EXISTS tbl_recesso;
+CREATE TABLE IF NOT EXISTS tbl_recesso (
+    id      INT NOT NULL AUTO_INCREMENT,
+    tipo    VARCHAR(10),
+    data_ini  DATE,
+    data_ter  DATE,
+    CONSTRAINT pk_recesso PRIMARY KEY (id)
+);
+
+INSERT INTO tbl_recesso (tipo, data_ini, data_ter)
+VALUES
+('Acadêmico', '2016-12-15', '2017-02-01'),
+('Acadêmico', '2017-12-15', '2018-02-01'),
+('Acadêmico', '2018-12-15', '2019-02-01'),
+('Acadêmico', '2019-12-15', '2020-02-01'),
+('Acadêmico', '2020-12-15', '2021-02-01'),
+('Acadêmico', '2021-12-15', '2022-02-01');
+
 -- ----------------------------------------------------------------------------
 -- Criado por: André Rocha (4A)
 
