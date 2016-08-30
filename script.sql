@@ -1147,7 +1147,7 @@ CREATE TABLE IF NOT EXISTS tbl_alocacao (
 DROP PROCEDURE IF EXISTS pr_alocar_sala;
 delimiter $$
 CREATE PROCEDURE pr_alocar_sala(cod_turma VARCHAR(1), cod_disciplina VARCHAR(20), d_ano INT, d_semestre INT)
-BEGIN	
+BEGIN
 	DECLARE num INT;
 	DECLARE prd VARCHAR(5);
 
@@ -1176,14 +1176,14 @@ BEGIN
 			AND tbl_alocacao.semestre = d_semestre
 			AND tbl_alocacao.codigoTurma = outras.codigoturma
 			AND tbl_alocacao.codigoDisciplina = outras.codigodisciplina);
-	
+
 	OPEN aux;
 	FETCH aux INTO num, prd;
 	CLOSE aux;
-	
+
 	INSERT INTO tbl_alocacao(semestre, ano, codigoTurma, codigoDisciplina, numeroSala, siglaPredio) VALUES
 	(d_semestre, d_ano, cod_turma, cod_disciplina, num, prd);
-	
+
 END$$
 delimiter ;
 
@@ -1510,29 +1510,29 @@ VALUES
 (2, 2016, 'Z', '08.910-9', 42),
 (2, 2016, 'A', '06.201-4', 43);
 
--- [REVISAR] Plano de Ensino
+-- Plano de Ensino
 -- Criado por: André Rocha (4A)
 
 DROP TABLE IF EXISTS  tbl_plano_de_ensino;
 CREATE TABLE tbl_plano_de_ensino (
-    procedimento_avaliacao VARCHAR(200) NOT NULL,
-    recursos VARCHAR(200) NOT NULL,
-    bibliografia_basica VARCHAR(200) NOT NULL,
-    bibliografia_complementar VARCHAR(200),
-    objetivos_gerais VARCHAR(200),
-    objetivos_especificos VARCHAR(200) NOT NULL,
-    estrategia_ensino VARCHAR(200) NOT NULL,
-    atividades_alunos VARCHAR(200) NOT NULL,
-    observacoes VARCHAR(200) NOT NULL,
-    atividades_ead VARCHAR(200),
+    procedimento_avaliacao TEXT NOT NULL,
+    recursos TEXT NOT NULL,
+    bibliografia_basica TEXT NOT NULL,
+    bibliografia_complementar TEXT,
+    objetivos_gerais TEXT,
+    objetivos_especificos TEXT NOT NULL,
+    estrategia_ensino TEXT NOT NULL,
+    atividades_alunos TEXT NOT NULL,
+    observacoes TEXT NOT NULL,
+    atividades_ead TEXT,
     data DATE NOT NULL,
     situacao INT(1) NOT NULL,
-    duracao_topicos VARCHAR(1000) NOT NULL,
-    pescd VARCHAR(200) NOT NULL,
-    distribuicao_horas VARCHAR(200) NOT NULL,
+    duracao_topicos TEXT NOT NULL,
+    pescd INT(1) NOT NULL,
+    distribuicao_horas TEXT NOT NULL,
     turma VARCHAR(100) NOT NULL,
     professor VARCHAR(100) NOT NULL,
-    ementa VARCHAR(200),
+    ementa TEXT,
     requisitos VARCHAR(100),
     idDocente VARCHAR(15) NOT NULL,
     codigoTurma CHAR(5) NOT NULL,
@@ -1541,12 +1541,362 @@ CREATE TABLE tbl_plano_de_ensino (
     CONSTRAINT planoEnsino_pk PRIMARY KEY (idDocente , codigoTurma)
 );
 
--- ----------------------------------------------------------------------------
+INSERT INTO tbl_plano_de_ensino (procedimento_avaliacao, recursos,bibliografia_basica, bibliografia_complementar, objetivos_gerais, objetivos_especificos, estrategia_ensino, atividades_alunos, observacoes, atividades_ead, data, situacao, duracao_topicos, pescd, distribuicao_horas, turma, professor, ementa, requisitos, idDocente, codigoTurma) VALUES
 
-INSERT INTO tbl_plano_de_ensino ()
-VALUES
-(2, 2016, 'A', '08.910-9', 27),
-(2, 2016, 'B', '08.910-9', 28);
+(
+'Os alunos serão avaliados mediante a realização de provas e trabalhos individuais, conforme se descreve a seguir:
+
+CRITÉRIO DE AVALIAÇÃO:
+- Duas provas: P1 e P2
+- Dois trabalhos: T1 e T2
+- 02 trabalhos de recuperação: TR-1 e TR-2, valendo de 0,0 a 2,0 (recuperação ao longo do semestre para alunos com notas da P1 e/ou P2 inferior a 6,0)
+
+Nota 1: 0,85 x média das notas de prova (P1+TR-1, P2+TR-2) + 0,15 x média dos trabalhos T1 e T2. Esta média será denominada ?Nota 1?. Apenas os que obtiverem nota menor ou igual a 6,0 nas provas (P1 e P2) terão direito aos trabalhos de recuperação (TR-1 e TR-2).
+
+RECUPERAÇÃO AO LONGO DO SEMESTRE: após as provas P1 e P2, o aluno que obtiver nota menor ou igual a 6,0 poderá recuperar a nota desta prova resolvendo o respectivo trabalho proposto (TR-1, TR-2), cujo conteúdo será divulgado juntamente com a nota da respectiva prova. Cada trabalho poderá atingir a, no máximo, 2,0 pontos e a soma de prova e trabalho não poderá ultrapassar a 6,0 pontos.
+
+
+Alunos que obtiverem Nota 1 maior ou igual a 6,0 e tiverem frequência maior ou igual a 75% estão aprovados. Aqueles que obtiverem Nota 1 maior ou igual 5,0 e menor que 6,0 e tiverem frequência maior ou igual a 75% poderão fazer a recuperação após o período letivo.
+
+RECUPERAÇÃO APÓS O PERÍODO LETIVO: Prova na segunda semana de aula do semestre seguinte com todo o conteúdo do curso. Esta nota será denominada ?Nota 2? e irá compor a média final do aluno.
+
+MÉDIA FINAL= (Nota 1 + Nota 2)/2.
+
+Terão direito a esta nova chance os alunos que obtiverem média entre 5,0 e 6,0 e frequência igual ou superior a 75%. ',
+'Para que o curso seja ministrado serão necessários lousa, giz, computador e projetor multi-mídia.',
+'BEER, F.P.; JOHNSTON, E.R. Mecânica Vetorial para Engenheiros. Estática e Dinâmica. Makron Books; McGraw Hill. 5ª edição . Texto básico.
+HIBBELER,R.C. Engenharia Mecânica ? Estática. LTC ? Livros Técnicos e Científicos Editora AS. Rio de Janeiro, 8ª edição, 1999.
+SINGER, F.L. Mecânica para Engenheiros. Estática e Dinâmica. Harper e Row do Brasil.
+MERIAN, J.L. Estática e Dinâmica. CTC. Rio de Janeiro
+HIBBELER, R.C. Estática: mecânica para engenharia,volume 1. Pearson Education. São Paulo. 2005.',
+'',
+'1. DESENVOLVER, NO ESTUDANTE DE ENGENHARIA, A CAPACIDADE DE ANALISAR PROBLEMAS DE MANEIRA SIMPLES E LÓGICA, APLICANDO PARA ISSO POUCOS PRINCÍPIOS BÁSICOS2. MOSTRAR QUE OS CONCEITOS ESTUDADOS SE APLICAM AOS PONTOS MATERIAIS, AOS CORPOS RÍGIDOS ISOLADOS E AOS SISTEMAS DE CORPOS RÍGIDOS, DEIXANDO CLARA A DIFERENÇA ENTRE FORÇAS INTERNAS E FORÇAS EXTERNAS3. LEVAR O ALUNO A COMPREENDER O FUNCIONAMENTO DE ESTRUTURAS ISOSTÁTICAS SIMPLES, MOSTRAR SUA IMPORTÂNCIA PARA A FUTURA COMPREENSÃO DE SITUAÇÕES MAIS COMPLEXAS QUE SERÃO VISTAS EM OUTRAS DISCIPLINAS4. MOSTRAR QUE OS CONCEITOS DE ÁLGEBRA VETORIAL PODEM SER UTILIZADOS PARA RESOLVER MUITOS PROBLEMAS, PRINCIPALMENTE OS TRIDIMENSIONAIS, ONDE SUA APLICAÇÃO RESULTA EM SOLUÇÃO MAIS SIMPLES E CLARA5. MOSTRAR QUE MUITOS DOS PRINCÍPIOS E CONCEITOS SE APLICAM TAMBÉM A CORPOS E SISTEMAS DE CORPOS EM MOVIMENTO.',
+'Os objetivos específicos são: 1.) discutir os conceitos de equilíbrio para ponto material e corpo rígido;
+2.) analisar problemas de equilíbrio de pontos materiais e de corpos rígidos no plano bidimensional e no espaço tridimensional;
+3.) caracterizar os tipos de vínculos de uma estrutura e o seu grau de deslocabilidade;
+4.) avaliar os esforços internos e externos atuantes em estruturas de barras como as treliças;
+5.) calcular a localização do centro de gravidade e do centro de massa de linhas, áreas e volumes;
+6.) calcular o momento de inércia de áreas compostas e entender seu significado físico;
+7.) Analisar problemas de equilíbrio envolvendo forças de atrito.',
+'As estratégias de ensino consistem na apresentação e discussão dos tópicos em aulas expositivas, com resolução de exercícios, material de apoio (teoria e exercícios) on line no ambiente virtual moodle. Estratégias específicas associadas a cada tópico serão indicadas na sequência.
+I.Princípios e Conceitos Fundamentais: discutir a importância da disciplina e sua relação com as demais.
+II.Equilíbrio de ponto material: relacionar com fenômenos da natureza.
+III. Momento de forças em Relação a Ponto e Eixo: apresentar a teoria com resolução de exemplos.
+IV. Sistemas de Forças Equivalentes Resultantes: mostrar sua importância na resolução e simplificação de problemas.
+V. Equilíbrio dos Corpos Rígidos: apresentar sua importância na análise de estruturas e como identificar os tipos de restrição de movimento impostas por cada vínculo.
+VI. Introdução à Análise de Estruturas com forças aplicadas somente nos nós (treliças) e forças aplicadas também fora dos nós (estruturas compostas): discutir a importância das estruturas na Engenharia Civil e apresentar metodologias para determinar reações nos vínculos e forças em barras.
+VII. Treliças: apresentar os princípios do equilíbrio na solução de estruturas simples.
+VIII. Estrutura com Elementos Sujeitos a Várias Forças: aplicar as condições de equilíbrio e aprofundar os conceitos de ação e reação.
+IX. Atrito: mostrar que o fenômeno pode ser entendido com conceitos de equilíbrio.
+X. Centros de Gravidade, de massa e centroides: apresentar sua importância em assuntos futuros e mostrar como determinar cada uma destas propriedades.
+XI. Momentos de Inércia: mostrar exemplos de aplicação e importância em futuras disciplinas.',
+'As atividades destinadas aos alunos consistem, basicamente:
+1) na leitura e estudo da bibliografia recomendada;
+2) no estudo e resolução dos exercícios propostos;
+3) na utilização de material e atividades on line;
+4) no entendimento dos conceitos e de sua importância;
+5) na observação de estruturas existentes e visualização do fenômeno em estudo.',
+'',
+'',
+'2016-09-13',
+1,
+'I. Princípios e Conceitos Fundamentais
+II. Equilíbrio de Ponto Material
+III. Momento de forças em Relação a Ponto e Eixo
+IV. Sistemas de forças equivalentes
+V. Equilíbrio de Corpos Rígidos
+VI. Introdução à Análise de Estruturas Isostáticas
+VII. Treliças: Métodos dos Nós e das Seções
+VIII. Estrutura com Elementos Sujeitos a Várias
+IX. Centroides e forças distribuídas
+X. Momentos de Inércia
+XI. Atrito ',
+0,
+'60/0/0/0/0/0/0',
+'120022 - A - MECANICA APLICADA A ENGENHARIA',
+'Legolas Silva',
+'- PRINCÍPIOS E CONCEITOS FUNDAMENTAIS- ESTÁTICA DAS PARTÍCULAS E DOS CORPOS RÍGIDOS- SISTEMAS DE FORÇAS EQUIVALENTES- INTRODUÇÃO À ANÁLISE DE ESTRUTURAS ISOSTÁTICAS- CENTROS DE GRAVIDADE, CENTRÓIDES, MOMENTOS DE INÉRCIA- CINEMÁTICA DOS CORPOS RÍGIDOS- MOVIMENTO PLANO DOS CORPOS RÍGIDOS- VIBRAÇÕES MECÂNICAS',
+'Física Cálculo',
+11104385910,
+1
+),
+(
+'A disciplina terá três provas regulares. Além destas provas, caso algum aluno manifeste interesse poderão ser realizadas avaliações no formato de entrevista individuais com o professor. Tais avaliações podem substituir e/ou complementar as notas obtidas nas provas. A nota final do aluno será atribuída pelo professor de forma a refletir o aproveitamento do aluno na disciplina.
+
+A avaliação complementar será uma prova versando sobre todo o conteúdo da disciplina a ser aplicada em data combinada previamente com os alunos. Neste caso a nota final será 6, se a nota desta prova for igual ou superior a 6.
+
+Em atendimento ao disposto no Art 10.- III da portaria GR 522/06 ("procedimentos que possibilitem a recuperação de desempenho do estudante durante o período letivo regular;") durante o semestre serão oferecidas diversas formas de recuperação do conteúdo incluindo o horário de atendimento extra-classe, sugestões de estudo dirigido e outras atividades de acordo com a procura dos alunos interessados. ',
+'Os recursos humanos e materiais serão os oferecidos usualmente pela Universidade.',
+'
+[1]. Guidorizzi, H. L. - Um Curso de Cálculo, Vol. 1 e Vol 2 - 5ª Edição, LTC, Rio de Janeiro, 2001.
+
+[2] SPIVAK, Michael. Calculo infinitesimal. Bartolome Frontera Marques (Trad.). Barcelona: Reverte, 1970. v.1. 413 p. ISBN 84-291-5139-7.
+
+[3] APOSTOL, Tom M.. Calculus. Francisco Velez Cantarell (Trad.esp.); Enrique Linés Escardó (rev.). Barcelona: Reverte, 1965. v.1. 575 p.
+
+[4] AVILA, Geraldo Severo de Souza. Calculo: diferencial e integral. 2 ed. Rio de Janeiro: Livros Tecnicos e Cientificos, s.d.. v.1
+
+[5] LEITHOLD, Louis. O calculo: com geometria analitica. [The calculus with analytic geometry]. Antonio Paques (Trad.). 2 ed. Sao Paulo: Harper & Row do Brasil, c1982. v.1. 526 p. ',
+'',
+'PROPICIAR O APRENDIZADO DOS CONCEITOS DE LIMITE, DERIVADA E INTEGRAL DE FUNÇÕES REAIS DE UMA VARIÁVEL REAL.PROPICIAR A COMPREENSÃO E O DOMÍNIO DOS CONCEITOS E DAS TÉCNICAS DE CÁLCULO DIFERENCIAL E INTEGRAL DESSAS FUNÇÕES.DESENVOLVER A HABILIDADE DE IMPLEMENTAÇÃO DESSES CONCEITOS E TÉCNICAS EM PROBLEMAS NOS QUAIS ELES SE CONSTITUEM OS MODELOS MAIS ADEQUADOS.DESENVOLVER A LINGUAGEM MATEMÁTICA COMO FORMA UNIVERSAL DE EXPRESSÃO DA CIÊNCIA.',
+'Propiciar a compreensão e o domínio dos conceitos e das técnicas de Cálculo Diferencial e Integral de funções reais de uma variável real, como linguagem matemática empregada na modelagem de fenômenos das ciências físicas estudadas em cursos de ciências tecnológicas.',
+'Para todos os tópicos:
+1) Aulas expositivas do conteúdo.
+2) Resolução de problemas e exercícios típicos.
+3) Propor a resolução de exercícios e problemas pelos alunos, fora do horário de aulas.
+5) Indicar bibliografias complementares.
+6) Haverá 2 horas semanais de atendimento aos alunos.
+',
+'Para todos os tópicos:
+1) Estudar o texto disponível, de maneira sistemática. Planejar suas horas de estudo.
+2) Frequentar assiduamente as aulas, de forma participativa.
+3) Ler a bibliografia sugerida sobre os temas da disciplina relacionando suas dúvidas e dificuldades.
+4) Resolver exercícios em classe e em casa.
+5) Comparecer nos horários de atendimento do professor sempre que se fizer necessário para a melhor compreensão dos conteúdos estudados.
+6) Formular questões ao professor sempre que julgar necessário. ',
+'',
+'',
+'2016-09-10',
+1,
+'1) Números reais e funções (06 horas).
+1.1. A reta real, intervalos e desigualdades.
+1.2. O conceito de função, funções compostas, funções inversas, gráficos de funções.
+
+2) Limites e funções contínuas. (14 horas)
+2.1. Limites de funções, limites laterais e limites infinitos.
+2.2. Continuidade de funções reais.
+2.3. Teorema do Valor Intermediário e Teorema do Confronto.
+2.4. Funções exponenciais e logarítmicas.
+
+3) Derivadas (20 horas)
+3.1. Taxas de variação, reta tangente e definição de derivada.
+3.2. Cálculo de derivadas: regras de derivação, regra da cadeia, derivação implícita, derivação inversa e derivadas de ordem superior.
+3.3. Aplicações de derivadas: funções crescentes e decrescentes, máximos e mínimos, Teorema do Valor Médio e Regra de L´Hospital.
+
+4) Integrais (20 horas)
+4.1. Antiderivadas, integral como área, integrais definidas e indefinidas.
+4.2. Teorema fundamental do Cálculo.
+4.3. Técnicas de integração.
+4.4. Aplicações da integral: áreas, volumes, comprimento de arco e outras.
+4.5.Integrais impróprias. ',
+0,
+'30/0/30/0/0/0/0',
+'025020 - C - CALCULO 1',
+'José Silva',
+'1. NÚMEROS REAIS E FUNÇÕES DE UMA VARIÁVEL REAL.2. LIMITES E CONTINUIDADE.3. CÁLCULO DIFERENCIAL E APLICAÇÕES.4. CÁLCULO INTEGRAL E APLICAÇÕES.',
+'',
+24174616256,
+2
+),
+(
+  'A disciplina terá três provas regulares. Além destas provas, caso algum aluno manifeste interesse poderão ser realizadas avaliações no formato de entrevista individuais com o professor. Tais avaliações podem substituir e/ou complementar as notas obtidas nas provas. A nota final do aluno será atribuída pelo professor de forma a refletir o aproveitamento do aluno na disciplina.
+
+A avaliação complementar será uma prova versando sobre todo o conteúdo da disciplina a ser aplicada em data combinada previamente com os alunos. Neste caso a nota final será 6, se a nota desta prova for igual ou superior a 6.
+
+Em atendimento ao disposto no Art 10.- III da portaria GR 522/06 ("procedimentos que possibilitem a recuperação de desempenho do estudante durante o período letivo regular;") durante o semestre serão oferecidas diversas formas de recuperação do conteúdo incluindo o horário de atendimento extra-classe, sugestões de estudo dirigido e outras atividades de acordo com a procura dos alunos interessados. ',
+  'Os recursos humanos e materiais serão os oferecidos usualmente pela Universidade.',
+  '[1]. Guidorizzi, H. L. - Um Curso de Cálculo, Vol. 1 e Vol 2 - 5ª Edição, LTC, Rio de Janeiro, 2001.
+
+[2] SPIVAK, Michael. Calculo infinitesimal. Bartolome Frontera Marques (Trad.). Barcelona: Reverte, 1970. v.1. 413 p. ISBN 84-291-5139-7.
+
+[3] APOSTOL, Tom M.. Calculus. Francisco Velez Cantarell (Trad.esp.); Enrique Linés Escardó (rev.). Barcelona: Reverte, 1965. v.1. 575 p.
+
+[4] AVILA, Geraldo Severo de Souza. Calculo: diferencial e integral. 2 ed. Rio de Janeiro: Livros Tecnicos e Cientificos, s.d.. v.1
+
+[5] LEITHOLD, Louis. O calculo: com geometria analitica. [The calculus with analytic geometry]. Antonio Paques (Trad.). 2 ed. Sao Paulo: Harper & Row do Brasil, c1982. v.1. 526 p. ',
+  '',
+  'PROPICIAR O APRENDIZADO DOS CONCEITOS DE LIMITE, DERIVADA E INTEGRAL DE FUNÇÕES REAIS DE UMA VARIÁVEL REAL.PROPICIAR A COMPREENSÃO E O DOMÍNIO DOS CONCEITOS E DAS TÉCNICAS DE CÁLCULO DIFERENCIAL E INTEGRAL DESSAS FUNÇÕES.DESENVOLVER A HABILIDADE DE IMPLEMENTAÇÃO DESSES CONCEITOS E TÉCNICAS EM PROBLEMAS NOS QUAIS ELES SE CONSTITUEM OS MODELOS MAIS ADEQUADOS.DESENVOLVER A LINGUAGEM MATEMÁTICA COMO FORMA UNIVERSAL DE EXPRESSÃO DA CIÊNCIA.',
+  'Propiciar a compreensão e o domínio dos conceitos e das técnicas de Cálculo Diferencial e Integral de funções reais de uma variável real, como linguagem matemática empregada na modelagem de fenômenos das ciências físicas estudadas em cursos de ciências tecnológicas.',
+  'Para todos os tópicos:
+1) Aulas expositivas do conteúdo.
+2) Resolução de problemas e exercícios típicos.
+3) Propor a resolução de exercícios e problemas pelos alunos, fora do horário de aulas.
+5) Indicar bibliografias complementares.
+6) Haverá 2 horas semanais de atendimento aos alunos. ',
+  'Para todos os tópicos:
+1) Estudar o texto disponível, de maneira sistemática. Planejar suas horas de estudo.
+2) Frequentar assiduamente as aulas, de forma participativa.
+3) Ler a bibliografia sugerida sobre os temas da disciplina relacionando suas dúvidas e dificuldades.
+4) Resolver exercícios em classe e em casa.
+5) Comparecer nos horários de atendimento do professor sempre que se fizer necessário para a melhor compreensão dos conteúdos estudados.
+6) Formular questões ao professor sempre que julgar necessário. ',
+  '',
+  '',
+  '2016-09-10',
+  1,
+  '1) Números reais e funções (06 horas).
+1.1. A reta real, intervalos e desigualdades.
+1.2. O conceito de função, funções compostas, funções inversas, gráficos de funções.
+
+2) Limites e funções contínuas. (14 horas)
+2.1. Limites de funções, limites laterais e limites infinitos.
+2.2. Continuidade de funções reais.
+2.3. Teorema do Valor Intermediário e Teorema do Confronto.
+2.4. Funções exponenciais e logarítmicas.
+
+3) Derivadas (20 horas)
+3.1. Taxas de variação, reta tangente e definição de derivada.
+3.2. Cálculo de derivadas: regras de derivação, regra da cadeia, derivação implícita, derivação inversa e derivadas de ordem superior.
+3.3. Aplicações de derivadas: funções crescentes e decrescentes, máximos e mínimos, Teorema do Valor Médio e Regra de L´Hospital.
+
+4) Integrais (20 horas)
+4.1. Antiderivadas, integral como área, integrais definidas e indefinidas.
+4.2. Teorema fundamental do Cálculo.
+4.3. Técnicas de integração.
+4.4. Aplicações da integral: áreas, volumes, comprimento de arco e outras.
+4.5.Integrais impróprias. ',
+  1,
+  '60/0/0/0/0/0/0',
+  '025020 - A - CALCULO 1',
+  'Raimundo Carvalho',
+  '1. NÚMEROS REAIS E FUNÇÕES DE UMA VARIÁVEL REAL.2. LIMITES E CONTINUIDADE.3. CÁLCULO DIFERENCIAL E APLICAÇÕES.4. CÁLCULO INTEGRAL E APLICAÇÕES.',
+  '',
+  40078919665,
+  3
+),
+(
+  'A disciplina terá três provas regulares. Além destas provas, caso algum aluno manifeste interesse poderão ser realizadas avaliações no formato de entrevista individuais com o professor. Tais avaliações podem substituir e/ou complementar as notas obtidas nas provas. A nota final do aluno será atribuída pelo professor de forma a refletir o aproveitamento do aluno na disciplina.
+
+A avaliação complementar será uma prova versando sobre todo o conteúdo da disciplina a ser aplicada em data combinada previamente com os alunos. Neste caso a nota final será 6, se a nota desta prova for igual ou superior a 6.
+
+Em atendimento ao disposto no Art 10.- III da portaria GR 522/06 ("procedimentos que possibilitem a recuperação de desempenho do estudante durante o período letivo regular;") durante o semestre serão oferecidas diversas formas de recuperação do conteúdo incluindo o horário de atendimento extra-classe, sugestões de estudo dirigido e outras atividades de acordo com a procura dos alunos interessados. ',
+  'Os recursos humanos e materiais serão os oferecidos usualmente pela Universidade.',
+  '[1]. Guidorizzi, H. L. - Um Curso de Cálculo, Vol. 1 e Vol 2 - 5ª Edição, LTC, Rio de Janeiro, 2001.
+
+[2] SPIVAK, Michael. Calculo infinitesimal. Bartolome Frontera Marques (Trad.). Barcelona: Reverte, 1970. v.1. 413 p. ISBN 84-291-5139-7.
+
+[3] APOSTOL, Tom M.. Calculus. Francisco Velez Cantarell (Trad.esp.); Enrique Linés Escardó (rev.). Barcelona: Reverte, 1965. v.1. 575 p.
+
+[4] AVILA, Geraldo Severo de Souza. Calculo: diferencial e integral. 2 ed. Rio de Janeiro: Livros Tecnicos e Cientificos, s.d.. v.1
+
+[5] LEITHOLD, Louis. O calculo: com geometria analitica. [The calculus with analytic geometry]. Antonio Paques (Trad.). 2 ed. Sao Paulo: Harper & Row do Brasil, c1982. v.1. 526 p. ',
+  '',
+  'PROPICIAR O APRENDIZADO DOS CONCEITOS DE LIMITE, DERIVADA E INTEGRAL DE FUNÇÕES REAIS DE UMA VARIÁVEL REAL.PROPICIAR A COMPREENSÃO E O DOMÍNIO DOS CONCEITOS E DAS TÉCNICAS DE CÁLCULO DIFERENCIAL E INTEGRAL DESSAS FUNÇÕES.DESENVOLVER A HABILIDADE DE IMPLEMENTAÇÃO DESSES CONCEITOS E TÉCNICAS EM PROBLEMAS NOS QUAIS ELES SE CONSTITUEM OS MODELOS MAIS ADEQUADOS.DESENVOLVER A LINGUAGEM MATEMÁTICA COMO FORMA UNIVERSAL DE EXPRESSÃO DA CIÊNCIA.',
+  'Propiciar a compreensão e o domínio dos conceitos e das técnicas de Cálculo Diferencial e Integral de funções reais de uma variável real, como linguagem matemática empregada na modelagem de fenômenos das ciências físicas estudadas em cursos de ciências tecnológicas.',
+  'Para todos os tópicos:
+1) Aulas expositivas do conteúdo.
+2) Resolução de problemas e exercícios típicos.
+3) Propor a resolução de exercícios e problemas pelos alunos, fora do horário de aulas.
+5) Indicar bibliografias complementares.
+6) Haverá 2 horas semanais de atendimento aos alunos. ',
+  'Para todos os tópicos:
+1) Estudar o texto disponível, de maneira sistemática. Planejar suas horas de estudo.
+2) Frequentar assiduamente as aulas, de forma participativa.
+3) Ler a bibliografia sugerida sobre os temas da disciplina relacionando suas dúvidas e dificuldades.
+4) Resolver exercícios em classe e em casa.
+5) Comparecer nos horários de atendimento do professor sempre que se fizer necessário para a melhor compreensão dos conteúdos estudados.
+6) Formular questões ao professor sempre que julgar necessário. ',
+  '',
+  '',
+  '2016-09-10',
+  1,
+  '1) Números reais e funções (06 horas).
+1.1. A reta real, intervalos e desigualdades.
+1.2. O conceito de função, funções compostas, funções inversas, gráficos de funções.
+
+2) Limites e funções contínuas. (14 horas)
+2.1. Limites de funções, limites laterais e limites infinitos.
+2.2. Continuidade de funções reais.
+2.3. Teorema do Valor Intermediário e Teorema do Confronto.
+2.4. Funções exponenciais e logarítmicas.
+
+3) Derivadas (20 horas)
+3.1. Taxas de variação, reta tangente e definição de derivada.
+3.2. Cálculo de derivadas: regras de derivação, regra da cadeia, derivação implícita, derivação inversa e derivadas de ordem superior.
+3.3. Aplicações de derivadas: funções crescentes e decrescentes, máximos e mínimos, Teorema do Valor Médio e Regra de L´Hospital.
+
+4) Integrais (20 horas)
+4.1. Antiderivadas, integral como área, integrais definidas e indefinidas.
+4.2. Teorema fundamental do Cálculo.
+4.3. Técnicas de integração.
+4.4. Aplicações da integral: áreas, volumes, comprimento de arco e outras.
+4.5.Integrais impróprias. ',
+  0,
+  '60/0/0/0/0/0/0',
+  '025020 - B -CALCULO 1',
+  'Raimundo Carvalho',
+  '1. NÚMEROS REAIS E FUNÇÕES DE UMA VARIÁVEL REAL.2. LIMITES E CONTINUIDADE.3. CÁLCULO DIFERENCIAL E APLICAÇÕES.4. CÁLCULO INTEGRAL E APLICAÇÕES.',
+  '',
+  40078919665,
+  4
+),
+(
+'Os alunos serão avaliados mediante a realização de provas e trabalhos individuais, conforme se descreve a seguir:
+
+CRITÉRIO DE AVALIAÇÃO:
+- Duas provas: P1 e P2
+- Dois trabalhos: T1 e T2
+- 02 trabalhos de recuperação: TR-1 e TR-2, valendo de 0,0 a 2,0 (recuperação ao longo do semestre para alunos com notas da P1 e/ou P2 inferior a 6,0)
+
+Nota 1: 0,85 x média das notas de prova (P1+TR-1, P2+TR-2) + 0,15 x média dos trabalhos T1 e T2. Esta média será denominada ?Nota 1?. Apenas os que obtiverem nota menor ou igual a 6,0 nas provas (P1 e P2) terão direito aos trabalhos de recuperação (TR-1 e TR-2).
+
+RECUPERAÇÃO AO LONGO DO SEMESTRE: após as provas P1 e P2, o aluno que obtiver nota menor ou igual a 6,0 poderá recuperar a nota desta prova resolvendo o respectivo trabalho proposto (TR-1, TR-2), cujo conteúdo será divulgado juntamente com a nota da respectiva prova. Cada trabalho poderá atingir a, no máximo, 2,0 pontos e a soma de prova e trabalho não poderá ultrapassar a 6,0 pontos.
+
+
+Alunos que obtiverem Nota 1 maior ou igual a 6,0 e tiverem frequência maior ou igual a 75% estão aprovados. Aqueles que obtiverem Nota 1 maior ou igual 5,0 e menor que 6,0 e tiverem frequência maior ou igual a 75% poderão fazer a recuperação após o período letivo.
+
+RECUPERAÇÃO APÓS O PERÍODO LETIVO: Prova na segunda semana de aula do semestre seguinte com todo o conteúdo do curso. Esta nota será denominada ?Nota 2? e irá compor a média final do aluno.
+
+MÉDIA FINAL= (Nota 1 + Nota 2)/2.
+
+Terão direito a esta nova chance os alunos que obtiverem média entre 5,0 e 6,0 e frequência igual ou superior a 75%. ',
+'Para que o curso seja ministrado serão necessários lousa, giz, computador e projetor multi-mídia.',
+'BEER, F.P.; JOHNSTON, E.R. Mecânica Vetorial para Engenheiros. Estática e Dinâmica. Makron Books; McGraw Hill. 5ª edição . Texto básico.
+HIBBELER,R.C. Engenharia Mecânica ? Estática. LTC ? Livros Técnicos e Científicos Editora AS. Rio de Janeiro, 8ª edição, 1999.
+SINGER, F.L. Mecânica para Engenheiros. Estática e Dinâmica. Harper e Row do Brasil.
+MERIAN, J.L. Estática e Dinâmica. CTC. Rio de Janeiro
+HIBBELER, R.C. Estática: mecânica para engenharia,volume 1. Pearson Education. São Paulo. 2005.',
+'',
+'1. DESENVOLVER, NO ESTUDANTE DE ENGENHARIA, A CAPACIDADE DE ANALISAR PROBLEMAS DE MANEIRA SIMPLES E LÓGICA, APLICANDO PARA ISSO POUCOS PRINCÍPIOS BÁSICOS2. MOSTRAR QUE OS CONCEITOS ESTUDADOS SE APLICAM AOS PONTOS MATERIAIS, AOS CORPOS RÍGIDOS ISOLADOS E AOS SISTEMAS DE CORPOS RÍGIDOS, DEIXANDO CLARA A DIFERENÇA ENTRE FORÇAS INTERNAS E FORÇAS EXTERNAS3. LEVAR O ALUNO A COMPREENDER O FUNCIONAMENTO DE ESTRUTURAS ISOSTÁTICAS SIMPLES, MOSTRAR SUA IMPORTÂNCIA PARA A FUTURA COMPREENSÃO DE SITUAÇÕES MAIS COMPLEXAS QUE SERÃO VISTAS EM OUTRAS DISCIPLINAS4. MOSTRAR QUE OS CONCEITOS DE ÁLGEBRA VETORIAL PODEM SER UTILIZADOS PARA RESOLVER MUITOS PROBLEMAS, PRINCIPALMENTE OS TRIDIMENSIONAIS, ONDE SUA APLICAÇÃO RESULTA EM SOLUÇÃO MAIS SIMPLES E CLARA5. MOSTRAR QUE MUITOS DOS PRINCÍPIOS E CONCEITOS SE APLICAM TAMBÉM A CORPOS E SISTEMAS DE CORPOS EM MOVIMENTO.',
+'Os objetivos específicos são: 1.) discutir os conceitos de equilíbrio para ponto material e corpo rígido;
+2.) analisar problemas de equilíbrio de pontos materiais e de corpos rígidos no plano bidimensional e no espaço tridimensional;
+3.) caracterizar os tipos de vínculos de uma estrutura e o seu grau de deslocabilidade;
+4.) avaliar os esforços internos e externos atuantes em estruturas de barras como as treliças;
+5.) calcular a localização do centro de gravidade e do centro de massa de linhas, áreas e volumes;
+6.) calcular o momento de inércia de áreas compostas e entender seu significado físico;
+7.) Analisar problemas de equilíbrio envolvendo forças de atrito.',
+'As estratégias de ensino consistem na apresentação e discussão dos tópicos em aulas expositivas, com resolução de exercícios, material de apoio (teoria e exercícios) on line no ambiente virtual moodle. Estratégias específicas associadas a cada tópico serão indicadas na sequência.
+I.Princípios e Conceitos Fundamentais: discutir a importância da disciplina e sua relação com as demais.
+II.Equilíbrio de ponto material: relacionar com fenômenos da natureza.
+III. Momento de forças em Relação a Ponto e Eixo: apresentar a teoria com resolução de exemplos.
+IV. Sistemas de Forças Equivalentes Resultantes: mostrar sua importância na resolução e simplificação de problemas.
+V. Equilíbrio dos Corpos Rígidos: apresentar sua importância na análise de estruturas e como identificar os tipos de restrição de movimento impostas por cada vínculo.
+VI. Introdução à Análise de Estruturas com forças aplicadas somente nos nós (treliças) e forças aplicadas também fora dos nós (estruturas compostas): discutir a importância das estruturas na Engenharia Civil e apresentar metodologias para determinar reações nos vínculos e forças em barras.
+VII. Treliças: apresentar os princípios do equilíbrio na solução de estruturas simples.
+VIII. Estrutura com Elementos Sujeitos a Várias Forças: aplicar as condições de equilíbrio e aprofundar os conceitos de ação e reação.
+IX. Atrito: mostrar que o fenômeno pode ser entendido com conceitos de equilíbrio.
+X. Centros de Gravidade, de massa e centroides: apresentar sua importância em assuntos futuros e mostrar como determinar cada uma destas propriedades.
+XI. Momentos de Inércia: mostrar exemplos de aplicação e importância em futuras disciplinas.',
+'As atividades destinadas aos alunos consistem, basicamente:
+1) na leitura e estudo da bibliografia recomendada;
+2) no estudo e resolução dos exercícios propostos;
+3) na utilização de material e atividades on line;
+4) no entendimento dos conceitos e de sua importância;
+5) na observação de estruturas existentes e visualização do fenômeno em estudo.',
+'',
+'',
+'2016-09-13',
+1,
+'I. Princípios e Conceitos Fundamentais
+II. Equilíbrio de Ponto Material
+III. Momento de forças em Relação a Ponto e Eixo
+IV. Sistemas de forças equivalentes
+V. Equilíbrio de Corpos Rígidos
+VI. Introdução à Análise de Estruturas Isostáticas
+VII. Treliças: Métodos dos Nós e das Seções
+VIII. Estrutura com Elementos Sujeitos a Várias
+IX. Centroides e forças distribuídas
+X. Momentos de Inércia
+XI. Atrito ',
+0,
+'60/0/0/0/0/0/0',
+'120022 - B - MECANICA APLICADA A ENGENHARIA',
+'Legolas Silva',
+'- PRINCÍPIOS E CONCEITOS FUNDAMENTAIS- ESTÁTICA DAS PARTÍCULAS E DOS CORPOS RÍGIDOS- SISTEMAS DE FORÇAS EQUIVALENTES- INTRODUÇÃO À ANÁLISE DE ESTRUTURAS ISOSTÁTICAS- CENTROS DE GRAVIDADE, CENTRÓIDES, MOMENTOS DE INÉRCIA- CINEMÁTICA DOS CORPOS RÍGIDOS- MOVIMENTO PLANO DOS CORPOS RÍGIDOS- VIBRAÇÕES MECÂNICAS',
+'Física Cálculo',
+11104385910,
+5
+);
 
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
