@@ -348,6 +348,36 @@ AS
          tbl_estudante AS e
   WHERE  a.ra_ativ = e.ra;
 
+-- PROCEDURE
+--
+-- Feito por: Rodrgio Teixeira (414387)
+--
+-- Adiciona uma atividade complementar no currículo de um determinado aluno
+-- acrescendo o id em 1 e atualizando os créditos do mesmo aluno
+
+DROP PROCEDURE IF EXISTS pr_add_ativ_complementar;
+DELIMITER $$
+CREATE PROCEDURE pr_add_ativ_complementar(ra INT, tipo VARCHAR(50), carga INT, descricao VARCHAR(100), disciplina VARCHAR(20))
+BEGIN
+	DECLARE id INT;
+
+	SELECT MAX(tbl_atividade_complementar.id)
+	INTO id
+	FROM tbl_atividade_complementar
+	WHERE tbl_atividade_complementar.ra_ativ = ra;
+
+	IF ISNULL(id) THEN
+		SET id = 0;
+	END IF;
+
+	INSERT INTO tbl_atividade_complementar(tipo, descricao, carga_horaria, id, ra_ativ, codigo_disciplina) VALUES
+	(tipo, descricao, carga, id+1, ra, disciplina);
+
+	CALL pr_atualizar_creditos(ra);
+
+END$$
+DELIMITER ;
+
 INSERT INTO tbl_atividade_complementar(tipo, descricao, carga_horaria, id, ra_ativ) VALUES
 ("Empresa Júnior", "Empresa ambientada no contexto universitário", 60, 1, 524896),
 ("Atlética", "Organização que visa eventos de integração entre os alunos", 40, 1, 425169),
