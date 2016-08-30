@@ -148,6 +148,17 @@ CREATE TABLE tbl_reuniao
      CONSTRAINT reuniao_pk PRIMARY KEY (numero)
   );
 
+INSERT INTO tbl_reuniao(numero, data) VALUES
+(1, '2016-02-12'),
+(2, '2016-02-15'),
+(3, '2016-02-23'),
+(4, '2016-05-06'),
+(5, '2016-05-22'),
+(6, '2016-06-11'),
+(7, '2016-06-17'),
+(8, '2016-06-25'),
+(9, '2016-07-08');
+
 
 -- ----------------------------------------------------------------------------
 -- Ata
@@ -818,7 +829,7 @@ delimiter ;
 -- Feito por: Pedro Barbosa (407895)
 --
 --	 A partir do RA, contabiliza e atualiza os creditos obrigatórios e optativos
--- completados pelo aluno em tbl_matricula. 
+-- completados pelo aluno em tbl_matricula.
 
 DROP PROCEDURE IF EXISTS pr_atualizar_creditos;
 delimiter $$
@@ -865,7 +876,7 @@ BEGIN
 	-- CRÉDITOS OBRIGATÓRIOS
 
 	OPEN cursor1;
-	
+
 	loopLoko: LOOP
 		FETCH cursor1 INTO codigo, acumulador;
 		IF done THEN
@@ -874,7 +885,7 @@ BEGIN
 		SET obrigatorios = obrigatorios + acumulador;
 
 	END LOOP loopLoko;
-	
+
 	UPDATE tbl_matricula
     		SET tbl_matricula.creditos_obrigatorios = obrigatorios
    		WHERE tbl_matricula.ra = ra;
@@ -886,7 +897,7 @@ BEGIN
 	SET done = FALSE;
 
 	OPEN cursor2;
-	
+
 	loopLoko2: LOOP
 		FETCH cursor2 INTO codigo, acumulador;
 		IF done THEN
@@ -895,7 +906,7 @@ BEGIN
 		SET optativos = optativos + acumulador;
 
 	END LOOP loopLoko2;
-	
+
 	UPDATE tbl_matricula
     		SET tbl_matricula.creditos_optativos = optativos
    		WHERE tbl_matricula.ra = ra;
@@ -907,7 +918,7 @@ BEGIN
 	SET done = FALSE;
 
 	OPEN cursor3;
-	
+
 	loopLoko3: LOOP
 		FETCH cursor3 INTO codigo, acumulador;
 		IF done THEN
@@ -916,7 +927,7 @@ BEGIN
 		SET complementares = complementares + acumulador/15;
 
 	END LOOP loopLoko3;
-	
+
 	UPDATE tbl_matricula
     		SET tbl_matricula.creditos_complementares = complementares
    		WHERE tbl_matricula.ra = ra;
@@ -1030,12 +1041,12 @@ INSERT INTO tbl_predio
 VALUES ('AT-4','', 'http://www2.ufscar.br/vidaacademica/img_cienciaexata.jpg', '','',67,91);
 INSERT INTO tbl_predio
 VALUES ('AT-5','', '', '','',96,116);
-INSERT INTO tbl_predio 
+INSERT INTO tbl_predio
 VALUES ('AT-7','', 'http://www2.ufscar.br/vidaacademica/img_cienciaexata.jpg', '','',160,176);
 
 -- views_tbl_predio
 DROP VIEW IF EXISTS ats_intervalosala;
-CREATE VIEW ats_intervalosala AS 
+CREATE VIEW ats_intervalosala AS
 SELECT sigla, primeira_sala, ultima_sala FROM tbl_predio;
 
 
@@ -1316,7 +1327,6 @@ INSERT INTO tbl_proposta_int(ano, semestre, data_submissao) VALUES
 (2017, 2, '2017-12-15'),
 (2018, 1, '2018-07-30');
 -- ----------------------------------------------------------------------------
--- [REVISAR] Código Turma
 -- Criado por: André Rocha (4A)
 
 DROP TABLE IF EXISTS tbl_codigo_turma;
@@ -1331,6 +1341,58 @@ CREATE TABLE tbl_codigo_turma (
 );
 
 -- ----------------------------------------------------------------------------
+INSERT INTO tbl_codigo_turma (semestre, ano, codigoturma, codigodisciplina,id)
+VALUES
+-- primeiro semestre 2016
+
+(1, 2016, 'A', '02.522-4',1),
+(1, 2016, 'B', '02.522-4',2),
+(1, 2016, 'C', '02.522-4',3),
+(1, 2016, 'A', '02.521-6',4),
+(1, 2016, 'A', '02.507-0',5),
+(1, 2016, 'B', '02.507-0',6),
+(1, 2016, 'C', '02.507-0',7),
+(1, 2016, 'A', '02.502-0',8),
+(1, 2016, 'A', '02.034-6',9),
+(1, 2016, 'A', '08.910-9',10),
+(1, 2016, 'B', '08.910-9',11),
+(1, 2016, 'C', '08.910-9',12),
+(1, 2016, 'D', '08.910-9',13),
+(1, 2016, 'E', '08.910-9',14),
+(1, 2016, 'F', '08.910-9',15),
+(1, 2016, 'G', '08.910-9',16),
+(1, 2016, 'H', '08.910-9',17),
+(1, 2016, 'I', '08.910-9',18),
+(1, 2016, 'J', '08.910-9',19),
+(1, 2016, 'K', '08.910-9',20),
+(1, 2016, 'L', '08.910-9',21),
+(1, 2016, 'M', '08.910-9',22),
+(1, 2016, 'N', '08.910-9',23),
+(1, 2016, 'O', '08.910-9',24),
+(1, 2016, 'Z', '08.910-9',25),
+(1, 2016, 'A', '100.054-0', 26);
+
+-- segundo semestre 2016
+INSERT INTO tbl_codigo_turma (semestre, ano, codigoturma, codigodisciplina,id)
+VALUES
+(2, 2016, 'A', '08.910-9', 27),
+(2, 2016, 'B', '08.910-9', 28),
+(2, 2016, 'C', '08.910-9', 29),
+(2, 2016, 'D', '08.910-9', 30),
+(2, 2016, 'E', '08.910-9', 31),
+(2, 2016, 'F', '08.910-9', 32),
+(2, 2016, 'G', '08.910-9', 33),
+(2, 2016, 'H', '08.910-9', 34),
+(2, 2016, 'I', '08.910-9', 35),
+(2, 2016, 'J', '08.910-9', 36),
+(2, 2016, 'K', '08.910-9', 37),
+(2, 2016, 'L', '08.910-9', 38),
+(2, 2016, 'M', '08.910-9', 39),
+(2, 2016, 'N', '08.910-9', 40),
+(2, 2016, 'O', '08.910-9', 41),
+(2, 2016, 'Z', '08.910-9', 42),
+(2, 2016, 'A', '06.201-4', 43);
+
 -- [REVISAR] Plano de Ensino
 -- Criado por: André Rocha (4A)
 
@@ -1363,6 +1425,13 @@ CREATE TABLE tbl_plano_de_ensino (
 );
 
 -- ----------------------------------------------------------------------------
+
+INSERT INTO tbl_plano_de_ensino ()
+VALUES
+(2, 2016, 'A', '08.910-9', 27),
+(2, 2016, 'B', '08.910-9', 28);
+
+-- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------
@@ -1384,8 +1453,8 @@ AS
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
 DROP VIEW IF EXISTS view_visualiza_recursos_cada_sala_cada_predio;
-CREATE VIEW view_visualiza_recursos_cada_sala_cada_predio AS 
-SELECT P.sigla, S.numero, S.recursos FROM tbl_sala AS S 
+CREATE VIEW view_visualiza_recursos_cada_sala_cada_predio AS
+SELECT P.sigla, S.numero, S.recursos FROM tbl_sala AS S
 	INNER JOIN tbl_predio AS P ON P.sigla = S.predio ;
 
 -- Procedure para predio
@@ -1393,12 +1462,12 @@ DROP PROCEDURE IF EXISTS proc_salas_por_predio;
 delimiter $$
 	CREATE PROCEDURE proc_salas_por_predio
 	(
-		IN siglaPredio VARCHAR(5) 
+		IN siglaPredio VARCHAR(5)
 
 	)
-	BEGIN      
-		SELECT predio, numero 
-			FROM tbl_sala AS S 
+	BEGIN
+		SELECT predio, numero
+			FROM tbl_sala AS S
 				INNER JOIN tbl_predio AS P ON P.sigla = S.predio
 				WHERE P.sigla = siglaPredio;
 
@@ -1432,8 +1501,8 @@ delimiter ;
 DROP TRIGGER IF EXISTS t_before_insert_sala_intervaloErrado ;
 delimiter $$
 CREATE TRIGGER t_before_insert_sala_intervaloErrado
-	BEFORE INSERT 
-	ON tbl_sala	
+	BEFORE INSERT
+	ON tbl_sala
 	FOR EACH ROW
 	BEGIN
 		DECLARE intervaloInicio INT(3);
@@ -1448,7 +1517,7 @@ CREATE TRIGGER t_before_insert_sala_intervaloErrado
 			signal sqlstate '45000' set message_text = "Numero de sala fora do intervalo do AT" ;
 		ELSEIF NEW.numero > intervaloFim THEN
 			signal sqlstate '45000' set message_text = "Numero de sala fora do intervalo M do AT" ;
-		END IF;	
+		END IF;
 
 	END$$
 
