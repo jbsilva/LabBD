@@ -1428,6 +1428,20 @@ BEGIN
 END //
 delimiter ;
 
+DROP TRIGGER IF EXISTS t_before_insert_atividade ;
+delimiter //
+CREATE TRIGGER t_before_insert_atividade
+	BEFORE INSERT 
+	ON tbl_atividade	
+	FOR EACH ROW
+	BEGIN
+		IF NEW.dataInicio > NEW.dataTermino THEN
+			signal sqlstate '45000' set message_text = "Data de inicio inválida" ;
+		END IF;	
+	END //
+
+delimiter ;
+
 -- ----------------------------------------------------------------------------
 -- Proposta Intermediária
 -- Criado por: Vinicius Carvalho (6A)
