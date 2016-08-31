@@ -2026,6 +2026,27 @@ INSERT INTO tbl_revisa (parecer, aceitacao, docente_revisa, docente_elabora, cod
 ('Plano de elaborado de acordo com os padrões estabelecidos, avaliado pelo Docente Legolas Silva', 'Aceitação Integral', 11104385910,40078919665,4),
 ('', 'Aceitação Integral',40078919665,11104385910,1);
 
+CREATE OR REPLACE VIEW view_revisa
+AS
+  SELECT DISTINCT
+    p.prenome AS nome_docente,
+    p.sobrenome AS sobrenome_docente,
+    p.pessoa_id AS id_docente,
+    r.aceitacao AS status,
+    r.parecer,
+    ct.codigodisciplina,
+    ct.codigoturma,
+    r.data_hora,
+    pe.prenome AS nome_revisor,
+    pe.sobrenome AS sobrenome_revisor,
+    pe.pessoa_id AS id_revisor
+  FROM
+  tbl_pessoa AS p, tbl_revisa AS r, tbl_docente AS d, tbl_codigo_turma AS ct, tbl_pessoa AS pe
+  WHERE
+  r.docente_elabora = p.pessoa_id
+  AND r.codigoTurma = ct.id
+  AND r.docente_revisa = pe.pessoa_id;
+
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
 
