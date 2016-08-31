@@ -1461,13 +1461,13 @@ delimiter ;
 DROP TRIGGER IF EXISTS t_before_insert_atividade ;
 delimiter //
 CREATE TRIGGER t_before_insert_atividade
-	BEFORE INSERT 
-	ON tbl_atividade	
+	BEFORE INSERT
+	ON tbl_atividade
 	FOR EACH ROW
 	BEGIN
 		IF NEW.dataInicio > NEW.dataTermino THEN
 			signal sqlstate '45000' set message_text = "Data de inicio inválida" ;
-		END IF;	
+		END IF;
 	END //
 
 delimiter ;
@@ -1557,7 +1557,7 @@ CREATE TABLE tbl_codigo_turma (
     codigodisciplina VARCHAR(20) NOT NULL,
     semestre INT(11) NOT NULL,
     ano INT(11) NOT NULL,
-    CONSTRAINT codigoTurma_fk_1 FOREIGN KEY (codigodisciplina , codigoturma , semestre , ano) REFERENCES tbl_turma (codigodisciplina , codigoturma , semestre , ano),
+    CONSTRAINT codigoTurma_fk FOREIGN KEY (codigodisciplina , codigoturma , semestre , ano) REFERENCES tbl_turma (codigodisciplina , codigoturma , semestre , ano),
     CONSTRAINT codigoTurma_pk PRIMARY KEY (id)
 );
 
@@ -1640,8 +1640,8 @@ CREATE TABLE tbl_plano_de_ensino (
     requisitos VARCHAR(100),
     idDocente VARCHAR(15) NOT NULL,
     codigoTurma CHAR(5) NOT NULL,
-    CONSTRAINT idDocente_fk FOREIGN KEY (idDocente) REFERENCES tbl_docente (pessoa),
-    CONSTRAINT codigoTurma_fk_2 FOREIGN KEY (codigoTurma) REFERENCES tbl_codigo_turma (id),
+    CONSTRAINT planoEnsino_fk_docente FOREIGN KEY (idDocente) REFERENCES tbl_docente (pessoa),
+    CONSTRAINT planoEnsino_fk_codigoTurma FOREIGN KEY (codigoTurma) REFERENCES tbl_codigo_turma (id),
     CONSTRAINT planoEnsino_pk PRIMARY KEY (idDocente , codigoTurma)
 );
 
@@ -2001,6 +2001,30 @@ XI. Atrito ',
 11104385910,
 5
 );
+
+-- Revisa
+-- Criado por: André Rocha (4A)
+
+DROP TABLE IF EXISTS  tbl_revisa;
+CREATE TABLE tbl_revisa (
+    parecer TEXT,
+    aceitacao VARCHAR(20) NOT NULL,
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    docente_revisa VARCHAR(15) NOT NULL,
+    docente_elabora VARCHAR(15) NOT NULL,
+    codigoTurma CHAR(5) NOT NULL,
+    CONSTRAINT revisa_fk_docente FOREIGN KEY (docente_revisa) REFERENCES tbl_docente (pessoa),
+    CONSTRAINT revisa_fk_planoEnsino FOREIGN KEY (docente_elabora,codigoTurma) REFERENCES tbl_plano_de_ensino (idDocente,codigoTurma),
+    CONSTRAINT revisa_pk PRIMARY KEY (docente_revisa, codigoTurma, docente_elabora)
+);
+
+INSERT INTO tbl_revisa (parecer, aceitacao, docente_revisa, docente_elabora, codigoTurma) VALUES
+
+('', 'Aceitação Integral',40078919665,11104385910,5),
+('', 'Aceitação Parcial' ,24174616256,40078919665,3),
+('Plano de elaborado de acordo com os padrões estabelecidos, avaliado pelo Docente Legolas Silva', 'Aceitação Integral', 11104385910,24174616256,2),
+('Plano de elaborado de acordo com os padrões estabelecidos, avaliado pelo Docente Legolas Silva', 'Aceitação Integral', 11104385910,40078919665,4),
+('', 'Aceitação Integral',40078919665,11104385910,1);
 
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
