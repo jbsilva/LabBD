@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS tbl_pessoa;
 CREATE TABLE IF NOT EXISTS tbl_pessoa
   (
      pessoa_id    VARCHAR(15) NOT NULL,
+     tipo_doc     VARCHAR(15) NOT NULL,
+     rg_pessoa    VARCHAR(9),
      prenome      VARCHAR(50),
      sobrenome    VARCHAR(50),
      raca         VARCHAR(50),
@@ -24,6 +26,61 @@ CREATE TABLE IF NOT EXISTS tbl_pessoa
      mae_filiacao VARCHAR(30),
      PRIMARY KEY (pessoa_id)
   );
+
+-- VIEW TBL_PESSOA, MOSTRA ALGUMAS INFORMACOES SOBRE CADA PESSOA
+DROP VIEW IF EXISTS v_pessoa;
+CREATE VIEW v_pessoa AS
+SELECT pessoa_ID, tipo_doc, prenome, sobrenome, pais_nasc
+FROM tbl_pessoa;
+
+
+-- PROCEDURE TBL_PESSOA EXIBE INFO SOBRE PESSOA A PARTIR DO PESSOA_ID
+DROP PROCEDURE IF EXISTS exibe_pessoa_info;
+delimiter //
+CREATE PROCEDURE exibe_pessoa_info(
+IN pessoa_i VARCHAR(15))
+BEGIN
+	SELECT tipo_doc, prenome, sobrenome FROM tbl_pessoa WHERE pessoa_i = pessoa_id;
+END //
+delimiter ;
+
+-- TRIGER
+-- Trigger para tbl_pessoa, nao permite o update de data de nascimento
+
+DROP TRIGGER IF EXISTS t_before_update_pessoa_nascimento ;
+delimiter $$
+CREATE TRIGGER t_before_update_pessoa_nascimento
+	BEFORE UPDATE 
+	ON tbl_pessoa	
+	FOR EACH ROW
+	BEGIN
+
+		IF NEW.data_nasc <> OLD.data_nasc THEN
+			signal sqlstate '45000' set message_text = "Voce nao pode alterar a data de nascimento" ;
+		
+		END IF;	
+
+	END$$
+
+delimiter ;
+
+-- funcao que retorna o nome de uma pessoa, dado seu documento
+-- FUNCTION
+DROP function IF EXISTS fn_nome_pessoaid;
+delimiter $$
+CREATE function fn_nome_pessoaid(pessoaid VARCHAR(15))
+returns VARCHAR(50)
+begin
+  DECLARE nome VARCHAR(50);
+
+  SELECT prenome
+  INTO   nome
+  FROM   tbl_pessoa
+  WHERE  pessoaid = pessoa_id;
+
+  RETURN nome;
+end$$
+delimiter ;
 
 
 DROP TABLE IF EXISTS tbl_email;
@@ -57,23 +114,23 @@ CREATE TABLE IF NOT EXISTS tbl_endereco
   );
 
 
-INSERT INTO tbl_pessoa (pessoa_id, prenome, sobrenome, raca, sexo, cidade_nasc, pais_nasc, UF_nasc, data_nasc, pai_filiacao, mae_filiacao)
+INSERT INTO tbl_pessoa (pessoa_id, tipo_doc, rg_pessoa, prenome, sobrenome, raca, sexo, cidade_nasc, pais_nasc, UF_nasc, data_nasc, pai_filiacao, mae_filiacao)
 VALUES
 
 -- Docentes
-('24174616256', 'José', 'Silva', 'Branca', 'Masculino', 'São Carlos', 'Brasil', 'SP', '1990-12-31', 'João Silva', 'Maria Machado'),
-('40078919665', 'Raimundo', 'Carvalho', 'Branca', 'Masculino', 'Pirapora do Bom Jesus', 'Brasil', 'SP', '1989-09-24', 'Joselyto Carvalho', 'Maria Castelo'),
-('72003800670', 'Alice', 'Moreira', 'Branca', 'Feminino', 'São Paulo', 'Brasil', 'SP', '1992-01-23', 'Fernando Moreira', 'Ana Santos'),
-('72799547230', 'Roberta', 'Schmitt', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('11104385910', 'Legolas', 'Silva', 'Elfo', 'Masculino', 'Terra Média', 'Brasil', 'AC', '1991-02-28', 'Sívio Silva', 'Sílva Silva'),
+('24174616256', 'CPF', '890321829', 'José', 'Silva', 'Branca', 'Masculino', 'São Carlos', 'Brasil', 'SP', '1990-12-31', 'João Silva', 'Maria Machado'),
+('40078919665', 'CPF', '820321829', 'Raimundo', 'Carvalho', 'Branca', 'Masculino', 'Pirapora do Bom Jesus', 'Brasil', 'SP', '1989-09-24', 'Joselyto Carvalho', 'Maria Castelo'),
+('72003800670', 'CPF', '890331829', 'Alice', 'Moreira', 'Branca', 'Feminino', 'São Paulo', 'Brasil', 'SP', '1992-01-23', 'Fernando Moreira', 'Ana Santos'),
+('72799547230', 'CPF', '890321829', 'Roberta', 'Schmitt', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('11104385910', 'CPF', '894221829', 'Legolas', 'Silva', 'Elfo', 'Masculino', 'Terra Média', 'Brasil', 'AC', '1991-02-28', 'Sívio Silva', 'Sílva Silva'),
 
 -- Estudantes
-('90778718530', 'Alice', 'Alves', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('99982994204', 'Bob', 'Braga', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('02835384308', 'Carol', 'Cardoso', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('91994871601', 'Dave', 'Dias', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('77426047792', 'Eve', 'Esteves', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('54523707227', 'Frank', 'Fernandes', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira');
+('90778718530', 'CPF', '890441829', 'Alice', 'Alves', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('99982994204', 'CPF', '890551829', 'Bob', 'Braga', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('02835384308', 'CPF', '890661829', 'Carol', 'Cardoso', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('91994871601', 'CPF', '890771829', 'Dave', 'Dias', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('77426047792', 'CPF', '890881829', 'Eve', 'Esteves', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('54523707227', 'CPF', '550321829', 'Frank', 'Fernandes', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira');
 
 
 -- ----------------------------------------------------------------------------
@@ -86,11 +143,11 @@ CREATE TABLE tbl_docente
   (
      pessoa          VARCHAR(15) NOT NULL,
      titularidade    VARCHAR(50),
-     alivio_integral VARCHAR(50),
-     alivio_parcial  VARCHAR(50),
+     alivio          VARCHAR(30),
      CONSTRAINT pk_docente PRIMARY KEY (pessoa),
      CONSTRAINT docente_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
   );
+
 
 
 DROP TABLE IF EXISTS tbl_carga_horaria;
@@ -106,13 +163,82 @@ CREATE TABLE tbl_carga_horaria
      CONSTRAINT carga_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
   );
 
+-- TABELA LICENCA
+DROP TABLE IF EXISTS tbl_licenca;
+CREATE TABLE IF NOT EXISTS tbl_licenca
+  (
+     pessoa_id    VARCHAR(15) NOT NULL,
+     tipo         VARCHAR(40),
+     documento    VARCHAR(15),
+     data_inicio  DATE,
+     data_final   DATE,
+     CONSTRAINT pk_licenca PRIMARY KEY (pessoa_id,data_inicio,data_final),
+     CONSTRAINT licenca_fk FOREIGN KEY (pessoa_id) REFERENCES tbl_pessoa(pessoa_id)
 
-INSERT INTO tbl_docente (pessoa, titularidade, alivio_integral) VALUES
+  );
+
+
+INSERT INTO tbl_docente (pessoa, titularidade, alivio) VALUES
 ('24174616256', 'titular', 'alivio integral'),
 ('40078919665', 'titular', 'alivio integral'),
-('72003800670', 'titular', 'alivio integral'),
+('72003800670', 'titular', 'alivio parcial'),
 ('72799547230', 'titular', 'alivio integral'),
-('11104385910', 'titular', 'alivio integral');
+('11104385910', 'titular', 'alivio parcial');
+
+-- POPULANDO EMAIL
+INSERT INTO tbl_email (pessoa,email) VALUES
+-- Docente
+('24174616256','professorMat@usp.br'),
+('40078919665','raimundo@ufscar.br'),
+('72003800670', 'alice@dc.ufscar.br'),
+('72799547230','Robertask8@hotmail.com'),
+('11104385910','LegolasLOTR@gmail.com'),
+-- Estudante
+('90778718530','AliceMaravilha@ufscar.br'),
+('99982994204','Esponja@dc.ufscar.br'),
+('02835384308','Carol@dc.ufscar.br'),
+('91994871601','Dave@dc.ufscar.br'),
+('77426047792','vaporeon@ufscar.br'),
+('54523707227','Frankson@usp.br');
+
+
+-- POPULANDO ENDERECO
+INSERT INTO tbl_endereco (pessoa,cep_end, pais_end, uf_end, cidade_end, bairro_end, complemento_end, rua_end, ddd_end_tel, prefixo_end_tel, numero_end_tel, ramal_end_tel, tipo_end) VALUES
+-- Docente
+('24174616256', '14782000','Brasil','SP','Sao carlos','Cidade Jardim','perto do carrefour','rua margaridas 510','16','21','32428000','2','casa'),
+('40078919665', '14782000','Brasil','SP','Sao carlos','Cidade Jardim','academia pares','rua margaridas 222','16','21','32228000','2','apartamento 15'),
+('72003800670', '14122000','Brasil','SP','Araraquara','Jose xavier','lanchonete bom lanche','rua 15 de novembro 345','16','21','31228000','2','casa'),
+('72799547230', '11122000','Brasil','SP','Araraquara','Santo agostinho','academia max gym','rua das margaridas 456','16','21','35528000','2','casa'),
+('11104385910', '32142000','Brasil','SP','Ibate','Sao diego','restaurante ya san','rua dos canarios 600','16','21','35528000','2','apartamento 34'),
+-- Estudante
+('99982994204','89782000','Brasil','SP','Jaboticabal','Itapua','proximo a borracharia','rua mascarenhas 510','17','15','87428870','1','casa'),
+('90778718530','8965000','Brasil','SP','Jaboticabal','araras','proximo ao santander','rua cajuzeiros 810','17','15','87498770','1','casa'),
+('02835384308','8879600','Brasil','SP','Jaboticabal','marechal deodoro','proximo ao santander','rua pitangas 110','17','15','87467770','1','casa'),
+('91994871601','8855600','Brasil','SP','Campinas','santa tereza','proximo a unicamp','rua dos bandeirantes 170','19','15','87400770','1','casa'),
+('77426047792','9755600','Brasil','SP','Campinas','santa monica','proximo ao pinguin','rua dos coroneis 980','19','15','87497860','1','casa'),
+('54523707227','9759900','Brasil','SP','Campinas','santa monica','proximo ao shopping','rua dos mulatos 116','19','15','87456860','1','casa');
+
+
+DROP TABLE IF EXISTS tbl_carga_horaria;
+CREATE TABLE tbl_carga_horaria
+  (
+     pessoa           VARCHAR(15) NOT NULL,
+     semestre_inicio  DATE,
+     semestre_termino DATE,
+     ano_inicio       VARCHAR(8),
+     ano_termino      VARCHAR(8),
+     horas_aula       INT,
+     CONSTRAINT pk_carga PRIMARY KEY (pessoa, semestre_inicio,ano_inicio),
+     CONSTRAINT carga_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
+  );
+
+INSERT INTO tbl_carga_horaria (pessoa,semestre_inicio,semestre_termino,ano_inicio,ano_termino,horas_aula) VALUES
+-- Docente
+('24174616256','2016-02-10','2016-07-01','2016','2016',60),
+('40078919665','2014-02-13','2016-02-01','2014','2016',240),
+('72003800670','2015-06-10','2015-11-01','2015','2015',80),
+('72799547230','2016-02-10','2016-07-01','2016','2016',60),
+('11104385910','2015-02-10','2015-07-01','2015','2015',60);
 
 
 -- ----------------------------------------------------------------------------
@@ -734,10 +860,10 @@ INSERT INTO tbl_estagio (pais_atuacao, termo_compromisso, carta_avaliacao, super
 ('FIN', 'Texto do termo de compromisso da Nokia', 'Carta de avaliação do 123456', 'Rich Green', 'Nokia',            '0', '2014-12-31', '2014-07-01', '123456', '24174616256'),
 ('USA', 'Texto do termo de compromisso da IBM', 'Carta de avaliação do 123456', 'Mark Dean', 'IBM',                 '0', '2015-03-31', '2015-01-01', '123456', '11104385910'),
 ('KOR', 'Texto do termo de compromisso da Samsung', 'Carta de avaliação do 123456', 'Omar Khan', 'Samsung',         '0', '2016-06-30', '2016-01-01', '123456', '24174616256'),
-('BRA', 'Texto do termo de compromisso da EMBRAER', 'Carta de avaliação do 334578', 'Mauro Kern', 'Embraer',        '1', '2016-06-30', '2016-01-01', '334578', '24174616256'),
+('BRA', 'Texto do termo de compromisso da EMBRAER', 'Carta de avaliação do 334578', 'Mauro Kern', 'Embraer',        '1', '2016-12-30', '2016-01-01', '334578', '24174616256'),
 ('SWE', 'Texto do termo de compromisso da Ericsson', 'Carta de avaliação do 654321', 'Håkan Eriksson', 'Ericsson',  '0', '2014-12-31', '2014-07-01', '654321', '72003800670'),
 ('BRA', 'Texto do termo de compromisso da Microsoft', 'Carta de avaliação do 654321', 'Dave Campbell', 'Microsoft', '0', '2015-12-31', '2015-07-01', '654321', '72003800670'),
-('BRA', 'Texto do termo de compromisso da EMBRAER', 'Carta de avaliação do 654321', 'Mauro Kern', 'Embraer',        '1', '2016-06-30', '2016-01-01', '654321', '24174616256');
+('BRA', 'Texto do termo de compromisso da EMBRAER', 'Carta de avaliação do 654321', 'Mauro Kern', 'Embraer',        '1', '2016-12-30', '2016-01-01', '654321', '24174616256');
 
 
 -- ----------------------------------------------------------------------------
