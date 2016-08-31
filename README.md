@@ -71,10 +71,6 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 - FALTANDO: Atualmente, esta tabela não exista no nosso modelo físico. (alias, alguém simplesmente copiou a tabela Ata no lugar de Contribuição... porra, que serviço porco ein?)
 - Acredito que esta tabela seja responsabilidade do responsável pela tabela Ata e do responsável pela tabela Membro.
 
-###*FAZER & POPULAR* - Revisa
-
-- FALTANDO: Atualmente, a tabela não existe no nosso modelo físico.
-- Acredito que esta tabela seja responsabilidade do responsável pela tabela Plano de Ensino.
 
 ## Grupo 6A
 
