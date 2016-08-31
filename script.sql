@@ -734,10 +734,10 @@ INSERT INTO tbl_estagio (pais_atuacao, termo_compromisso, carta_avaliacao, super
 ('FIN', 'Texto do termo de compromisso da Nokia', 'Carta de avaliação do 123456', 'Rich Green', 'Nokia',            '0', '2014-12-31', '2014-07-01', '123456', '24174616256'),
 ('USA', 'Texto do termo de compromisso da IBM', 'Carta de avaliação do 123456', 'Mark Dean', 'IBM',                 '0', '2015-03-31', '2015-01-01', '123456', '11104385910'),
 ('KOR', 'Texto do termo de compromisso da Samsung', 'Carta de avaliação do 123456', 'Omar Khan', 'Samsung',         '0', '2016-06-30', '2016-01-01', '123456', '24174616256'),
-('BRA', 'Texto do termo de compromisso da EMBRAER', 'Carta de avaliação do 334578', 'Mauro Kern', 'Embraer',        '1', '2016-06-30', '2016-01-01', '334578', '24174616256'),
+('BRA', 'Texto do termo de compromisso da EMBRAER', 'Carta de avaliação do 334578', 'Mauro Kern', 'Embraer',        '1', '2016-12-30', '2016-01-01', '334578', '24174616256'),
 ('SWE', 'Texto do termo de compromisso da Ericsson', 'Carta de avaliação do 654321', 'Håkan Eriksson', 'Ericsson',  '0', '2014-12-31', '2014-07-01', '654321', '72003800670'),
 ('BRA', 'Texto do termo de compromisso da Microsoft', 'Carta de avaliação do 654321', 'Dave Campbell', 'Microsoft', '0', '2015-12-31', '2015-07-01', '654321', '72003800670'),
-('BRA', 'Texto do termo de compromisso da EMBRAER', 'Carta de avaliação do 654321', 'Mauro Kern', 'Embraer',        '1', '2016-06-30', '2016-01-01', '654321', '24174616256');
+('BRA', 'Texto do termo de compromisso da EMBRAER', 'Carta de avaliação do 654321', 'Mauro Kern', 'Embraer',        '1', '2016-12-30', '2016-01-01', '654321', '24174616256');
 
 
 -- ----------------------------------------------------------------------------
