@@ -1740,6 +1740,22 @@ VALUES
 (2, 2016, 'Z', '08.910-9', 42),
 (2, 2016, 'A', '06.201-4', 43);
 
+-- View que associa as disciplinas com seus respectivos nomes, horários ofertados, ano e semestre
+
+DROP VIEW IF EXISTS view_disciplinas;
+CREATE OR REPLACE VIEW view_disciplinas
+AS
+SELECT  d.nome as Nome,
+  ct.codigodisciplina as Codigo,
+  ct.codigoturma as Turma,
+      t.dia as DiasOfertados,
+      t.horario as Horarios,
+      ct.semestre as Semestre,
+      ct.ano as Ano
+FROM tbl_codigo_turma AS ct, tbl_disciplina AS d, tbl_turma AS t
+WHERE
+  ct.codigodisciplina = d.codigo;
+
 -- Plano de Ensino
 -- Criado por: André Rocha (4A)
 
