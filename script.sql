@@ -50,15 +50,15 @@ delimiter ;
 DROP TRIGGER IF EXISTS t_before_update_pessoa_nascimento ;
 delimiter $$
 CREATE TRIGGER t_before_update_pessoa_nascimento
-	BEFORE UPDATE 
-	ON tbl_pessoa	
+	BEFORE UPDATE
+	ON tbl_pessoa
 	FOR EACH ROW
 	BEGIN
 
 		IF NEW.data_nasc <> OLD.data_nasc THEN
 			signal sqlstate '45000' set message_text = "Voce nao pode alterar a data de nascimento" ;
-		
-		END IF;	
+
+		END IF;
 
 	END$$
 
@@ -2148,10 +2148,11 @@ INSERT INTO tbl_revisa (parecer, aceitacao, docente_revisa, docente_elabora, cod
 
 ('', 'Aceitação Integral',40078919665,11104385910,5),
 ('', 'Aceitação Parcial' ,24174616256,40078919665,3),
-('Plano de elaborado de acordo com os padrões estabelecidos, avaliado pelo Docente Legolas Silva', 'Aceitação Integral', 11104385910,24174616256,2),
-('Plano de elaborado de acordo com os padrões estabelecidos, avaliado pelo Docente Legolas Silva', 'Aceitação Integral', 11104385910,40078919665,4),
+('Plano de ensino elaborado de acordo com os padrões estabelecidos, avaliado pelo Docente Legolas Silva', 'Aceitação Integral', 11104385910,24174616256,2),
+('Plano de ensino elaborado de acordo com os padrões estabelecidos, avaliado pelo Docente Legolas Silva', 'Aceitação Integral', 11104385910,40078919665,4),
 ('', 'Aceitação Integral',40078919665,11104385910,1);
 
+DROP VIEW IF EXISTS view_revisa;
 CREATE OR REPLACE VIEW view_revisa
 AS
   SELECT DISTINCT
