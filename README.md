@@ -3,7 +3,7 @@
 
 ## Grupo 4A
 
-- Plano de Ensino, Reunião e Revisa (André)
+- Plano de Ensino, Reunião, Código Turma e Revisa (André)
 - Técnico Administrativo e Conselho (Limão)
 - Membro e Ata (Wellyson)
 - Contribuição e Participa (Lucas Bataglia)
