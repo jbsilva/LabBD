@@ -2128,6 +2128,15 @@ XI. Atrito ',
 5
 );
 
+-- View que mostra somente Planos de Ensino de disciplinas que estejam no programa PESCD
+
+DROP VIEW IF EXISTS view_planoEnsino;
+CREATE OR REPLACE VIEW view_planoEnsino
+AS
+  SELECT * FROM tbl_plano_de_ensino
+  WHERE tbl_plano_de_ensino.pescd != 0;
+
+
 -- Revisa
 -- Criado por: André Rocha (4A)
 
@@ -2151,6 +2160,8 @@ INSERT INTO tbl_revisa (parecer, aceitacao, docente_revisa, docente_elabora, cod
 ('Plano de ensino elaborado de acordo com os padrões estabelecidos, avaliado pelo Docente Legolas Silva', 'Aceitação Integral', 11104385910,24174616256,2),
 ('Plano de ensino elaborado de acordo com os padrões estabelecidos, avaliado pelo Docente Legolas Silva', 'Aceitação Integral', 11104385910,40078919665,4),
 ('', 'Aceitação Integral',40078919665,11104385910,1);
+
+-- View que associa todos os planos de ensino, seus status, elaboradores e revisores
 
 DROP VIEW IF EXISTS view_revisa;
 CREATE OR REPLACE VIEW view_revisa
