@@ -285,6 +285,13 @@ INSERT INTO tbl_reuniao(numero, data) VALUES
 (8, '2016-06-25'),
 (9, '2016-07-08');
 
+-- View para mostrar somente as reuniões do mês 05/2016-07
+DROP VIEW IF EXISTS view_reuniao;
+CREATE VIEW view_reuniao
+AS
+  SELECT * FROM tbl_reuniao
+  WHERE tbl_reuniao.data < '2016-06' AND tbl_reuniao.data > '2016-04';
+
 
 -- ----------------------------------------------------------------------------
 -- Ata
