@@ -74,14 +74,12 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 ## Grupo 6A
 
-###*POPULAR* - E-mail
-
 ###*FAZER* Nacional & Estrangeiro
 
 - FALTANDO: Inexistentes no modelo físico.
 - Acredito que seja responsabilidade do responsável pela tabela Pessoa.
 
-###*REVISAR & POPULAR* - Endereço
+###*REVISAR* - Endereço
 
 - No modelo físico, o discriminador está como CEP. Porém, de acordo com o modelo conceitual, o discriminador deveria ser Tipo (Local ou Origem).
 - Acredito que está faltando o atributo "número" (número da casa).
@@ -90,19 +88,19 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 - Alívio integral/parcial: básicamente, rever que porra é essa. Quem for encarregado desta tabela, por favor _verifique o requisito_ do seu grupo e verifique o que diabos é saporra aqui. Caso seja "tipo de alívio: integral ou parcial", seria só um atributo chamado "alívio" e conteria ou o valor "integral" ou "parcial".
 
-###*REVISAR & POPULAR* Carga Horária
+###*REVISAR* Carga Horária
 
 - Acho que os discriminadores deveriam ser ano inicial + semestre inicial, e não só semestre inicial. Acredito que o atributo semestre (inicial) só se refere se é 1º ou 2º semestre do ano.
-- Também notei que não há população alguma dessa tabela.
 
-###*FAZER* - Licença
+###*POPULAR* - Licença
 
-- FALTANDO: Atualmente, não existe a tabela Licença no nosso modelo físico.
+- FALTANDO: A tabela está vazia.
 - Acredito que seja responsabilidade do responsável pela tabela Docente.
 
 ###*REVER* - Sala
 
-- Repensar se o atributo "tipo" deve ser mapiado para o esquema lógico. Se sim, devemos mudar o esquema conceitual.
+- Alterar esquema conceitual.
+- Mudança sugerida para o esquema conceitual: fazer Tipo ser um atributo simples (não composto como é atualmente no esquema conceitual) e cada atributo que o compõe ser outro atributo simples também, ficando assim 4 atributos simples (Tipo, Recursos, Caracteristicas, Capacidade de Alunos)
 
 
 ###*FAZER* Contém
