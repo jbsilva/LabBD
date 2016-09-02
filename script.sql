@@ -555,7 +555,14 @@ CREATE TABLE IF NOT EXISTS tbl_calendario (
     CONSTRAINT pk_calendario PRIMARY KEY (ano , semestre)
 );
 
+INSERT INTO tbl_calendario(ano, semestre, tipo, data_ini, data_ter) VALUES
+(2016, 1, "Acadêmico", '2016-02-01', '2016-07-30'),
+(2016, 2, "Acadêmico", '2016-08-01', '2016-12-15'),
+(2017, 1, "Acadêmico", '2017-02-01', '2017-07-30'),
+(2017, 2, "Acadêmico", '2017-08-01', '2017-12-15'),
+(2018, 1, "Acadêmico", '2018-02-01', '2018-07-30');
 
+-- View que altera o formato de exibição das datas no calendário
 DROP VIEW IF EXISTS v_calendario;
 CREATE VIEW v_calendario AS
     SELECT
@@ -566,16 +573,7 @@ CREATE VIEW v_calendario AS
     FROM
         tbl_calendario;
 
-
-INSERT INTO tbl_calendario(ano, semestre, tipo, data_ini, data_ter) VALUES
-(2016, 1, "Acadêmico", '2016-02-01', '2016-07-30'),
-(2016, 2, "Acadêmico", '2016-08-01', '2016-12-15'),
-(2017, 1, "Acadêmico", '2017-02-01', '2017-07-30'),
-(2017, 2, "Acadêmico", '2017-08-01', '2017-12-15'),
-(2018, 1, "Acadêmico", '2018-02-01', '2018-07-30');
-
--- ----------------------------------------------------------
--- Procedure que verifica a duração de um semestre academico
+-- Procedure que verifica a duração de um semestre acadêmico
 -- Exemplo: CALL pr_periodo_academico(2016, 2);
 
 DROP PROCEDURE IF EXISTS pr_periodo_academico;
@@ -591,6 +589,19 @@ DECLARE fim   DATE;
 END$$
 delimiter ;
 
+-- Trigger que evita que uma data de término seja menor que uma data de início de um semestre em tbl_calendario
+-- Exemplo: INSERT INTO tbl_calendario(ano, semestre, tipo, data_ini, data_ter) VALUES (2016, 2, "Acadêmico", '2016-08-01', '2015-12-15');
+DROP TRIGGER IF EXISTS tr_ordem_datas_cal;
+delimiter $$
+CREATE TRIGGER tr_ordem_datas_cal
+  BEFORE INSERT ON tbl_calendario
+FOR EACH row
+begin
+  IF new.data_ter <= new.data_ini THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Data de termino precisa ser maior que a data de inicio.';
+  end IF;
+end$$
+delimiter ;
 
 -- ----------------------------------------------------------------------------
 -- Turma
@@ -1679,6 +1690,20 @@ VALUES
 ('Acadêmico', '2019-12-15', '2020-02-01'),
 ('Acadêmico', '2020-12-15', '2021-02-01'),
 ('Acadêmico', '2021-12-15', '2022-02-01');
+
+-- Trigger que evita que uma data de término seja menor que uma data de início de um semestre em tbl_recesso
+-- Exemplo: INSERT INTO tbl_recesso (tipo, data_ini, data_ter) VALUES ('Acadêmico', '2016-12-15', '2015-02-01');
+DROP TRIGGER IF EXISTS tr_ordem_datas_rec;
+delimiter $$
+CREATE TRIGGER tr_ordem_datas_rec
+  BEFORE INSERT ON tbl_recesso
+FOR EACH row
+begin
+  IF new.data_ter <= new.data_ini THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Data de termino precisa ser maior que a data de inicio.';
+  end IF;
+end$$
+delimiter ;
 
 -- ----------------------------------------------------------------------------
 -- Criado por: André Rocha (4A)
