@@ -82,19 +82,14 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 ###*REVISAR* - Endereço
 
 - No modelo físico, o discriminador está como CEP. Porém, de acordo com o modelo conceitual, o discriminador deveria ser Tipo (Local ou Origem).
-- Acredito que está faltando o atributo "número" (número da casa).
 
 ###*REVISAR* - Docente
 
 - Alívio integral/parcial: básicamente, rever que porra é essa. Quem for encarregado desta tabela, por favor _verifique o requisito_ do seu grupo e verifique o que diabos é saporra aqui. Caso seja "tipo de alívio: integral ou parcial", seria só um atributo chamado "alívio" e conteria ou o valor "integral" ou "parcial".
 
-###*REVISAR* Carga Horária
+###*REVISAR* - Licença
 
-- Acho que os discriminadores deveriam ser ano inicial + semestre inicial, e não só semestre inicial. Acredito que o atributo semestre (inicial) só se refere se é 1º ou 2º semestre do ano.
-
-###*POPULAR* - Licença
-
-- FALTANDO: A tabela está vazia.
+- Revisar conteúdo do atributo Tipo (não fazia ideia do quais eram os tipos existentes de licença).
 - Acredito que seja responsabilidade do responsável pela tabela Docente.
 
 ###*REVER* - Sala

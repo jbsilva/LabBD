@@ -27,6 +27,25 @@ CREATE TABLE IF NOT EXISTS tbl_pessoa
      PRIMARY KEY (pessoa_id)
   );
 
+INSERT INTO tbl_pessoa (pessoa_id, tipo_doc, rg_pessoa, prenome, sobrenome, raca, sexo, cidade_nasc, pais_nasc, UF_nasc, data_nasc, pai_filiacao, mae_filiacao)
+VALUES
+
+-- Docentes
+('24174616256', 'CPF', '890321829', 'José', 'Silva', 'Branca', 'Masculino', 'São Carlos', 'Brasil', 'SP', '1990-12-31', 'João Silva', 'Maria Machado'),
+('40078919665', 'CPF', '820321829', 'Raimundo', 'Carvalho', 'Branca', 'Masculino', 'Pirapora do Bom Jesus', 'Brasil', 'SP', '1989-09-24', 'Joselyto Carvalho', 'Maria Castelo'),
+('72003800670', 'CPF', '890331829', 'Alice', 'Moreira', 'Branca', 'Feminino', 'São Paulo', 'Brasil', 'SP', '1992-01-23', 'Fernando Moreira', 'Ana Santos'),
+('72799547230', 'CPF', '890321829', 'Roberta', 'Schmitt', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('11104385910', 'CPF', '894221829', 'Legolas', 'Silva', 'Elfo', 'Masculino', 'Terra Média', 'Brasil', 'AC', '1991-02-28', 'Sívio Silva', 'Sílva Silva'),
+
+-- Estudantes
+('90778718530', 'CPF', '890441829', 'Alice', 'Alves', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('99982994204', 'CPF', '890551829', 'Bob', 'Braga', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('02835384308', 'CPF', '890661829', 'Carol', 'Cardoso', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('91994871601', 'CPF', '890771829', 'Dave', 'Dias', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('77426047792', 'CPF', '890881829', 'Eve', 'Esteves', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
+('54523707227', 'CPF', '550321829', 'Frank', 'Fernandes', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira');
+
+
 -- VIEW TBL_PESSOA, MOSTRA ALGUMAS INFORMACOES SOBRE CADA PESSOA
 DROP VIEW IF EXISTS v_pessoa;
 CREATE VIEW v_pessoa AS
@@ -92,6 +111,22 @@ CREATE TABLE IF NOT EXISTS tbl_email
      CONSTRAINT email_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
   );
 
+-- POPULANDO EMAIL
+INSERT INTO tbl_email (pessoa,email) VALUES
+-- Docente
+('24174616256','professorMat@usp.br'),
+('40078919665','raimundo@ufscar.br'),
+('72003800670', 'alice@dc.ufscar.br'),
+('72799547230','Robertask8@hotmail.com'),
+('11104385910','LegolasLOTR@gmail.com'),
+-- Estudante
+('90778718530','AliceMaravilha@ufscar.br'),
+('99982994204','Esponja@dc.ufscar.br'),
+('02835384308','Carol@dc.ufscar.br'),
+('91994871601','Dave@dc.ufscar.br'),
+('77426047792','vaporeon@ufscar.br'),
+('54523707227','Frankson@usp.br');
+
 
 DROP TABLE IF EXISTS tbl_endereco;
 CREATE TABLE IF NOT EXISTS tbl_endereco
@@ -113,95 +148,6 @@ CREATE TABLE IF NOT EXISTS tbl_endereco
      CONSTRAINT end_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
   );
 
-
-INSERT INTO tbl_pessoa (pessoa_id, tipo_doc, rg_pessoa, prenome, sobrenome, raca, sexo, cidade_nasc, pais_nasc, UF_nasc, data_nasc, pai_filiacao, mae_filiacao)
-VALUES
-
--- Docentes
-('24174616256', 'CPF', '890321829', 'José', 'Silva', 'Branca', 'Masculino', 'São Carlos', 'Brasil', 'SP', '1990-12-31', 'João Silva', 'Maria Machado'),
-('40078919665', 'CPF', '820321829', 'Raimundo', 'Carvalho', 'Branca', 'Masculino', 'Pirapora do Bom Jesus', 'Brasil', 'SP', '1989-09-24', 'Joselyto Carvalho', 'Maria Castelo'),
-('72003800670', 'CPF', '890331829', 'Alice', 'Moreira', 'Branca', 'Feminino', 'São Paulo', 'Brasil', 'SP', '1992-01-23', 'Fernando Moreira', 'Ana Santos'),
-('72799547230', 'CPF', '890321829', 'Roberta', 'Schmitt', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('11104385910', 'CPF', '894221829', 'Legolas', 'Silva', 'Elfo', 'Masculino', 'Terra Média', 'Brasil', 'AC', '1991-02-28', 'Sívio Silva', 'Sílva Silva'),
-
--- Estudantes
-('90778718530', 'CPF', '890441829', 'Alice', 'Alves', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('99982994204', 'CPF', '890551829', 'Bob', 'Braga', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('02835384308', 'CPF', '890661829', 'Carol', 'Cardoso', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('91994871601', 'CPF', '890771829', 'Dave', 'Dias', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('77426047792', 'CPF', '890881829', 'Eve', 'Esteves', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira'),
-('54523707227', 'CPF', '550321829', 'Frank', 'Fernandes', 'Branca', 'Feminino', 'Belo Horizonte', 'Brasil', 'MG', '1988-04-04', 'José Schmitt', 'Carla Pereira');
-
-
--- ----------------------------------------------------------------------------
--- Docente
--- Criado por: Grupo 6A
--- TODO: modificar os outros campos, mas manter os CPFs!
-
-DROP TABLE IF EXISTS tbl_docente;
-CREATE TABLE tbl_docente
-  (
-     pessoa          VARCHAR(15) NOT NULL,
-     titularidade    VARCHAR(50),
-     alivio          VARCHAR(30),
-     CONSTRAINT pk_docente PRIMARY KEY (pessoa),
-     CONSTRAINT docente_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
-  );
-
-
-
-DROP TABLE IF EXISTS tbl_carga_horaria;
-CREATE TABLE tbl_carga_horaria
-  (
-     pessoa           VARCHAR(15) NOT NULL,
-     semestre_inicio  DATE,
-     semestre_termino DATE,
-     ano_inicio       VARCHAR(8),
-     ano_termino      VARCHAR(8),
-     horas_aula       INT,
-     CONSTRAINT pk_carga PRIMARY KEY (pessoa, semestre_inicio),
-     CONSTRAINT carga_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
-  );
-
--- TABELA LICENCA
-DROP TABLE IF EXISTS tbl_licenca;
-CREATE TABLE IF NOT EXISTS tbl_licenca
-  (
-     pessoa_id    VARCHAR(15) NOT NULL,
-     tipo         VARCHAR(40),
-     documento    VARCHAR(15),
-     data_inicio  DATE,
-     data_final   DATE,
-     CONSTRAINT pk_licenca PRIMARY KEY (pessoa_id,data_inicio,data_final),
-     CONSTRAINT licenca_fk FOREIGN KEY (pessoa_id) REFERENCES tbl_pessoa(pessoa_id)
-
-  );
-
-
-INSERT INTO tbl_docente (pessoa, titularidade, alivio) VALUES
-('24174616256', 'titular', 'alivio integral'),
-('40078919665', 'titular', 'alivio integral'),
-('72003800670', 'titular', 'alivio parcial'),
-('72799547230', 'titular', 'alivio integral'),
-('11104385910', 'titular', 'alivio parcial');
-
--- POPULANDO EMAIL
-INSERT INTO tbl_email (pessoa,email) VALUES
--- Docente
-('24174616256','professorMat@usp.br'),
-('40078919665','raimundo@ufscar.br'),
-('72003800670', 'alice@dc.ufscar.br'),
-('72799547230','Robertask8@hotmail.com'),
-('11104385910','LegolasLOTR@gmail.com'),
--- Estudante
-('90778718530','AliceMaravilha@ufscar.br'),
-('99982994204','Esponja@dc.ufscar.br'),
-('02835384308','Carol@dc.ufscar.br'),
-('91994871601','Dave@dc.ufscar.br'),
-('77426047792','vaporeon@ufscar.br'),
-('54523707227','Frankson@usp.br');
-
-
 -- POPULANDO ENDERECO
 INSERT INTO tbl_endereco (pessoa,cep_end, pais_end, uf_end, cidade_end, bairro_end, complemento_end, rua_end, ddd_end_tel, prefixo_end_tel, numero_end_tel, ramal_end_tel, tipo_end) VALUES
 -- Docente
@@ -218,6 +164,52 @@ INSERT INTO tbl_endereco (pessoa,cep_end, pais_end, uf_end, cidade_end, bairro_e
 ('77426047792','9755600','Brasil','SP','Campinas','santa monica','proximo ao pinguin','rua dos coroneis 980','19','15','87497860','1','casa'),
 ('54523707227','9759900','Brasil','SP','Campinas','santa monica','proximo ao shopping','rua dos mulatos 116','19','15','87456860','1','casa');
 
+-- ----------------------------------------------------------------------------
+-- Docente
+-- Criado por: Grupo 6A
+-- TODO: modificar os outros campos, mas manter os CPFs!
+
+DROP TABLE IF EXISTS tbl_docente;
+CREATE TABLE tbl_docente
+  (
+     pessoa          VARCHAR(15) NOT NULL,
+     titularidade    VARCHAR(50),
+     alivio          VARCHAR(30),
+     CONSTRAINT pk_docente PRIMARY KEY (pessoa),
+     CONSTRAINT docente_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
+  );
+
+INSERT INTO tbl_docente (pessoa, titularidade, alivio) 
+VALUES
+('24174616256', 'titular', 'alivio integral'),
+('40078919665', 'titular', 'alivio integral'),
+('72003800670', 'titular', 'alivio parcial'),
+('72799547230', 'titular', 'alivio integral'),
+('11104385910', 'titular', 'alivio parcial');
+
+
+-- TABELA LICENCA
+DROP TABLE IF EXISTS tbl_licenca;
+CREATE TABLE IF NOT EXISTS tbl_licenca
+  (
+     pessoa_id    VARCHAR(15) NOT NULL,
+     tipo         VARCHAR(40),
+     documento    VARCHAR(15),
+     data_inicio  DATE,
+     data_final   DATE,
+     CONSTRAINT pk_licenca PRIMARY KEY (pessoa_id, data_inicio, data_final),
+     CONSTRAINT licenca_fk FOREIGN KEY (pessoa_id) REFERENCES tbl_pessoa(pessoa_id)
+
+  );
+
+INSERT INTO tbl_licenca (pessoa_id, tipo, documento, data_inicio, data_final)
+VALUES
+('24174616256', 'Tipo 1', '890321829', '2009-12-31', '2020-12-31'),
+('40078919665', 'Tipo 1', '820321829', '2008-12-31', '2019-12-31'),
+('72003800670', 'Tipo 2', '890331829', '2002-12-31', '2016-12-31'),
+('72799547230', 'Tipo 2', '890321829', '2001-12-31', '2020-12-31'),
+('11104385910', 'Tipo 3', '894221829', '1999-12-31', '2017-12-31');
+
 
 DROP TABLE IF EXISTS tbl_carga_horaria;
 CREATE TABLE tbl_carga_horaria
@@ -228,7 +220,7 @@ CREATE TABLE tbl_carga_horaria
      ano_inicio       VARCHAR(8),
      ano_termino      VARCHAR(8),
      horas_aula       INT,
-     CONSTRAINT pk_carga PRIMARY KEY (pessoa, semestre_inicio,ano_inicio),
+     CONSTRAINT pk_carga PRIMARY KEY (pessoa, semestre_inicio, ano_inicio),
      CONSTRAINT carga_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
   );
 
@@ -239,7 +231,6 @@ INSERT INTO tbl_carga_horaria (pessoa,semestre_inicio,semestre_termino,ano_inici
 ('72003800670','2015-06-10','2015-11-01','2015','2015',80),
 ('72799547230','2016-02-10','2016-07-01','2016','2016',60),
 ('11104385910','2015-02-10','2015-07-01','2015','2015',60);
-
 
 -- ----------------------------------------------------------------------------
 -- Membro
