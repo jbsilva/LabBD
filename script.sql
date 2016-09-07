@@ -683,7 +683,31 @@ CREATE TABLE tbl_conselho
 INSERT INTO tbl_conselho (sigla, tipo, dataInicioVigencia, dataFimVigencia) VALUES
 ('CoG', 'Graduação', '1998-01-31', '2016-12-31'),
 ('CoPG', 'Pós-Graduação', '2008-01-01', '2016-12-31'),
-('CoP', 'Pesquisa', '2012-07-01', '2016-12-31');
+('CoP', 'Pesquisa', '2012-07-01', '2016-12-31'),
+('CoEx', 'Extensão', '1999-01-12', '2014-12-01')
+('CoAd', 'Administração', '2001-08-01', '2016-11-31');
+
+-- View que conta quantos conselhos existem.
+DROP view IF EXISTS v_cons_conta;
+CREATE OR REPLACE view v_cons_conta
+AS
+  SELECT  Count(*)     AS qtd_conselhos
+  FROM   tbl_conselho
+;
+
+
+-- Trigger pra evitar que sejam inseridas datas do fim de vigencia do conselho menores que as datas de inicio de vigencia.
+DROP TRIGGER IF EXISTS tri_datas_cons;
+delimiter $$
+CREATE TRIGGER tri_datas_cons
+  BEFORE INSERT ON tbl_conselho
+FOR EACH row
+begin
+  IF new.datafimvigencia <= new.datainiciovigencia THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Data de fim de vigencia precisa ser maior que a data de inicio.';
+  end IF;
+end$$
+delimiter ;
 
 
 -- ----------------------------------------------------------------------------
