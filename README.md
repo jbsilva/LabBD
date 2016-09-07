@@ -74,20 +74,23 @@ Enfim, verifiquem que tudo do seu grupo seja resolvido. Conforme as questões se
 
 ## Grupo 6A
 
-###*FAZER* Nacional & Estrangeiro
+@@@CORRIGIDO ###*POPULAR* - E-mail
 
+@@@@corrigindo   ###*FAZER* Nacional & Estrangeiro
+@@@@ Atributos na pessoa foram adicionados para solucionar, pessoa_id sera o numero de cpf ou passaporte, enquanto o atributo tipo será CPF ou Passaporte.
 - FALTANDO: Inexistentes no modelo físico.
 - Acredito que seja responsabilidade do responsável pela tabela Pessoa.
 
-###*REVISAR* - Endereço
+@@@ Poupulado ###*REVISAR* - Endereço
 
 - No modelo físico, o discriminador está como CEP. Porém, de acordo com o modelo conceitual, o discriminador deveria ser Tipo (Local ou Origem).
 
-###*REVISAR* - Docente
-
+@@@@ corrigido ###*REVISAR* - Docente
+@@@atributo somente "Alivio" criado e tendo como valores possíveis o "integral" ou parcial.
 - Alívio integral/parcial: básicamente, rever que porra é essa. Quem for encarregado desta tabela, por favor _verifique o requisito_ do seu grupo e verifique o que diabos é saporra aqui. Caso seja "tipo de alívio: integral ou parcial", seria só um atributo chamado "alívio" e conteria ou o valor "integral" ou "parcial".
 
-###*REVISAR* - Licença
+
+@@@ CORRIGIDO  ###*REVISAR* - Licença
 
 - Revisar conteúdo do atributo Tipo (não fazia ideia do quais eram os tipos existentes de licença).
 - Acredito que seja responsabilidade do responsável pela tabela Docente.
