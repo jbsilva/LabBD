@@ -425,14 +425,14 @@ CREATE TABLE IF NOT EXISTS tbl_disciplina
   );
 
 INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPraticos, departamento) VALUES
-('02.522-4', 'Laboratorio de Banco de Dados', '', 0, 2, 'DC'),
-('02.521-6', 'Banco de Dados', '', 4, 0, 'DC'),
-('02.507-0', 'Construcao de Algoritmos e Programacao', '', 4, 4, 'DComp'),
-('02.502-0', 'Programacao de Computadores', '', 2, 2, 'DComp'),
-('08.910-9', 'Calculo 1', '', 4, 0, "DM"),
-('02.034-6', 'Teoria dos Grafos', '', 4, 0, "DC"),
-('06.201-4', 'Comunicação e Depressão', '', 4, 0, "DDR"),
-('100.054-0', 'ACIEPE - Inclusão Digital', '', 0, 4, "DC");
+('02.522-4', 'Laboratorio de Banco de Dados', 'ENSINAR A  DESENVOLVER UM SISTEMA DE BANCO DE DADOS.', 0, 2, 'DC'),
+('02.521-6', 'Banco de Dados', 'ENSINAR A PROJETAR SISTEMAS DE BANCO DE DADOS.', 4, 0, 'DC'),
+('02.507-0', 'Construcao de Algoritmos e Programacao', 'ENSINAR A CRIAR ALGORITMOS PARA PROBLEMAS DE DIFERENTES COMPLEXIDADES.', 4, 4, 'DComp'),
+('02.502-0', 'Programacao de Computadores', 'INTRODUZIR A METODOLOGIA DE PROGRAMAÇÃO ORIENTADA A OBJETOS.', 2, 2, 'DComp'),
+('08.910-9', 'Calculo 1', 'INTRODUZIR OS CONCEITOS DE LIMITE, DERIVADA E INTEGRAL.', 4, 0, "DM"),
+('02.034-6', 'Teoria dos Grafos', 'ENSINAR OS PRINCIPAIS CONCEITOS E RESULTADOS DA TEORIA DOS GRAFOS.', 4, 0, "DC"),
+('06.201-4', 'Historia da Agricultura', 'EXPOR OS PRINCIPAIS ACONTECIMENTOS DA HISTORIA DA AGRICULTURA.', 4, 0, "DDR"),
+('100.054-0', 'ACIEPE - Inclusao Digital', 'DEBATER E REFLETIR SOBRE A INCLUSAO DIGITAL.', 0, 4, "DC");
 
 -- ----------------------------------------------------------------------------
 -- Atividade Complementar
