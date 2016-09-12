@@ -434,6 +434,14 @@ INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPrat
 ('06.201-4', 'Historia da Agricultura', 'EXPOR OS PRINCIPAIS ACONTECIMENTOS DA HISTORIA DA AGRICULTURA.', 4, 0, "DDR"),
 ('100.054-0', 'ACIEPE - Inclusao Digital', 'DEBATER E REFLETIR SOBRE A INCLUSAO DIGITAL.', 0, 4, "DC");
 
+-- View de disciplinas (Vitor Rocha)
+-- Exibe as disciplinas, seus códigos, departamentos e números de créditos
+DROP VIEW IF EXISTS vdisciplina;
+CREATE OR REPLACE VIEW vdisciplina
+AS
+  SELECT codigo, nome, creditosteoricos+creditospraticos AS ncreditos, departamento
+  FROM   tbl_disciplina;
+
 -- ----------------------------------------------------------------------------
 -- Atividade Complementar
 -- Criado por: Rodrigo Teixeira Garcia (5A)
@@ -661,6 +669,25 @@ INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVag
 (2, 2016, 'O', '08.910-9', 50, '8:00', 'sexta-feira'),
 (2, 2016, 'Z', '08.910-9', 50, '8:00', 'sexta-feira'),
 (2, 2016, 'A', '06.201-4', 30, '8:00', 'sexta-feira');
+
+-- View de turmas (Vitor Rocha)
+-- Exibe a tabela de turmas, junto com o nome e o departamento das respectivas disciplinas
+DROP VIEW IF EXISTS vturma;
+CREATE OR REPLACE VIEW vturma
+AS
+  SELECT codigoturma, codigodisciplina, nome, departamento, numerodevagas, horario, dia, ano, semestre
+  FROM   tbl_turma, tbl_disciplina
+  WHERE  tbl_turma.codigodisciplina = tbl_disciplina.codigo;
+
+-- View de turmas por disciplina (Vitor Rocha)
+-- Mostra quantas turmas cada disciplina tem por semestre/ano
+DROP VIEW IF EXISTS vturmaspordisciplina;
+CREATE OR REPLACE VIEW vturmaspordisciplina
+AS
+  SELECT codigo, nome, ano, semestre, count(*) AS nTurmas
+  FROM   tbl_turma, tbl_disciplina
+  WHERE  codigo = codigodisciplina
+  GROUP BY codigo, nome, ano, semestre;
 
 -- ----------------------------------------------------------------------------
 -- Conselho
@@ -1162,6 +1189,14 @@ INSERT INTO tbl_pre_requisito (disciplina, preRequisito) VALUES
 ('02.522-4', '02.521-6'),
 ('02.502-0', '02.507-0');
 
+-- View de pré-requisitos (Vitor Rocha)
+-- Exibe as disciplinas que têm pré-requisitos, com o nome delas e de seus requisitos
+DROP VIEW IF EXISTS vprerequisito;
+CREATE OR REPLACE VIEW vprerequisito
+AS
+  SELECT disciplina, d.nome AS nomeDisciplina, preRequisito, pr.nome AS nomePreRequisito
+  FROM   tbl_pre_requisito, tbl_disciplina AS d, tbl_disciplina AS pr
+  WHERE  d.codigo = disciplina AND pr.codigo = preRequisito;
 
 -- ----------------------------------------------------------------------------
 -- Grade
@@ -1439,6 +1474,16 @@ CALL pr_alocar_sala('N', '08.910-9', 2016, 2);
 CALL pr_alocar_sala('O', '08.910-9', 2016, 2);
 CALL pr_alocar_sala('Z', '08.910-9', 2016, 2);
 CALL pr_alocar_sala('A', '06.201-4', 2016, 2);
+
+-- View de alocação (Vitor Rocha)
+-- Mostra todas as turmas com salas alocadas, com o nome da disciplina, horario da turma e sala/prédio.
+DROP VIEW IF EXISTS valocacao;
+CREATE OR REPLACE VIEW valocacao
+AS
+  SELECT a.codigoTurma, a.codigoDisciplina, nome, horario, dia, a.semestre, a.ano, numerosala AS sala, siglapredio AS predio
+  FROM   tbl_alocacao AS a, tbl_turma AS t, tbl_disciplina
+  WHERE  a.codigodisciplina = codigo AND t.codigodisciplina = codigo
+         AND t.codigoturma = a.codigoturma AND t.semestre = a.semestre AND t.ano = a.ano;
 
 -- ----------------------------------------------------------------------------
 -- Inscrição
