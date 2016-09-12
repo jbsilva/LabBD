@@ -442,6 +442,52 @@ AS
   SELECT codigo, nome, creditosteoricos+creditospraticos AS ncreditos, departamento
   FROM   tbl_disciplina;
 
+-- View de ementas (Vitor Rocha)
+-- Exibe os nomes e as ementas das disciplinas
+DROP VIEW IF EXISTS vementa;
+CREATE OR REPLACE VIEW vementa
+AS
+  SELECT codigo, nome, ementa
+  FROM   tbl_disciplina;
+
+-- Procedure (Vitor Rocha)
+-- Insere uma disciplina nova, dados código, nome, creditos teóricos e práticos e departamento
+
+DROP PROCEDURE IF EXISTS pr_insere_disciplina;
+DELIMITER $$
+CREATE PROCEDURE pr_insere_disciplina(codigo VARCHAR(20), nome VARCHAR(40), cTeoricos INT, cPraticos INT, departamento VARCHAR(10))
+BEGIN
+  INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPraticos, departamento) VALUES
+  (codigo, nome, '', cTeoricos, cPraticos, departamento);
+END$$
+DELIMITER ;
+
+-- Procedure (Vitor Rocha)
+-- Renomeia uma disciplina, dados nome antigo e novo
+
+DROP PROCEDURE IF EXISTS pr_renomeia_disciplina;
+DELIMITER $$
+CREATE PROCEDURE pr_renomeia_disciplina(nomeAntigo VARCHAR(40), nomeNovo VARCHAR(40))
+BEGIN
+  UPDATE tbl_disciplina
+  SET nome = nomeNovo
+  WHERE nome = nomeAntigo;
+END$$
+DELIMITER ;
+
+-- Procedure (Vitor Rocha)
+-- Altera a ementa de uma disciplina, dados o código e a nova ementa
+
+DROP PROCEDURE IF EXISTS pr_altera_ementa;
+DELIMITER $$
+CREATE PROCEDURE pr_altera_ementa(pCodigo VARCHAR(20), pEmenta TEXT)
+BEGIN
+  UPDATE tbl_disciplina
+  SET ementa = pEmenta
+  WHERE codigo = pCodigo;
+END$$
+DELIMITER ;
+
 -- ----------------------------------------------------------------------------
 -- Atividade Complementar
 -- Criado por: Rodrigo Teixeira Garcia (5A)
@@ -688,6 +734,39 @@ AS
   FROM   tbl_turma, tbl_disciplina
   WHERE  codigo = codigodisciplina
   GROUP BY codigo, nome, ano, semestre;
+  
+-- Procedure (Vitor Rocha)
+-- Cria nova turma para disciplina já existente, dados código da disciplina, 
+-- ano, semestre, dia, horario e numero de vagas.
+
+DROP PROCEDURE IF EXISTS pr_cria_turma;
+DELIMITER $$
+CREATE PROCEDURE pr_cria_turma(pCodigo VARCHAR(20), pAno INT(11), pSemestre INT(11), pDia VARCHAR(20), pHorario VARCHAR(20), pnVagas INT(3))
+BEGIN
+  DECLARE newCodigo VARCHAR(1);
+
+  SELECT CHAR(MAX(ASCII(codigoTurma)) + 1)
+  INTO newCodigo
+  FROM tbl_turma
+  WHERE codigodisciplina = pCodigo AND ano = pAno AND semestre = pSemestre;
+
+  INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVagas, horario, dia) VALUES
+  (pSemestre, pAno, newCodigo, pCodigo, pnVagas, pHorario, pDia);
+END$$
+DELIMITER ;
+
+-- Procedure (Vitor Rocha)
+-- Altera horário de turma, dados código, semestre e ano da turma e o dia/horario novo.
+
+DROP PROCEDURE IF EXISTS pr_altera_horario;
+DELIMITER $$
+CREATE PROCEDURE pr_altera_horario(pCodigoTurma VARCHAR(1), pCodigoDisciplina VARCHAR(20), pAno INT(11), pSemestre INT(11), pDia VARCHAR(20), pHorario VARCHAR(20))
+BEGIN
+  UPDATE tbl_turma
+  SET horario = pHorario, dia = pDia
+  WHERE codigoturma = pCodigoTurma AND codigoDisciplina = pCodigoDisciplina AND ano = pAno AND semestre = pSemestre;
+END$$
+DELIMITER ;
 
 -- ----------------------------------------------------------------------------
 -- Conselho
@@ -1198,6 +1277,18 @@ AS
   FROM   tbl_pre_requisito, tbl_disciplina AS d, tbl_disciplina AS pr
   WHERE  d.codigo = disciplina AND pr.codigo = preRequisito;
 
+-- Procedure (Vitor Rocha)
+-- Define pré-requisito para uma disciplina, dados os códigos da disciplina e do pré-requisito
+
+DROP PROCEDURE IF EXISTS pr_define_prerequisito;
+DELIMITER $$
+CREATE PROCEDURE pr_define_prerequisito(codigoDisciplina VARCHAR(20), codigoPreRequisito VARCHAR(20))
+BEGIN
+  INSERT INTO tbl_pre_requisito (disciplina, preRequisito) VALUES
+  (codigoDisciplina, codigoPreRequisito);
+END$$
+DELIMITER ;
+
 -- ----------------------------------------------------------------------------
 -- Grade
 -- Criado por: Eduardo Marinho (5A)
@@ -1507,6 +1598,51 @@ CREATE TABLE IF NOT EXISTS tbl_Inscricao (
         REFERENCES tbl_turma (codigoDisciplina , codigoTurma , semestre , ano),
     CONSTRAINT inscricao_pk PRIMARY KEY (ra , semestreTurma , anoTurma , codigoTurma , codigoDisciplina)
 );
+
+
+-- View de inscrições (Vitor Rocha)
+-- Exibe as inscrições com os nomes dos alunos e das disciplinas
+DROP VIEW IF EXISTS vinscricao;
+CREATE OR REPLACE VIEW vinscricao
+AS
+  SELECT i.ra, concat_ws(' ', prenome, sobrenome) AS nome, d.nome as disciplina, codigodisciplina, codigoturma, anoturma AS ano, semestreturma AS semestre
+  FROM tbl_inscricao AS i, tbl_estudante AS e, tbl_pessoa AS p, tbl_disciplina AS d
+  WHERE i.ra = e.ra AND p.pessoa_id = e.pessoa_id AND codigodisciplina = d.codigo;
+
+-- View de alunos por turma (Vitor Rocha)
+-- Mostra quantos alunos estao inscritos em cada turma
+DROP VIEW IF EXISTS valunosporturma;
+CREATE OR REPLACE VIEW valunosporturma
+AS
+  SELECT d.nome as disciplina, codigodisciplina, codigoturma, anoturma AS ano, semestreturma AS semestre, count(i.ra) as nAlunos
+  FROM tbl_inscricao AS i, tbl_estudante AS e, tbl_pessoa AS p, tbl_disciplina AS d
+  WHERE i.ra = e.ra AND p.pessoa_id = e.pessoa_id AND codigodisciplina = d.codigo
+  GROUP BY codigodisciplina, codigoturma, ano, semestre;
+
+-- Procedure (Vitor Rocha)
+-- Inscreve um estudante numa turma
+
+DROP PROCEDURE IF EXISTS pr_inscreve_estudante;
+DELIMITER $$
+CREATE PROCEDURE pr_inscreve_estudante(pRa INT(6), pCodigoDisciplina VARCHAR(20), pCodigoTurma VARCHAR(1), pSemestre INT(11), pAno INT(11))
+BEGIN
+  INSERT INTO tbl_inscricao (ra, semestreTurma, anoTurma, codigoTurma, codigoDisciplina) VALUES
+  (pRa, pSemestre, pAno, pCodigoTurma, pCodigoDisciplina);
+END$$
+DELIMITER ;
+
+-- Procedure (Vitor Rocha)
+-- Atualiza média, frequência e resultado numa inscrição
+
+DROP PROCEDURE IF EXISTS pr_atualiza_inscricao;
+DELIMITER $$
+CREATE PROCEDURE pr_atualiza_inscricao(pRa INT(6), pCodigoDisciplina VARCHAR(20), pCodigoTurma VARCHAR(1), pSemestre INT(11), pAno INT(11), pMedia FLOAT, pFrequencia INT(3), pResultado VARCHAR(20))
+BEGIN
+  UPDATE tbl_inscricao
+  SET media = pMedia, frequencia = pFrequencia, resultado = pResultado
+  WHERE ra = pRa AND semestreTurma = pSemestre AND anoTurma = pAno AND codigoturma = pCodigoTurma AND codigodisciplina = pCodigoDisciplina;
+END$$
+DELIMITER ;
 
 -- TRIGGERS
 --
