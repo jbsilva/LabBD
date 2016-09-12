@@ -684,8 +684,8 @@ INSERT INTO tbl_conselho (sigla, tipo, dataInicioVigencia, dataFimVigencia) VALU
 ('CoG', 'Graduação', '1998-01-31', '2016-12-31'),
 ('CoPG', 'Pós-Graduação', '2008-01-01', '2016-12-31'),
 ('CoP', 'Pesquisa', '2012-07-01', '2016-12-31'),
-('CoEx', 'Extensão', '1999-01-12', '2014-12-01')
-('CoAd', 'Administração', '2001-08-01', '2016-11-31');
+('CoEx', 'Extensão', '1999-01-12', '2014-12-01'),
+('CoAd', 'Administração', '2001-08-01', '2016-11-30');
 
 -- View que conta quantos conselhos existem.
 DROP view IF EXISTS v_cons_conta;
