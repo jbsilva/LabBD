@@ -488,6 +488,23 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Trigger que garante que o numero de creditos de uma disciplina seja maior que zero (Vitor Rocha)
+--
+-- Exemplo:
+-- INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPraticos, departamento) VALUES ('01.234-5', 'nome', '', 0, 0, 'DC');
+
+DROP TRIGGER IF EXISTS tr_n_creditos;
+delimiter $$
+CREATE TRIGGER tr_n_creditos
+  BEFORE INSERT ON tbl_disciplina
+FOR EACH row
+begin
+  IF new.creditosTeoricos < 0 OR new.creditosPraticos < 0 OR (new.creditosPraticos = 0 AND new.creditosTeoricos = 0) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Número de créditos deve ser maior que zero.';
+  end IF;
+end$$
+delimiter ;
+
 -- ----------------------------------------------------------------------------
 -- Atividade Complementar
 -- Criado por: Rodrigo Teixeira Garcia (5A)
@@ -767,6 +784,23 @@ BEGIN
   WHERE codigoturma = pCodigoTurma AND codigoDisciplina = pCodigoDisciplina AND ano = pAno AND semestre = pSemestre;
 END$$
 DELIMITER ;
+
+-- Trigger que garante que o numero de vagas de uma turma seja maior que zero (Vitor Rocha)
+--
+-- Exemplo:
+-- INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVagas, horario, dia) VALUES (1, 2016, 'D', '02.034-6', -1, '8:00', 'terça-feira');
+
+DROP TRIGGER IF EXISTS tr_n_vagas;
+delimiter $$
+CREATE TRIGGER tr_n_vagas
+  BEFORE INSERT ON tbl_turma
+FOR EACH row
+begin
+  IF new.numeroDeVagas <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Número de vagas deve ser maior que zero.';
+  end IF;
+end$$
+delimiter ;
 
 -- ----------------------------------------------------------------------------
 -- Conselho
@@ -1289,6 +1323,23 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Trigger que evita que uma disciplina seja pré-requisito dela mesma (Vitor Rocha)
+--
+-- Exemplo:
+-- INSERT INTO tbl_pre_requisito (disciplina, preRequisito) VALUES ('02.522-4', '02.522-4'),
+
+DROP TRIGGER IF EXISTS tr_requisito_circular;
+delimiter $$
+CREATE TRIGGER tr_requisito_circular
+  BEFORE INSERT ON tbl_pre_requisito
+FOR EACH row
+begin
+  IF new.disciplina = new.preRequisito THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Disciplina não pode ser requisito de si mesma.';
+  end IF;
+end$$
+delimiter ;
+
 -- ----------------------------------------------------------------------------
 -- Grade
 -- Criado por: Eduardo Marinho (5A)
@@ -1581,7 +1632,7 @@ AS
 -- Criado por: Grupo 5A
 
 DROP TABLE IF EXISTS tbl_inscricao;
-CREATE TABLE IF NOT EXISTS tbl_inscricao (
+CREATE TABLE IF NOT EXISTS tbl_Inscricao (
     ra INT(6) NOT NULL,
     semestreTurma INT(1) NOT NULL,
     anoTurma INT(4) NOT NULL,
