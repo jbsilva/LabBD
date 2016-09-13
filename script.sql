@@ -2569,3 +2569,14 @@ CREATE TRIGGER t_before_insert_sala_intervaloErrado
 	END$$
 
 delimiter ;
+
+--Trigger Rodrigo Teixeira
+DROP TRIGGER IF EXISTS tr_add_ativ_insert;
+delimiter $$
+CREATE TRIGGER tr_add_ativ_insert
+  AFTER INSERT ON tbl_atividade_complementar
+FOR EACH row
+BEGIN
+	CALL pr_atualizar_creditos(new.ra);
+END$$
+delimiter ;
