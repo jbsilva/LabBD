@@ -2,5 +2,21 @@
 div.FixedHeader_Cloned table { margin: 0 !important }
 #page-header{
   background-color:#ccc;
-  margin-bottom:100px;
+  margin-bottom:50px;
+}
+.paginate_button {
+    font-size: 17px;
+    border: 1px solid #aaa;
+    margin: 5px;
+    padding: 3px 7px;
+    background-color: #f8f8f8;
+    color: #4B4A4A;
+}
+.paginate_button:hover, .paginate_button:active, .paginate_button:focus {
+    background-color: #4b4a4a;
+    color: #fff;
+    cursor: pointer;
+}
+.footer{
+  margin-top:35px;
 }

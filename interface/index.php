@@ -32,7 +32,7 @@
     <div class="row">
       <div class="col-md-3">
         <h1>LabBD</h1>
-      </div>  
+      </div>
         <h1 style="float:right;">Grupos: 4A/5A/6A</h1>
     </div>
   </div>
@@ -102,7 +102,7 @@
 
       </div>
     </div>
-    <div class="row">
+    <div class="row footer">
       <footer>
 
           <div class="col-md-6">
