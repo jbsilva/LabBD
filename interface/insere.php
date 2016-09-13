@@ -38,53 +38,50 @@
     </div>
   </div>
   </header>
-  <h2><a href="/insere.php" >Inserções</a> </h2>
+  <h2><a href="/index.php" >HOME</a> </h2>
+<br/>
+
+Numero: <br/><input type="text" name="numero" id="numero" /> <br/>
+Predio: <br/><input type="text" name="predio" id="predio" /> <br/>
+Tipo: <br/><input type="text" name="tipo" id="tipo"/> <br/>
+Recursos: <br/><input type="text" name="recursos" id="recursos"/> <br/>
+Caracteristicas: <br/><input type="text" name="caracteristicas" id="caracteristicas"/> <br/>
+Capacidade: <br/><input type="text" name="capacidade_de_alunos" id="capacidade_de_alunos"/> <br/>
+
+    <input type="button" value="Incluir" id="insertTbl_sala" />
+
   <div class="container">
     <div class="row">
       <div class="col-md-12">
 
         <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="#pessoa">Pessoas</a></li>
+          <li class="active"><a data-toggle="tab" href="#sala">Salas</a></li>
           <li><a data-toggle="tab" href="#teste1">Menu 1</a></li>
           <li><a data-toggle="tab" href="#teste2">Menu 2</a></li>
         </ul>
 
         <div class="tab-content">
-          <div id="pessoa" class="tab-pane fade in active">
-            <h3>Tabela 'Pessoa'</h3>
-            <table id="tbl_pessoa" class="table table-striped table-bordered table-hover table-responsive" width="100%" cellspacing="0">
+          <div id="sala" class="tab-pane fade in active">
+            <h3>Tabela 'Sala'</h3>
+            <table id="tbl_sala" class="table table-striped table-bordered table-hover table-responsive" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Prenome</th>
-                        <th>Sobrenome</th>
-                        <th>ID Pessoa</th>
-                        <th>Tipo Doc.</th>
-                        <th>RG</th>
-                        <th>Raça</th>
-                        <th>Sexo</th>
-                        <th>Cidade Natal</th>
-                        <th>País Natal</th>
-                        <th>UF</th>
-                        <th>Data Nasc.</th>
-                        <th>Nome Pai</th>
-                        <th>Nome Mãe</th>
+                        <th>Numero</th>
+                        <th>Predio</th>
+                        <th>Tipo</th>
+                        <th>Recursos.</th>
+                        <th>Caracteristica</th>
+                        <th>Capacidade</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Prenome</th>
-                        <th>Sobrenome</th>
-                        <th>ID Pessoa</th>
-                        <th>Tipo Doc.</th>
-                        <th>RG</th>
-                        <th>Raça</th>
-                        <th>Sexo</th>
-                        <th>Cidade Natal</th>
-                        <th>País Natal</th>
-                        <th>UF</th>
-                        <th>Data Nasc.</th>
-                        <th>Nome Pai</th>
-                        <th>Nome Mãe</th>
+                        <th>Numero</th>
+                        <th>Predio</th>
+                        <th>Tipo</th>
+                        <th>Recursos.</th>
+                        <th>Caracteristica</th>
+                        <th>Capacidade</th>
                     </tr>
                 </tfoot>
             </table>
