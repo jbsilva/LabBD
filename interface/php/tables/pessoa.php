@@ -28,6 +28,6 @@ if(mysqli_num_rows($result)>0) {
     $json_data = json_encode($rows);
     echo $json_data;
 } else {
-    echo "Pessoa não encontrada";
+    echo "Sem registros";
 }
 ?>

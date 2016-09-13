@@ -1581,7 +1581,7 @@ AS
 -- Criado por: Grupo 5A
 
 DROP TABLE IF EXISTS tbl_inscricao;
-CREATE TABLE IF NOT EXISTS tbl_Inscricao (
+CREATE TABLE IF NOT EXISTS tbl_inscricao (
     ra INT(6) NOT NULL,
     semestreTurma INT(1) NOT NULL,
     anoTurma INT(4) NOT NULL,
