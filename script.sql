@@ -801,7 +801,6 @@ begin
   end IF;
 end$$
 delimiter ;
-
 -- ----------------------------------------------------------------------------
 -- Conselho
 -- Criado por: Guilherme Lemos (4A)
@@ -1339,7 +1338,6 @@ begin
   end IF;
 end$$
 delimiter ;
-
 -- ----------------------------------------------------------------------------
 -- Grade
 -- Criado por: Eduardo Marinho (5A)
