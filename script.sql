@@ -179,7 +179,7 @@ CREATE TABLE tbl_docente
      CONSTRAINT docente_fk_pessoa FOREIGN KEY (pessoa) REFERENCES tbl_pessoa (pessoa_id)
   );
 
-INSERT INTO tbl_docente (pessoa, titularidade, alivio) 
+INSERT INTO tbl_docente (pessoa, titularidade, alivio)
 VALUES
 ('24174616256', 'titular', 'alivio integral'),
 ('40078919665', 'titular', 'alivio integral'),
@@ -488,6 +488,23 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Trigger que garante que o numero de creditos de uma disciplina seja maior que zero (Vitor Rocha)
+--
+-- Exemplo:
+-- INSERT INTO tbl_disciplina (codigo, nome, ementa, creditosTeoricos, creditosPraticos, departamento) VALUES ('01.234-5', 'nome', '', 0, 0, 'DC');
+
+DROP TRIGGER IF EXISTS tr_n_creditos;
+delimiter $$
+CREATE TRIGGER tr_n_creditos
+  BEFORE INSERT ON tbl_disciplina
+FOR EACH row
+begin
+  IF new.creditosTeoricos < 0 OR new.creditosPraticos < 0 OR (new.creditosPraticos = 0 AND new.creditosTeoricos = 0) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Número de créditos deve ser maior que zero.';
+  end IF;
+end$$
+delimiter ;
+
 -- ----------------------------------------------------------------------------
 -- Atividade Complementar
 -- Criado por: Rodrigo Teixeira Garcia (5A)
@@ -734,9 +751,9 @@ AS
   FROM   tbl_turma, tbl_disciplina
   WHERE  codigo = codigodisciplina
   GROUP BY codigo, nome, ano, semestre;
-  
+
 -- Procedure (Vitor Rocha)
--- Cria nova turma para disciplina já existente, dados código da disciplina, 
+-- Cria nova turma para disciplina já existente, dados código da disciplina,
 -- ano, semestre, dia, horario e numero de vagas.
 
 DROP PROCEDURE IF EXISTS pr_cria_turma;
@@ -768,6 +785,22 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Trigger que garante que o numero de vagas de uma turma seja maior que zero (Vitor Rocha)
+--
+-- Exemplo:
+-- INSERT INTO tbl_turma (semestre, ano, codigoTurma, codigoDisciplina, numeroDeVagas, horario, dia) VALUES (1, 2016, 'D', '02.034-6', -1, '8:00', 'terça-feira');
+
+DROP TRIGGER IF EXISTS tr_n_vagas;
+delimiter $$
+CREATE TRIGGER tr_n_vagas
+  BEFORE INSERT ON tbl_turma
+FOR EACH row
+begin
+  IF new.numeroDeVagas <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Número de vagas deve ser maior que zero.';
+  end IF;
+end$$
+delimiter ;
 -- ----------------------------------------------------------------------------
 -- Conselho
 -- Criado por: Guilherme Lemos (4A)
@@ -1289,6 +1322,22 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Trigger que evita que uma disciplina seja pré-requisito dela mesma (Vitor Rocha)
+--
+-- Exemplo:
+-- INSERT INTO tbl_pre_requisito (disciplina, preRequisito) VALUES ('02.522-4', '02.522-4'),
+
+DROP TRIGGER IF EXISTS tr_requisito_circular;
+delimiter $$
+CREATE TRIGGER tr_requisito_circular
+  BEFORE INSERT ON tbl_pre_requisito
+FOR EACH row
+begin
+  IF new.disciplina = new.preRequisito THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Disciplina não pode ser requisito de si mesma.';
+  end IF;
+end$$
+delimiter ;
 -- ----------------------------------------------------------------------------
 -- Grade
 -- Criado por: Eduardo Marinho (5A)
